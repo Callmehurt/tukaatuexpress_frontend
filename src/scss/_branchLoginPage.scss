@@ -1,0 +1,214 @@
+.branch_login_area{
+  height: 100vh;
+  width: 100%;
+  display: grid;
+  place-items: center;
+
+  .loginFlex{
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+    border-radius: 15px;
+    background-color: white;
+    height: 500px;
+    width: 70%;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+
+    .childFlex:nth-child(odd){
+      height: 100%;
+      width: 50%;
+      display: grid;
+      place-items: center;
+
+      img{
+        height: 300px;
+        width: auto;
+      }
+    }
+
+     .childFlex:nth-child(even){
+       height: 100%;
+       width: 50%;
+       position: relative;
+
+       p{
+         font-size: 30px;
+         letter-spacing: 1px;
+         position: absolute;
+         top: 4rem;
+       }
+
+       .input_field{
+         width: 80%;
+         margin-top: 7rem;
+
+         form{
+           button{
+             float: right;
+           }
+         }
+       }
+    }
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .branch_login_area{
+    width: 100%;
+    display: grid;
+    place-items: center;
+
+  .loginFlex{
+    background-color: white;
+    height: auto;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+
+    .childFlex:nth-child(odd){
+      height: 300px;
+      width: 100%;
+
+      img{
+        height: 200px;
+        width: auto;
+      }
+    }
+
+     .childFlex:nth-child(even){
+       height: auto;
+       width: 100%;
+       padding: 15px;
+
+       p{
+         top: 1.5rem;
+       }
+
+       .input_field{
+         margin-top: 5rem;
+         width: 100%;
+       }
+    }
+  }
+}
+}
+
+
+//.branch_login_area{
+//  height: 100vh;
+//  width: 100%;
+//  display: grid;
+//  place-items: center;
+//
+//  .loginFlex{
+//    background-color: white;
+//    height: 500px;
+//    width: 70%;
+//    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+//    border-radius: 15px;
+//    display: flex;
+//    flex-direction: column;
+//    flex-wrap: wrap;
+//
+//    .chidFlex:nth-child(odd){
+//      display: grid;
+//      place-items: center;
+//    }
+//
+//    .chidFlex:nth-child(even){
+//      //background-color: red;
+//      position: relative;
+//
+//
+//      p{
+//        font-size: 30px;
+//        letter-spacing: 1px;
+//        font-weight: 700;
+//        color: black;
+//        position: absolute;
+//        top: 5rem;
+//        left: 0;
+//      }
+//
+//      .input_field{
+//        height: auto;
+//        width: 350px;
+//        position: absolute;
+//        top: 9rem;
+//
+//        form{
+//
+//          button{
+//            background-color: #007196;
+//            border: none;
+//            display: grid;
+//            place-items: center;
+//            text-align: center;
+//            float: right;
+//          }
+//        }
+//
+//      }
+//    }
+//
+//    .chidFlex{
+//      width: 50%;
+//      height: 100%;
+//      position: relative;
+//
+//      img{
+//        height: 300px;
+//        width: auto;
+//      }
+//
+//    }
+//  }
+//
+//}
+//
+//@media screen and (max-width: 375px) {
+//  .branch_login_area{
+//    height: auto !important;
+//    display: block !important;
+//
+//    .loginFlex{
+//      flex-direction: row !important;
+//      position: relative !important;
+//      height: 100% !important;
+//      width: 100% !important;
+//
+//      .chidFlex{
+//        width: 100% !important;
+//      }
+//
+//      .chidFlex:nth-child(odd){
+//        height: 300px !important;
+//
+//        img{
+//          height: 200px !important;
+//        }
+//      }
+//
+//      .chidFlex:nth-child(even){
+//        position: relative !important;
+//        background-color: red !important;
+//        height: auto !important;
+//
+//        p{
+//          top: 1rem !important;
+//        }
+//
+//        .input_field{
+//          width: 100% !important;
+//          height: auto !important;
+//          position: relative !important;
+//          top: 6rem !important;
+//        }
+//      }
+//
+//    }
+//
+//
+//  }
+//}

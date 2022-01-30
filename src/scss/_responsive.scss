@@ -1,0 +1,297 @@
+@media screen and (max-width: 375px) {
+
+  .navbar_area{
+    display: none;
+  }
+
+  .footer_section{
+    h3{
+      margin-top: 10px !important;
+      font-size: 14px;
+      line-height: 20px;
+    }
+  }
+
+  .logo_section{
+    img{
+      height: 80px;
+      width: auto;
+      object-fit: contain;
+    }
+  }
+
+  .tracking_section{
+    height: auto !important;
+
+    div{
+      margin-top: 15px !important;
+
+      .input_section{
+        margin-top: 3rem !important;
+
+        h5{
+          font-size: 18px !important;
+          text-transform: uppercase;
+          font-weight: 500 !important;
+        }
+
+        form{
+          margin-top: 10px !important;
+
+          input{
+            font-size: 16px !important;
+          }
+        }
+
+      }
+    }
+  }
+
+  .login_section{
+    padding: 0 !important;
+    position: relative !important;
+
+    .header_wrap{
+      //right: 30% !important;
+      top: 2.3rem !important;
+    }
+
+    .form_wrapper{
+      width: 100% !important;
+      margin-right: 0!important;
+      margin-top: 6rem !important;
+
+    }
+  }
+
+  .map_section{
+   height: 300px !important;
+  }
+}
+ @media screen and (max-width: 576px) {
+    .MUIDataTableBodyCell-stackedCommon-76 {
+      width: calc(100%)!important;
+      height: auto;
+      display: inline-block;
+      font-size: 0px!important;
+      box-sizing: border-box;
+    }
+   .MuiPaper-elevation4{
+     box-shadow: none!important;
+   }
+   .MUIDataTableToolbar-filterPaper-24 {
+    max-width: 90%!important;
+    left: 5%!important;
+    }
+   .MUIDataTable-responsiveBase-5 {
+    overflow: auto;
+     height:53vh!important;
+}
+   .MUIDataTableFilter-root-85 {
+    padding:5px!important;
+    font-family: Roboto;
+    background-color: #fafafa;
+   }
+   .MuiPaper-root {
+    color: rgba(0, 0, 0, 0.87);
+    transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+    background-color: transparent!important;
+}
+  }
+
+
+@media screen and (min-width: 411px) and (max-width: 414px){
+
+  .navbar_area{
+    display: none;
+  }
+
+   .footer_section{
+    h3{
+      margin-top: 10px !important;
+      font-size: 14px;
+    }
+  }
+
+  .logo_section{
+    margin: 0 !important;
+
+    img{
+      height: 80px;
+      width: auto;
+      object-fit: contain;
+    }
+  }
+
+  .tracking_section{
+    height: auto !important;
+
+        div{
+      margin-top: 15px !important;
+
+      .input_section{
+
+        h5{
+          font-size: 20px !important;
+        }
+
+        form{
+          margin-top: 10px !important;
+
+          input{
+            font-size: 16px !important;
+          }
+        }
+
+      }
+    }
+
+  }
+
+  .login_section{
+    height: auto;
+    padding-top: 30px;
+
+
+    .header_wrap{
+      top: 2rem !important;
+      //right: 30% !important;
+    }
+
+    .form_wrapper{
+      width: 100% !important;
+      margin-right: 0!important;
+      margin-top: 4rem !important;
+    }
+  }
+
+  .map_section{
+   height: 300px !important;
+  }
+
+}
+
+
+@media screen and (max-width: 731px) and (orientation: landscape) {
+  .navbar_area{
+    display: none;
+  }
+
+  .tracking_section{
+    height: auto !important;
+  }
+
+  .login_section{
+    height: 100% !important;
+
+    .header_wrap{
+    top: 2rem !important;
+    //right: 30% !important;
+    }
+
+    .form_wrapper{
+      width: 100% !important;
+      margin-right: 0!important;
+      margin-top: 5rem !important;
+    }
+  }
+}
+
+@media screen and (max-width: 823px) and (orientation: landscape) {
+  .tracking_section{
+    height: auto !important;
+  }
+
+  .login_section{
+    height: 100% !important;
+
+    .header_wrap{
+    top: 2rem !important;
+    //right: 30% !important;
+    }
+
+    .form_wrapper{
+      width: 100% !important;
+      margin-right: 0!important;
+      margin-top: 5rem !important;
+    }
+  }
+}
+
+@media screen and (max-width: 736px) and (orientation: landscape) {
+  .navbar_area{
+    display: none;
+  }
+
+  .tracking_section{
+    height: auto !important;
+  }
+
+  .login_section{
+    height: 100% !important;
+
+    .header_wrap{
+    top: 2rem !important;
+    //right: 30% !important;
+    }
+
+    .form_wrapper{
+      width: 100% !important;
+      margin-right: 0!important;
+      margin-top: 5rem !important;
+    }
+  }
+}
+
+
+@media screen and (min-width: 768px) and (orientation: portrait) {
+  .MuiToolbar-gutters {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+  .navbar_area{
+    display: none;
+  }
+
+  .tracking_section{
+    height: auto !important;
+  }
+ .login_section{
+  height: auto !important;
+  padding-top: 30px;
+   margin-top: 10px;
+
+  .header_wrap{
+    top: 2rem !important;
+    //right: 30% !important;
+  }
+
+  .form_wrapper{
+    width: 100% !important;
+    margin-right: 0!important;
+    margin-top: 4rem !important;
+  }
+}
+}
+
+@media screen and (min-width: 768px) and (orientation: landscape) {
+  .MuiToolbar-gutters {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+  .home_section{
+     .login_section{
+    width: 100%;
+    height: auto;
+    /* width: 93vw; */
+    position: relative;
+    display: flex;
+    place-content: center;
+
+    .form_wrapper{
+      width: 100% !important;
+      margin-right: 0!important;
+    }
+  }
+    }
+}

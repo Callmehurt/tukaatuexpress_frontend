@@ -1,0 +1,4 @@
+export const AccountAuthTypes = {
+    AUTHENTICATE_ACCOUNT: 'AUTHENTICATE_ACCOUNT',
+    LOGOUT_ACCOUNT: 'LOGOUT_ACCOUNT'
+}

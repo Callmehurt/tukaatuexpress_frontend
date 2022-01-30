@@ -1,0 +1,39 @@
+.Dashboard{
+  height:150vh;
+  padding-top:30px!important;
+  background-color:#cfeaf5;
+  padding:12px;
+  margin-top:-20px;
+  margin-left: -12px;
+  margin-right:-12px;
+  .countSection{
+    //background-color:red;
+    .row {
+      margin:0;
+      margin-left: -5px;
+      margin-right: -5px;
+      .col-md-4 {
+        padding: 0px;
+        .cardHolder{
+          padding:7px;
+           .card {
+            //margin: 5px;
+             display:grid;
+             place-content: center;
+             h6{
+               display:flex;
+               justify-content: center;
+
+             }
+             h3{
+               display:flex;
+               justify-content: center;
+             }
+
+          }
+        }
+
+      }
+    }
+  }
+}

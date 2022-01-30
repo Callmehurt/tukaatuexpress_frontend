@@ -1,0 +1,27 @@
+.navbar_area{
+  height: auto;
+
+  ul{
+    padding: 0;
+    text-align: center;
+    margin-bottom: 0;
+
+    li{
+      display: inline-block;
+      list-style: none;
+      padding: 15px;
+
+      a{
+        color: white;
+        text-decoration: none;
+        font-size: 18px;
+        text-transform: capitalize;
+        letter-spacing: 0.5px;
+      }
+
+      a.active{
+        color: #FFD125;
+      }
+    }
+  }
+}

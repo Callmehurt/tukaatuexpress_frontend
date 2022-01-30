@@ -1,0 +1,5 @@
+export const EntryOperatorTypes={
+     ALL_IMAGE_REQUEST:'ALL_IMAGE_REQUEST',
+     PICKUP_ENTRY_LIST:'PICKUP_ENTRY_LIST',
+
+}

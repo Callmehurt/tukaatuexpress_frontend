@@ -1,0 +1,56 @@
+.customBtn{
+  background-color: #007196;
+  border: none;
+  color: white;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-weight: 500;
+}
+
+.customBtn:hover{
+  background-color: rgba(0, 113, 150, 0.68);
+}
+
+.deleteBtn{
+  background-color: rgb(241, 51, 51);
+  color: white;
+  border: none;
+  font-size: 17px;
+  height: 30px;
+  width: 30px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+}
+.editBtn{
+  background-color: #087d57;
+  color: white;
+  border: none;
+  font-size: 17px;
+  height: 30px;
+  width: 30px;
+  border-radius: 50%;
+  //margin-top:10px;
+  display: grid;
+  place-items: center;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+}
+
+
+.pickup_management_area{
+  .customBtn{
+    margin-bottom: 18px;
+    margin-top: 15px;
+  }
+}
+
+
+.branch_new_pickup_area{
+  background-color: white;
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+}
+

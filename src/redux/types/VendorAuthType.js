@@ -1,0 +1,5 @@
+
+export const VendorAuthType={
+    AUTHENTICATE_VENDOR: 'AUTHENTICATE_VENDOR',
+    LOGOUT_VENDOR: 'LOGOUT_VENDOR',
+}

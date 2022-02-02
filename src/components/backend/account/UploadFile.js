@@ -1,159 +1,125 @@
 import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
-import {Row,Col} from 'react-bootstrap';
+import {Row, Col, Modal, Button} from 'react-bootstrap';
 import { useCookies } from "react-cookie";
 import notification from "../includes/notification";
 import setAuthorizationToken from "../../../utils/setAuthorizationToken";
 import {useHistory} from "react-router-dom";
+import checkToken from "../../../utils/checkToken";
+import config from "react-reveal/src/lib/globals";
 
-const UploadFile=(props)=>{
+const UploadFile = (props)=>{
     const history=useHistory();
-      const [cookies, setCookie] = useCookies();
-      const [totalPayableAmount,setTotalPayableAmount]=useState('');
-      const [invoiceFiles, setInvoiceFiles] = useState(undefined);
-      const [progressInfos, setProgressInfos] = useState({ val: [] });
-      const [message, setMessage] = useState([]);
-      const [fileInfos, setFileInfos] = useState([]);
-      const[loading,setLoading]=useState(false);
-      const progressInfosRef = useRef(null);
-      const[formField,setFormField]=useState({
-          deliveries:[],
-          pickups:[],
-          returns:[],
-          total_cod_received:'',
-          total_delivery_charge:'',
-          total_pickup_charge:'',
-          payable:'',
-          paid:0,
-          add_deduct:0,
-          reinbursement:0,
-          return_deduction:0,
-          invoices:[],
+    const [invoiceFiles, setInvoiceFiles] = useState([]);
+    const [openModal, setOpenModal] = useState(false);
+    const[loading,setLoading]=useState(false);
+    const[formField,setFormField]=useState({
+        invoices:[],
+    });
 
-
-      });
-      const totalPayableFun=()=>{
-         setTotalPayableAmount(cookies.paymentDeliveryData?.total_cod_received-cookies.paymentDeliveryData?.total_delivery_charge);
-       }
-      useEffect(() => {
-          let AccountStorage = JSON.parse(localStorage.getItem('Account_storage'));
+    useEffect(() => {
+        let AccountStorage = JSON.parse(localStorage.getItem('Account_storage'));
         if(AccountStorage){
-          setAuthorizationToken(AccountStorage.token);
+            checkToken(AccountStorage.token, 'Account_storage')
+            setAuthorizationToken(AccountStorage.token);
         }
-        totalPayableFun();
-        initialFormField();
-      }, []);
-      useEffect(()=>{
-            let paymentDeliveryDataStore= JSON.parse(localStorage.getItem('paymentDeliveryData'));
-           const newField = {...formField}
-            newField.paid=props.paid;
-            newField.reinbursement=props.reinbursement;
-           newField.payable=props.totalPayable;
-           newField.return_deduction=props.totalReturnCharge;
-           newField.total_pickup_charge=paymentDeliveryDataStore?.total_pickup_charge;
-           let allDelivery=paymentDeliveryDataStore?.deliveries;
-            let allReturns=paymentDeliveryDataStore?.returns;
-            newField.pickups=paymentDeliveryDataStore?.pickups;
-           allDelivery.map((items)=>{
-               newField.deliveries.push(items.pickup_id);
-           })
-           allReturns.map((items)=>{
-                newField.returns.push(items.id);
-           })
+        }, []);
 
-          newField.total_cod_received=paymentDeliveryDataStore?.total_cod_received;
-          newField.total_delivery_charge=paymentDeliveryDataStore?.total_delivery_charge;
-          let totalReturnCharge=paymentDeliveryDataStore?.total_return_charge;
-           newField.add_deduct=newField.payable-newField.paid;
-           setFormField(newField);
-      },[props])
-      const initialFormField=()=>{
-              let paymentDeliveryDataStore= JSON.parse(localStorage.getItem('paymentDeliveryData'));
-           const newField = {...formField}
-            newField.paid=props.paid;
-            newField.payable=props.totalPayable;
-            newField.return_deduction=props.totalReturnCharge;
-            newField.reinbursement=props.reinbursement;
-             newField.total_pickup_charge=paymentDeliveryDataStore?.total_pickup_charge;
-           let allDelivery=paymentDeliveryDataStore?.deliveries;
-            let allReturns=paymentDeliveryDataStore?.returns;
-             newField.pickups=paymentDeliveryDataStore?.pickups;
-           allDelivery.map((items)=>{
-               newField.deliveries.push(items.pickup_id);
-           })
-           allReturns.map((items)=>{
-                newField.returns.push(items.id);
-           })
-
-          newField.total_cod_received=paymentDeliveryDataStore?.total_cod_received;
-          newField.total_delivery_charge=paymentDeliveryDataStore?.total_delivery_charge;
-          let totalReturnCharge=paymentDeliveryDataStore?.total_return_charge;
-           console.log( newField.paid);
-           newField.add_deduct=newField.payable-newField.paid;
-           setFormField(newField);
-
-          setFormField(newField);
-
+    const selectFiles = (event) => {
+        setInvoiceFiles(event.target.files);
+        const newField = {...formField}
+        newField.invoices=[event.target.files];
+        setFormField(newField);
       }
-      const selectFiles = (event) => {
-          setInvoiceFiles(event.target.files);
-           const newField = {...formField}
-           newField.invoices=[event.target.files];
 
-          setFormField(newField);
+    const handleClose = () => setOpenModal(false);
+    const handleOpen = () => setOpenModal(true);
 
-      }
-        // setProgressInfos({ val: [] });
-      const uploadFiles = () => {
-          setLoading(true);
-          axios.post('/account/make/partner/payment/statement', formField)
-            .then((res) => {
-                console.log(res);
-                console.log(res.data);
-                if(res.data.status === true){
-                    notification('success', res.data.message);
-                    deletePrintDataStorage();
-                    history.push('/account/Account_Division');
-                    setLoading(false);
-                }else {
-                    notification('danger', res.data.message);
-                    setLoading(false);
-                }
-            })
-            .catch((err) => {
-                console.log(err.response)
-            })
-          // .....
 
-        setMessage([]);
-  };
-      const deletePrintDataStorage=()=>{
-        let paymentDeliveryDataStore= JSON.parse(localStorage.getItem('paymentDeliveryData'));
-        if(paymentDeliveryDataStore){
-            localStorage.removeItem('paymentDeliveryData');
+    const makePayment = async () => {
+        setLoading(true);
+        handleClose();
+        const deliveries = [];
+        const returns = [];
+        props.deliveries.map((data) => {
+            deliveries.push(data.pickup_id)
+        })
+        props.returns.map((data) => {
+            returns.push(data.id)
+        })
+        const pickups = props.pickups;
+        const total_cod_received = props.paymentCalculations.total_cod_received;
+        const total_delivery_charge = props.paymentCalculations.total_delivery_charge;
+        const total_return_charge = props.paymentCalculations.total_return_charge;
+        const total_pickup_charge = props.paymentCalculations.total_pickup_charge;
+        const prev_add_deduct = parseFloat(props.paymentCalculations.prev_add_deduct);
+        const reimbursement = props.reimbursement;
+        const payable = (total_cod_received-total_delivery_charge-total_return_charge-total_pickup_charge+reimbursement+prev_add_deduct)
+        const paid = parseFloat(props.paid);
+        const add_deduct = payable-paid;
+
+        const formData = new FormData();
+        invoiceFiles.forEach(file=>{
+          formData.append("invoice[]", file);
+        });
+
+        formData.append('deliveries', JSON.stringify(deliveries));
+        formData.append('pickups', JSON.stringify(pickups));
+        formData.append('returns', JSON.stringify(returns));
+        formData.append('total_cod_received', total_cod_received);
+        formData.append('total_delivery_charge', total_delivery_charge);
+        formData.append('total_pickup_charge', total_pickup_charge);
+        formData.append('return_deduction', total_return_charge);
+        formData.append('reimbursement', reimbursement);
+        formData.append('payable', payable);
+        formData.append('paid', paid);
+        formData.append('add_deduct', add_deduct);
+
+        const response = await axios.post('/account/make/partner/payment/statement', formData,  config({
+               headers: {
+                "content-type": "multipart/form-data"
+              }
+          })).catch((err) => {
+            console.log(err.data)
+        })
+        setLoading(false);
+        if(response?.data.status === true){
+            notification('success', response?.data.message)
+            setLoading(false);
+            history.push('/account/Account_Division')
+        }else {
+            notification('danger', response?.data.message)
         }
     }
-//   const upload = (file) => {
-//       // console.log(formField);
-//       let formData = new FormData();
-//
-//       formData.append("file", file);
-//
-//       return axios.post("/account/make/partner/payment/statement", formField, {
-//         headers: {
-//           "Content-Type": "multipart/form-data",
-//         },
-//       });
-// };
 
-//   const getFiles = () => {
-//   return (axios.get("/files"));
-// };
+
     return(
         <>
+            <Modal show={openModal} onHide={handleClose}>
+                <Modal.Header >
+                  {/*<Modal.Title>Modal heading</Modal.Title>*/}
+                </Modal.Header>
+                <Modal.Body>
+                    <div style={{display:'flex',justifyContent:'center'}}>
+                    <h6>Do you wish to continue?</h6>
+                    </div>
+                </Modal.Body>
+                <Modal.Footer>
+                    <Row style={{width:'100%'}}>
+                        <Col lg={6}>
+                            <Button variant="secondary" style={{backgroundColor:'#147298',border:'1px solid #147298',borderRadius:'5px',width:'100%'}} onClick={makePayment}>Continue</Button>
+                        </Col>
+                        <Col lg={6}>
+                           <Button variant="secondary"  style={{backgroundColor:'red',border:'1px solid red',borderRadius:'5px',width:'100%'}} onClick={handleClose}>
+                             Cancel
+                          </Button>
+                        </Col>
+                    </Row>
+
+                </Modal.Footer>
+        </Modal>
+
            <div>
-
-
               <Row className="mx-5" >
                 <Col lg={6}>
                     <h6>Attach Files:</h6>
@@ -170,14 +136,14 @@ const UploadFile=(props)=>{
                                 className="btn btn-success btn-sm"
                                 // disabled={!selectedFiles}
                                 style={{padding:'5px 15px'}} disabled={true}>
-                                Settle Payment
+                                Processing..
                               </button>
                             </>:
                             <>
                                 <button
                                     className="btn btn-success btn-sm"
                                     // disabled={!selectedFiles}
-                                    onClick={uploadFiles}
+                                    onClick={handleOpen}
                                     style={{padding:'5px 15px'}}>
                                     Settle Payment
                                   </button>

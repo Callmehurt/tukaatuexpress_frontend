@@ -10,7 +10,7 @@ const PushHistoryOnly = () =>{
     }
     return(
         <>
-                     <Button variant="secondary" style={{backgroundColor:'#147298',border:'1px solid #147298',borderRadius:'5px',width:'100%'}} onClick={handleClickPush}>ok</Button>
+            <Button variant="secondary" style={{backgroundColor:'#147298',border:'1px solid #147298',borderRadius:'5px',width:'100%'}} onClick={handleClickPush}>ok</Button>
         </>
     )
 }

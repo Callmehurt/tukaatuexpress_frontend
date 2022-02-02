@@ -16,7 +16,6 @@ const PaymentReceivedDatatables = ()=> {
 
     useEffect(()=>{
         let AccountStorage = JSON.parse(localStorage.getItem('Account_storage'));
-        console.log(AccountStorage);
         if(AccountStorage){
           setAuthorizationToken(AccountStorage.token);
         }
@@ -116,15 +115,7 @@ const PaymentReceivedDatatables = ()=> {
 
        ];
    const deliveredData = () => {
-         // axios.get('/admin/pickup/list')
-         //    .then((res) => {
-         //        console.log(res);
-         //        dispatch(NewPickupList(res.data));
-         //        dispatch(NewPickupListCount(res.data.length));
-         //    })
-         //    .catch((err) => {
-         //        console.log(err.response.data);
-         //    })
+
 
    }
 
@@ -132,10 +123,10 @@ const PaymentReceivedDatatables = ()=> {
     searchOpen:false,
     filterType:'textField',
     fixedHeader:false,
-    rowsPerPage:[100],
+    rowsPerPage:100,
     rowsPerPageOptions:[10,20,50,100,500],
     selectableRows: true,
-    customToolbarSelect: (selectedRows,displayData) => (
+    customToolbarSelect: (selectedRows, displayData) => (
     <CustomToolbarSelect selectedRows={selectedRows} displayData={displayData} />
   )
   }

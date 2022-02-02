@@ -2,116 +2,154 @@ import React,{useEffect,useState} from 'react';
 import {Table,Row,Col,Form} from 'react-bootstrap';
 import { useCookies } from "react-cookie";
 import UploadFile from "./UploadFile";
+import checkToken from "../../../utils/checkToken";
+import setAuthorizationToken from "../../../utils/setAuthorizationToken";
+import {useDispatch, useSelector} from "react-redux";
+import {fetchPartnerDeliveryDetails, clearPartnerDeliveryDetails} from "../../../redux/actions/PartnerPaymentAction";
+import notification from "../includes/notification";
 
 const PaymentCalculation=()=>{
 
-const [cookies, setCookie] = useCookies();
-const [deliveries,setDeliveries]= useState([]);
-const [returns,setReturns]=useState('');
-const[totalReturnCharge,setTotalReturnCharge]=useState();
-const [exchanges,setExchanges]=useState([]);
-const [totalCodAmount,setTotalCodAmount]=useState();
-const [totalPayableAmount,setTotalPayableAmount]=useState('');
-const [statementNum,setStatementNum]=useState('');
-const[paid,setPaid]=useState('');
-const [reinbursement,setReinbursement]=useState(0);
-const [totalPickupCharge,setTotalPickupCharge]=useState(0);
-const [pickups, setPickups] = useState([]);
-const returnChargeHandle =(id)=>{
-    console.log('handleForm');
-}
+    const dispatch = useDispatch();
+    const [paymentCalculations, setPaymentCalculations] = useState({
+        statement_num: '',
+        prev_add_deduct: 0,
+        total_cod_received: 0,
+        total_delivery_charge: 0,
+        total_pickup_charge: 0,
+        total_return_charge: 0,
+    });
 
-const handleForm =()=>{
-    console.log('handleForm');
-}
-const handlePaidAmount=(event)=>{
-    console.log(event.target.value);
-    setPaid(event.target.value);
+    const [paidAmount, setPaidAmount] = useState(0);
+    const [reimbursement, setReimbursement] = useState(0);
+    const [nextAddDeduct, setNextAddDeduct] = useState(0);
 
-}
-const [prevAddDeduct,setPrevAddDeduct]=useState();
-const [totalDeliveryCharge,setTotalDeliveryCharge]=useState();
-let deliveriesData=cookies.paymentDeliveryData?.deliveries;
-const[todayDate,setTodayDate]=useState('');
-const[withReinbursementpayable,setWithReinbursementpayable]=useState(null);
-useEffect(()=>{
-    console.log(cookies.paymentDeliveryData);
-    let paymentDeliveryDataStore= JSON.parse(localStorage.getItem('paymentDeliveryData'));
-    console.log(paymentDeliveryDataStore);
-    console.log(paymentDeliveryDataStore.deliveries);
-     setDeliveries(paymentDeliveryDataStore.deliveries);
-     setReturns(paymentDeliveryDataStore.returns);
-     setPickups(paymentDeliveryDataStore.pickups);
-     setExchanges(paymentDeliveryDataStore.exchanges);
-     setTotalPickupCharge(paymentDeliveryDataStore.total_pickup_charge);
-     setTotalCodAmount(paymentDeliveryDataStore.total_cod_received);
-     setPrevAddDeduct(paymentDeliveryDataStore.prev_add_deduct);
-     setStatementNum(paymentDeliveryDataStore.statement_num);
-     setTotalDeliveryCharge(paymentDeliveryDataStore.total_delivery_charge);
-     setTotalReturnCharge(paymentDeliveryDataStore.total_return_charge);
-     setTotalPayableAmount((parseFloat(totalCodAmount)+parseFloat(prevAddDeduct)+parseFloat(reinbursement))-(parseFloat(totalDeliveryCharge)+parseFloat(totalReturnCharge)+parseFloat(totalPickupCharge)));
-     console.log(deliveries);
-      console.log("deliveries");
-      console.log(totalPayableAmount);
-      let today = new Date().toISOString().slice(0, 10);
-      setTodayDate(today);
-    console.log(totalPayableAmount);
-},[totalPayableAmount,reinbursement]);
+    const [cookies, setCookie, removeCookie] = useCookies(['selected_pickups']);
+    const pickupData = cookies.selected_pickups;
 
-const handleReinbursement = (event)=>{
-    console.log(event.target.value);
-    setReinbursement(event.target.value);
+    const deliveredDeliveries = useSelector((state) => state.partnerPaymentDetails.deliveries);
+    const returns = useSelector((state) => state.partnerPaymentDetails.returns);
+    const pickups = useSelector((state) => state.partnerPaymentDetails.pickups);
+    const otherCalculations = useSelector((state) => state.partnerPaymentDetails.calculationDetails);
+    useEffect(()=>{
+        let AccountStorage = JSON.parse(localStorage.getItem('Account_storage'));
+        if(AccountStorage){
+            checkToken(AccountStorage.token, 'Account_storage')
+            setAuthorizationToken(AccountStorage.token);
+        }
+        if(pickupData.length > 0){
+            dispatch(fetchPartnerDeliveryDetails(pickupData))
+        }
+    },[pickupData]);
 
-}
-const totalPayableFun= () => {
-    setTotalPayableAmount(totalCodAmount-totalDeliveryCharge+prevAddDeduct+reinbursement);
-}
+    useEffect(() => {
+        return () => {
+            removeCookie('selected_pickups');
+            dispatch(clearPartnerDeliveryDetails())
+        }
+    }, []);
+
+    useEffect(() => {
+        setPaymentCalculations(otherCalculations)
+    }, [otherCalculations])
+
+
+    useEffect(() => {
+        const totalTransferable = parseFloat(paymentCalculations.total_cod_received)+parseFloat(reimbursement)+parseFloat(paymentCalculations.prev_add_deduct)-parseFloat(paymentCalculations.total_delivery_charge)-parseFloat(paymentCalculations.total_return_charge)-parseFloat(paymentCalculations.total_pickup_charge);
+        const forNextStat = totalTransferable-parseFloat(paidAmount);
+        setNextAddDeduct(forNextStat);
+        }, [paidAmount])
+
+    const handlePaidChange = (event) => {
+        const numbers = /^[0-9]+$/;
+          if(event.target.value !== ''){
+              if(event.target.value.match(numbers))
+              {
+                setPaidAmount(parseFloat(event.target.value));
+              }
+              else
+              {
+                  notification('danger', 'Please input numeric characters only')
+                  return false;
+              }
+          }else {
+              setPaidAmount(0)
+          }
+    }
+
+    const handleReimbusermentChange = (event) => {
+         const numbers = /^[0-9]+$/;
+          if(event.target.value !== ''){
+              if(event.target.value.match(numbers))
+              {
+                          setReimbursement(parseFloat(event.target.value))
+              }
+              else
+              {
+                  notification('danger', 'Please input numeric characters only')
+                  return false;
+              }
+          }else {
+              setReimbursement(0)
+          }
+    }
+
     return(
         <>
             <Row>
                 <Col className="mx-5 my-5">
-                     <div style={{width:'100%',display:'grid',placeContent:'center'}}><h5>{deliveries?<>{deliveries[0]?.vendor_name.substring(0, 1).toUpperCase()+deliveries[0]?.vendor_name.slice(1)}</>:<>{deliveries[0]?.vendor_name.substring(0, 1).toUpperCase()+ deliveries[0]?.vendor_name.slice(1)}</>}</h5></div>
-                         <Table striped bordered hover style={{borderRadius:'5px',}}>
-              <thead>
-                <tr>
-                  <th>S.N</th>
-                  <th>Tracking Id</th>
-                  <th>Delivered Date</th>
-                  <th>Receiver Name</th>
-                   <th>Address</th>
-                    <th>Charge(Rs)</th>
-                  <th>COD</th>
-                  <th>Product Name</th>
-                </tr>
-              </thead>
-              <tbody>
-                  { deliveries?.length >0 ?<>{deliveries.map((deliveries,index)=>(
-                      <tr>
-                          <td>{index+1}</td>
-                          <td>{deliveries?.tex_code}</td>
-                          <td>{deliveries?.entry_date}</td>
-                           <td>{deliveries?.customer_name}<span> (<span>{deliveries?.customer_phone}</span>)</span></td>
-                           {/*<td>{*/}
-                           {/*   deliveries?.customer_phone*/}
-                           {/*}</td>*/}
+                     <div style={{width:'100%',display:'grid',placeContent:'center'}}>
+                         <h5>
+                             {
+                                 Object.keys(deliveredDeliveries).length !== 0 ? (
+                                     <>
+                                     #{deliveredDeliveries[0].vendor_name.toUpperCase()}
+                                     </>
+                                 ) : (<></>)
+                             }
+                         </h5>
+                     </div>
+                    <Table striped bordered hover style={{borderRadius:'5px',}}>
+                      <thead>
+                        <tr>
+                          <th>S.N</th>
+                          <th>Tex Code</th>
+                          <th>Delivered Date</th>
+                          <th>Receiver Detail</th>
+                           <th>Address</th>
+                            <th>Charge(Rs)</th>
+                          <th>COD</th>
+                          <th>Product Name</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                      {
+                          Object.keys(deliveredDeliveries).length === 0 ? (
+                              <tr>
+                                  <td colSpan={8} style={{textAlign: 'center'}}><h6>Loading...</h6></td>
+                              </tr>
 
-                          <td>{deliveries?.customer_address}</td>
-                          <td>{deliveries?.delivery_charge}</td>
-                          <td>{deliveries?.cod_received}</td>
-                           <td>{deliveries?.packet_name}</td>
-                          {/*<td>{deliveries?.approved_date}</td>*/}
-                          {/*hi*/}
-                      </tr>
-                  ))}
-                  </>:<>  <tr style={{padding:'25px'}}>
-                            <td colSpan={8}>
-                                 <div className="text-center" style={{width:'100%'}}>No Statement Founds</div>
-                            </td>
-                          </tr>
-                      </>
-                  }
-              </tbody>
-            </Table>
+                          ): (
+                              <>
+                                  {deliveredDeliveries.map((record, index) => {
+                                      return (
+                                          <tr key={record.id}>
+                                              <td>{index+1}</td>
+                                              <td>{record.tex_code}</td>
+                                              <td>{record.prompt_date}</td>
+                                              <td>{record.customer_name} - {record.customer_phone}</td>
+                                              <td>{record.customer_address}</td>
+                                              <td>Rs. {record.delivery_charge}</td>
+                                              <td>Rs. {record.cod_received}</td>
+                                              <td>{record.packet_name}</td>
+                                          </tr>
+                                      )
+                                  })}
+                              </>
+                          )
+                      }
+                      </tbody>
+                    </Table>
             <Row >
                 <Col lg={12}>
                     <div style={{width:'100%',display:'grid',placeContent:'center'}} ><h6 style={{fontSize:'16px'}}>Pickups</h6></div>
@@ -142,13 +180,13 @@ const totalPayableFun= () => {
                              {pickups.map((data, index) => {
                                  return (
                                      <>
-                                     <tr>
+                                     <tr key={data.id}>
                                          <td>{index+1}</td>
                                          <td>{data.request_code}</td>
                                          <td>{data.partner_address}</td>
                                          <td>{data.request_date}</td>
                                          <td>{data.completed}</td>
-                                         <td>{data.completed >= 0 && data.completed < 4 ? (
+                                         <td>{data.completed > 0 && data.completed < 4 ? (
                                              <>
                                              Rs. 50
                                              </>
@@ -173,7 +211,7 @@ const totalPayableFun= () => {
                        <thead>
                          <tr>
                     <th>S.N</th>
-                  <th>Order Id</th>
+                  <th>Tex Code</th>
                   <th>Return Date</th>
                   <th>Remarks</th>
                   <th>Location</th>
@@ -184,39 +222,37 @@ const totalPayableFun= () => {
                 </tr>
                        </thead>
                       <tbody>
+                      {
+                          Object.keys(returns).length === 0 ? (
+                              <tr>
+                                  <td colSpan={9} style={{textAlign: 'center'}}><h6>No Records</h6></td>
+                              </tr>
 
-                          { returns?.length >0 ?<>{returns.map((deliveries,index)=>(
-                                      <tr>
-                                          <td>{index+1}</td>
-                                          <td>{deliveries?.tex_code}</td>
-                                          <td>{deliveries?.entry_date}</td>
-                                          <td>{deliveries?.delivery_remarks}</td>
-                                          <td>{deliveries?.customer_address}</td>
-                                          <td>{deliveries?.cod}</td>
-
-                                          <td>{deliveries?.packet_name}</td>
-
-                                          <td>{deliveries?.customer_name}<span> (<span>{deliveries?.customer_phone}</span>)</span></td>
-                                          <td>{deliveries?.return_charge}</td>
-
-                                      </tr>
-                                  ))}
-                              </>:<>
-                                    <tr style={{padding:'25px'}}>
-                                        <td colSpan={8}>
-                                          <div className="text-center" style={{width:'100%'}}>No Statement Founds</div>
-                                        </td>
-                                    </tr>
-                                  </>
-                          }
-
-
+                          ): (
+                              <>
+                                  {returns.map((record, index) => {
+                                      return (
+                                          <tr key={record.id}>
+                                              <td>{index+1}</td>
+                                              <td>{record.tex_code}</td>
+                                              <td>{record.prompt_date}</td>
+                                              <td>{record.delivery_remarks}</td>
+                                              <td>{record.customer_address}</td>
+                                              <td>Rs. {record.cod}</td>
+                                              <td>{record.packet_name}</td>
+                                              <td>{record.customer_name} - {record.customer_phone}</td>
+                                              <td>Rs. {record.return_charge}</td>
+                                          </tr>
+                                      )
+                                  })}
+                              </>
+                          )
+                      }
                      </tbody>
                     </Table>
                     <Row >
                     <Col lg={12} style={{display:'none'}}>
                         <div style={{width:'100%',display:'grid',placeContent:'center'}} ><h6 style={{fontSize:'16px'}}>Packet Exchanged</h6></div>
-
                     </Col>
                 </Row>
                     <Table striped bordered hover style={{display:'none'}} >
@@ -230,51 +266,31 @@ const totalPayableFun= () => {
                             </tr>
                       </thead>
                          <tbody>
-
-                              { exchanges?.length >0 ?<>{exchanges.map((deliveries,index)=>(
-                                          <tr>
-                                              <td>{index+1}</td>
-                                              <td>{deliveries?.tex_code}</td>
-                                               <td>{deliveries?.customer_address}</td>
-                                              <td>{deliveries?.cod}</td>
-                                              <td>{deliveries?.customer_name}</td>
-
-                                          </tr>
-                                      ))}
-                                  </>:<>
-                                          <tr style={{padding:'25px'}}>
-                                              <td colSpan={5}>
-                                                  <div className="text-center" style={{width:'100%'}}>No Statement Founds</div>
-                                              </td>
-                                          </tr>
-                                      </>
-                              }
-
-
+                         {/*Exchanged*/}
                       </tbody>
                     </Table>
                      <Table striped bordered hover>
                          <tbody>
                              <tr>
                                  <td rowSpan="10" colSpan="4" style={{minWidth:'200px'}}>
-                                   <div style={{display:'flex',justifyContent:'center',alignItems:'center',height:'300px'}}> {statementNum}</div>
+                                   <div style={{display:'flex',justifyContent:'center',alignItems:'center',height:'300px'}}>{paymentCalculations.statement_num}</div>
                                      {/*<span style={{display:'grid',placeContent:'center'}}>statement-11</span>*/}
                                  </td>
                                  <td rowSpan="2">
                                  </td>
                                   <td>Total COD Amount</td>
                                    <td >
-                                       {totalCodAmount}
+                                       Rs. {paymentCalculations.total_cod_received}
                                    </td>
                              </tr>
                              <tr>
                                    <td>Total Delivery Charge</td>
-                                   <td >{totalDeliveryCharge}</td>
+                                   <td>Rs. {paymentCalculations.total_delivery_charge}</td>
                               </tr>
                              <tr >
                                  <td></td>
                                    <td>Total Pickup Charge</td>
-                                   <td >{totalPickupCharge}</td>
+                                   <td >Rs. {paymentCalculations.total_pickup_charge}</td>
 
                               </tr>
 
@@ -284,46 +300,36 @@ const totalPayableFun= () => {
                                    </td>
                                     <td>Reimbursements</td>
                                     <td >
-                                        <input type="text"  style={{width:'100%',border:'none'}} onChange={(event)=>handleReinbursement(event)} />
+                                        <input type="text"  style={{width:'100%',border:'none'}} value={reimbursement} onChange={(event) => handleReimbusermentChange(event)} />
                                     </td>
                                </tr>
 
                              <tr>
                                    <td>Return Charges</td>
-                                    <td >{totalReturnCharge}</td>
+                                    <td>Rs. {paymentCalculations.total_return_charge}</td>
                                </tr>
                              <tr>
-                                    <td>Paid Date: {todayDate}</td>
+                                    <td>Paid Date: {(new Date()).toDateString()}</td>
                                     <td>Add/ deduct from prev. Stat.</td>
-                                    <td >{prevAddDeduct}</td>
+                                    <td >Rs. {paymentCalculations.prev_add_deduct}</td>
                                </tr>
                              <tr>
                                    <td rowSpan="2"></td>
                                     <td >Total COD Transferable</td>
-                                   <td >
-                                       {totalPayableAmount?<>{totalPayableAmount}</>:<>{(totalCodAmount+prevAddDeduct+reinbursement)-(totalDeliveryCharge+totalReturnCharge+totalPickupCharge)}</>}
+                                   <td>
+                                       Rs. {parseFloat(paymentCalculations.total_cod_received)+parseFloat(reimbursement)+parseFloat(paymentCalculations.prev_add_deduct)-parseFloat(paymentCalculations.total_delivery_charge)-parseFloat(paymentCalculations.total_return_charge)-parseFloat(paymentCalculations.total_pickup_charge)}
                                    </td>
                                </tr>
                              <tr>
                                   <td>Total COD Transferred</td>
                                   <td>
-                                      {totalCodAmount-(totalDeliveryCharge+totalReturnCharge+totalPickupCharge)>0?
-                                          <>
-                                             {/*<Form>*/}
-                                                 <Form.Control onChange={(event)=>handlePaidAmount(event)} name="paid" type="text" placeholder="Paid amount" />
-                                               {/*</Form>*/}
-                                          </>:
-                                          <>
-                                              0
-                                          </>
-                                          }
-
+                                      <input type="text" value={paidAmount} onChange={(event) => handlePaidChange(event)} />
                                   </td>
                              </tr>
                              <tr>
                                 <th colSpan="1"></th>
                                 <th>To add/ deduct on next Stat.</th>
-                                <th >{totalPayableAmount-paid}</th>
+                                <th>Rs. {parseFloat(paymentCalculations.total_cod_received)+parseFloat(reimbursement)+parseFloat(paymentCalculations.prev_add_deduct)-parseFloat(paidAmount)-parseFloat(paymentCalculations.total_delivery_charge)-parseFloat(paymentCalculations.total_return_charge)-parseFloat(paymentCalculations.total_pickup_charge)}</th>
                              </tr>
                          </tbody>
                      </Table>
@@ -332,7 +338,7 @@ const totalPayableFun= () => {
             </Row>
             <Row>
                 <Col lg={12}>
-                    <UploadFile totalReturnCharge={totalReturnCharge} reinbursement={reinbursement} totalPayable={totalPayableAmount} paid={paid} />
+                    <UploadFile paymentCalculations={paymentCalculations} deliveries={deliveredDeliveries} reimbursement={reimbursement} pickups={pickups} returns={returns} nextAddDeduct={nextAddDeduct} paid={paidAmount} />
                 </Col>
             </Row>
         </>

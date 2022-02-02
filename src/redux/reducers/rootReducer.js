@@ -22,6 +22,7 @@ import BranchOperationReducer from "./BranchOperationReducer";
 import AppReducer from "./AppReducer";
 import {monthlyStatementReducer} from "./monthlyStatementReducer";
 import {idCardReducer} from "./IDCardReducer";
+import {PartnerPaymentReducer} from "./PaymentDetailReducer";
 
 //Entry Operator
 import EntryOperatorAuthReducer from "./EntryOperatorAuthReducer";
@@ -68,7 +69,9 @@ const rootReducer = combineReducers({
     marketingAuth:MarketingAuthReducer,
     marketing:MarketingReducer,
 
-    idCard: idCardReducer
+    idCard: idCardReducer,
+
+    partnerPaymentDetails: PartnerPaymentReducer,
 
 
 })

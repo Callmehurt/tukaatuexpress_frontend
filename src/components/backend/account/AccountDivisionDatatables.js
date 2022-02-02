@@ -44,8 +44,6 @@ const AccountDivisionDatatables =()=>{
             })
      }
      const getPartnerAccountDetail=(partner_id)=>{
-            console.log(partner_id);
-             console.log('Account Division');
              axios.get(`/account/partner/deliveries/details/${partner_id}`)
             .then((res) => {
                 console.log(res);
@@ -236,63 +234,7 @@ const AccountDivisionDatatables =()=>{
         }
 
     }
-    // const accountDivData=[
-    //     {   name:'Dhurba Chaudhary',
-    //         phone:'9815360575',
-    //         email:'dhurbac66@gmail.com',
-    //         payment_remain:'6000',
-    //         last_paid:'3 days ago',
-    //         bank_name:'kumari bank',
-    //         account_no:'36737363787728',
-    //         bank_branch:'itahari branch',
-    //         Account_holder_name:'Dhurba Chaudhary',
-    //         esewa_id:'9815360575',
-    //      },
-    //     {   name:'Dhurba Chaudhary',
-    //         phone:'9815360575',
-    //         email:'dhurbac66@gmail.com',
-    //         payment_remain:'7000',
-    //         last_paid:'3 days ago',
-    //         bank_name:'kumari bank',
-    //         account_no:'36737363787728',
-    //         bank_branch:'itahari branch',
-    //         Account_holder_name:'Dhurba Chaudhary',
-    //         esewa_id:'9815360575',
-    //      },
-    //     {   name:'Dhurba Chaudhary',
-    //         phone:'9815360575',
-    //         email:'dhurbac66@gmail.com',
-    //         payment_remain:'10000',
-    //         last_paid:'3 days ago',
-    //         bank_name:'kumari bank',
-    //         account_no:'36737363787728',
-    //         bank_branch:'itahari branch',
-    //         Account_holder_name:'Dhurba Chaudhary',
-    //         esewa_id:'9815360575',
-    //      },
-    //     {   name:'Dhurba Chaudhary',
-    //         phone:'9815360575',
-    //         email:'dhurbac66@gmail.com',
-    //         payment_remain:'7000',
-    //         last_paid:'3 days ago',
-    //         bank_name:'kumari bank',
-    //         account_no:'36737363787728',
-    //         bank_branch:'itahari branch',
-    //         Account_holder_name:'Dhurba Chaudhary',
-    //         esewa_id:'9815360575',
-    //      },
-    //     {   name:'Dhurba Chaudhary',
-    //         phone:'9815360575',
-    //         email:'dhurbac66@gmail.com',
-    //         payment_remain:'5000',
-    //         last_paid:'3 days ago',
-    //         bank_name:'kumari bank',
-    //         account_no:'36737363787728',
-    //         bank_branch:'itahari branch',
-    //         Account_holder_name:'Dhurba Chaudhary',
-    //         esewa_id:'9815360575',
-    //      },
-    // ]
+
  const options = {
         searchOpen:false,
         filterType:'textField',

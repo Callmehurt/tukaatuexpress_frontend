@@ -1,4 +1,5 @@
 import {VendorTypes} from "./../types/VendorTypes";
+import axios from "axios";
 export const VendorAllDeliveries = (allData) =>{
     return(dispatch) => {
         dispatch({
@@ -247,3 +248,14 @@ export const getAllNotice = (allData) =>{
         })
     }
 }
+
+export const fetchPaymentReceivedDeliveries = () =>
+    async (dispatch) => {
+        const res = await axios.get('/partner/get/payment/received/pickups').catch((err) => {
+             console.log(err)
+         })
+        dispatch({
+            type: VendorTypes.FETCH_PAYMENT_RECEIVED_DELIVERIES,
+            payload: res?.data
+        })
+    }

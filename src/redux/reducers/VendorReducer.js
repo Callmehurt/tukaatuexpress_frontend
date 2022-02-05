@@ -33,6 +33,7 @@ const initialState = {
     allApprovedReturnStatement:[],
     allBanner:[],
     allNotice:[],
+    paymentReceivedDeliveries: []
 }
 
 const VendorReducer = (state = initialState, action) => {
@@ -191,6 +192,11 @@ const VendorReducer = (state = initialState, action) => {
         return {
             ...state,
             allNotice: action.payload
+        }
+        case VendorTypes.FETCH_PAYMENT_RECEIVED_DELIVERIES:
+        return {
+            ...state,
+            paymentReceivedDeliveries: action.payload
         }
         default:
             return state;

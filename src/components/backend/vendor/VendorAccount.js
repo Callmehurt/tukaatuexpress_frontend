@@ -9,7 +9,7 @@ import PaidOrders from "./PaidOrders";
 import StatementAndInvoices from "./StatementAndInvoices";
 import axios from "axios";
 import setAuthorizationToken from "../../../utils/setAuthorizationToken";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {BsSearch} from 'react-icons/bs';
 import{MdCancel} from 'react-icons/md';
 import Fuse from "fuse.js";
@@ -17,6 +17,10 @@ import logoImage from "../../../logo.svg";
 import {useHistory} from "react-router-dom";
 import AssignDeliveryModal from "../staff/admin/ActionArea/Warehouseactions/AssignDeliveryModal";
 import Avatar from "react-avatar";
+import PaymentReceivedDeliveries from "./PaymentReceivedDeliveries";
+import DeliveryItemCard from "./DeliveryItemCard";
+import {fetchPaymentReceivedDeliveries} from "../../../redux/actions/vendor";
+
 const options = {
       shouldSort: true,
       includeMatches: true,
@@ -31,11 +35,15 @@ const options = {
 
 
 const VendorAccount=()=>{
+
+    // const [paymentReceivedDeliveries, setPaymentReceivedDeliveries] = useState([]);
+    const dispatch = useDispatch();
     const[receivableAmount,setReceivableAmount]=useState('');
        const history = useHistory();
      const vendor = useSelector((state) => state.vendor);
      const pendingOrdersList=vendor.pendingOrdersList;
      const settledOrdersList=vendor.settledOrdersList;
+     const paymentReceivedDeliveries= vendor.paymentReceivedDeliveries;
       const statementAndInvoice=vendor.statementAndInvoice;
      const[activeSearchButton,setActiveSearchButton]=useState(false);
      const[searchListDisplay,setSearchListDisplay]=useState(0);
@@ -67,6 +75,7 @@ const VendorAccount=()=>{
                console.log(err.response);
             })
     }
+
     //pending search start
     const [query, setQuery] = useState("");
      const fuse = new Fuse(pendingOrdersList, options);
@@ -79,6 +88,24 @@ const VendorAccount=()=>{
        console.log(currentTarget.value);
     }
      //pending search end
+
+
+    //Payment Received Deliveries search starts
+    const [queryForReceived, setQueryForReceived] = useState('');
+    const fuseForReceived = new Fuse(paymentReceivedDeliveries, options);
+    const receivedSearchResult = fuseForReceived.search(queryForReceived);
+    const onReceivedSearchResult = queryForReceived ? receivedSearchResult.map((item) => item.item): paymentReceivedDeliveries;
+    console.log(onReceivedSearchResult)
+    const onReceivedSearch = ({currentTarget}) => {
+        setQueryForReceived(currentTarget.value)
+        console.log(currentTarget.value);
+    }
+
+    //Payment Received Deliveries search ends
+
+
+
+
     useEffect(()=>{
        let vendorDetail = JSON.parse(localStorage.getItem('vendorDetail'));
         // console.log(staff_admin);
@@ -87,8 +114,10 @@ const VendorAccount=()=>{
         }
         getAccountBalance();
         getLastStatementCheck();
+        dispatch(fetchPaymentReceivedDeliveries());
+    },[]);
 
-    },[0]);
+
     //paid search start
     const [queryPaid, setQueryPaid] = useState("");
     const fusePaid = new Fuse(settledOrdersList, options);
@@ -100,6 +129,7 @@ const VendorAccount=()=>{
       setQueryPaid(currentTarget.value);
        console.log(currentTarget.value);
     }
+
      //paid search end
     //statement search start
       const [queryStatement, setQueryStatement] = useState("");
@@ -192,9 +222,23 @@ const getPickupDetail=(id)=>{
                             </>:
                             <>
                             </>
-
                         }
 
+                        {searchListDisplay===3?
+                            <>
+                                <Col xs={10} className="p-0">
+                             <Card style={{borderRadius:'30px',border:'none'}}>
+                                  <Card.Body className="p-2">
+                                       <Form className="search">
+                                           <Form.Control type="text" value={queryForReceived} placeholder="Search all orders ..." onChange={onReceivedSearch} style={{borderRadius:'15px',}} />
+                                      </Form>
+                                  </Card.Body>
+                              </Card>
+                          </Col>
+                            </>:
+                            <>
+                            </>
+                        }
                     </>:
                     <>
                         <Col xs={10} className="p-0">
@@ -350,6 +394,42 @@ const getPickupDetail=(id)=>{
 
                         </div>
                       </Tab>
+
+                        <Tab eventKey="receivedPayment" title={<><div onClick={() => getActiveSearch(3)}>
+                            Received
+                            <span>
+                                {
+                                    Object.keys(paymentReceivedDeliveries).length
+                                }
+                            </span>
+                        </div></>}>
+                          <div style={{minHeight:'100vh'}}>
+                              {searchListDisplay === 3 && queryForReceived && activeSearchButton ? (
+                                  <>
+                                      {onReceivedSearchResult.length ? (
+                                          <DeliveryItemCard deliveries={onReceivedSearchResult}/>
+                                      ) : (
+                                          <Col xs={12}>
+                                              <div style={{
+                                                  height: '60vh',
+                                                  display: 'grid',
+                                                  placeContent: 'center',
+                                                  fontSize: '16px',
+                                                  fontWeight: '500'
+                                              }}>No Records Found...
+                                              </div>
+                                          </Col>
+                                      )
+                                      }
+                                  </>
+                              ) : (
+                                  <PaymentReceivedDeliveries deliveries={paymentReceivedDeliveries}/>
+                              )
+                              }
+                          </div>
+                        </Tab>
+
+
                         <Tab eventKey="paidOrders" title={<><div onClick={()=>{getActiveSearch(1)}}>Paids <span>
                              {
                                 settledOrdersList.length?

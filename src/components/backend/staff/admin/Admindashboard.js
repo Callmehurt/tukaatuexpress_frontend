@@ -4,14 +4,27 @@ import CountCard from "./dashboardcomponents/CountCard";
 import BarChartDashboard from "./dashboardcomponents/BarChartDashboard";
 import PieChartDashboard from "./dashboardcomponents/PieChartDashboard";
 import AreaChartDashboard from "./dashboardcomponents/AreaChartDashboard";
-import {useDispatch} from "react-redux";
 import setAuthorizationToken from "./../../../../utils/setAuthorizationToken";
 import {useHistory} from "react-router-dom";
+import Pusher from "pusher-js";
 
 
 
 const Admindashboard = () => {
-      const dispatch = useDispatch();
+
+    // useEffect(() => {
+    //     const pusher = new Pusher('c083779ed67708696f1e', {
+    //         cluster: 'ap2',
+    //     });
+    //     console.log(pusher);
+    //     const channel = pusher.subscribe('tukaatuexpress');
+    //     channel.bind('notice_to_partner', (data) => {
+    //         console.log(data)
+    //     })
+    // }, [])
+
+
+
        const history = useHistory();
       useEffect(()=>{
         let staff_admin = JSON.parse(localStorage.getItem('staff_admin'));

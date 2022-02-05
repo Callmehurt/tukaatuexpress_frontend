@@ -11,7 +11,7 @@ import "slick-carousel/slick/slick-theme.css";
 import vendorBanner from '../../../assets/vendorBanner.png';
 import carouselHeader from './../../../assets/carouselHeader.png';
 import axios from "axios";
-import notification from "../includes/notification";
+import messageNotification from "../includes/messageNotification";
 import VendorDashboardDesktop from "./VendorDashboardDesktop";
 import ReactDashboardMainSearch from "./ReactDashboardMainSearch";
 import Slider from "react-slick";
@@ -30,6 +30,7 @@ import MobileSlider from "./MobileSlider";
 // import { Carousel } from 'react-responsive-carousel';
 import {FiSave} from "react-icons/fi";
 import logoImage from "../../../logo.svg";
+import Pusher from "pusher-js";
  const options = {
       shouldSort: true,
       includeMatches: true,
@@ -74,6 +75,21 @@ const VendorDashboard=()=>{
      const [allPaymentCount,setAllPaymentCount]=useState(0);
      const [returnAndExchangeTotal,setReturnAndExchangeTotal]=useState(0);
      const [returnAndExchangeCount,setReturnAndExchangeCount]=useState(0);
+
+
+     const partner = useSelector((state) => state.vendorAuth.user);
+     useEffect(() => {
+        const pusher = new Pusher('c083779ed67708696f1e', {
+            cluster: 'ap2',
+        });
+        const channel = pusher.subscribe('tukaatuexpress');
+        channel.bind('notice_to_partner', (data) => {
+            if(data.partner.id === partner.id){
+                messageNotification('warning', data.message)
+            }
+            console.log(data.partner.id)
+        })
+    }, [])
 
 
      const [query, setQuery] = useState("");

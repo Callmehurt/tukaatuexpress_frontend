@@ -2,10 +2,6 @@ import './scss/_base.scss';
 import React,{useState,useEffect} from "react";
 import 'react-notifications-component/dist/theme.css';
 import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
-import{getDomainServer} from './redux/actions/App';
-import { PusherProvider } from "@harelpls/use-pusher";
-// import { useChannel, useEvent } from "@harelpls/use-pusher";
-// import {allPickupForMessage} from './redux/actions/BranchOperation';
 
 // main Admin
 import AdminLogin from "./components/backend/admin/AdminLogin";
@@ -165,48 +161,10 @@ import MarketingEvent from "./components/backend/marketing/MarketingEvent";
 import Profile from './components/frontend/profile/Profile';
 
 function App() {
-      const dispatch = useDispatch();
-      const handle = useFullScreenHandle();
-      const [message, setMessages] = useState();
 
-    useEffect(()=>{
-
-        // let domainName='https://texos.tukaatu.com/';
-        // let domainName='https://jawaikhana.techxbay.com/';
-        // let domainName='http://207.180.250.139/backend/public/';
-          let domainName='https://tukaatuexpress.com/backend/public/';
-        // let domainName='https://test.rastriyasecondaryschool.edu.np/';
-        dispatch(getDomainServer(domainName));
-        console.log(message);
-        console.log('App message');
-
-    },[])
-
-     const adminStaff = useSelector((state) => state.mainAdminAuth);
-    const adminStaffUser=adminStaff.user;
-
-    const config = {
-  // required config props
-  appId: "1279054",
-  clientKey: "c083779ed67708696f1e",
-  cluster: "ap2",
-  secret: "f6c53e55456beb3ba7e9",
-        disableStats: true,
-     forceTLS: false,
-
-  // required for private/presence channels
-  // also sends auth headers to trigger endpoint
-
-};
-     // const channel = useChannel("tukaatuexpress");
-     // useEvent(channel, "notice_to_partner", ({ data }) => console.log(data));
-    // console.log('App');
   return (
       <>
-          <PusherProvider {...config}>
-          {/*<div onLoad={handle.enter}>*/}
-          {/*    <FullScreen handle={handle}>*/}
-                <Router>
+        <Router>
                   <div className="App">
                       <ReactNotification/>
                       <Switch>
@@ -361,9 +319,6 @@ function App() {
                       </Switch>
                   </div>
               </Router>
-              </PusherProvider>
-              {/*</FullScreen>*/}
-          {/*</div>*/}
       </>
 
   );

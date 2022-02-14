@@ -501,7 +501,7 @@ const VendorDashboard=()=>{
                       <Card style={{borderRadius:'15px'}}>
                           <Card.Body>
                               <div style={{display:'grid',placeContent:'center'}}>
-                                  <h4 style={{fontSize:'17px',}}>All Orders</h4>
+                                  <h4 style={{fontSize:'17px',}}>All Orders (Inc. Settled Deliveries)</h4>
 
                                   {
                                       allPickupOrders.length?
@@ -666,7 +666,7 @@ const VendorDashboard=()=>{
                       <Card style={{borderRadius:'15px'}}>
                           <Card.Body>
                               <div style={{display:'grid',placeContent:'center'}}>
-                                  <h4 style={{fontSize:'17px',}}>Payable Delivery Charge</h4>
+                                  <h4 style={{fontSize:'17px',}}>Total Delivery Charge</h4>
                                   {totalDeliveryCharge?
                                       <>
                                            <h6 style={{display:'grid',placeContent:'center',fontSize:'14px'}}>Rs. {totalDeliveryCharge}</h6>
@@ -810,7 +810,7 @@ const VendorDashboard=()=>{
                           <Card style={{borderRadius:'15px'}}>
                               <Card.Body>
                                   <div style={{display:'grid',placeContent:'center'}}>
-                                      <h4 style={{fontSize:'17px',}}>All Orders</h4>
+                                      <h4 style={{fontSize:'17px',}}>All Orders (Inc. Settled Deliveries)</h4>
 
                                       {
                                           allPickupOrders.length?
@@ -975,7 +975,7 @@ const VendorDashboard=()=>{
                                   <Card style={{borderRadius:'15px'}}>
                                       <Card.Body>
                                           <div style={{display:'grid',placeContent:'center'}}>
-                                              <h4 style={{fontSize:'17px',}}>Payable Delivery Charge</h4>
+                                              <h4 style={{fontSize:'17px',}}>Total Delivery Charge</h4>
                                               {totalDeliveryCharge?
                                                   <>
                                                        <h6 style={{display:'grid',placeContent:'center',fontSize:'14px'}}>Rs. {totalDeliveryCharge}</h6>

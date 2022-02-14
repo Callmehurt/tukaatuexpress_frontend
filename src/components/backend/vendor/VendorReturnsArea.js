@@ -12,7 +12,6 @@ const VendorReturnsArea=()=>{
 
     return(
         <>
-            {/*<h6>Returns Area</h6>*/}
             <div className="pb-2">
                 {/*<h6>vendor Account</h6>*/}
                     <Tabs

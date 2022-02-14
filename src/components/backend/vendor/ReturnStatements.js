@@ -12,28 +12,12 @@ import PendingReturnStatement from './PendingReturnStatement';
 import ApprovedReturnStatement from "./ApprovedReturnStatement";
 
 const ReturnStatements=()=>{
-     const history = useHistory();
-     const dispatch = useDispatch();
-     const vendor = useSelector((state) => state.vendor);
       useEffect(()=>{
          let vendorDetail = JSON.parse(localStorage.getItem('vendorDetail'));
             if(vendorDetail){
               setAuthorizationToken(vendorDetail.token);
             }
-            getReturnStatementList();
      },[]);
-       const getReturnStatementList=()=>{
-            axios.get('/partner/my/return/statements')
-                    .then((res)=>{
-                        console.log(res);
-                        console.log(res.data);
-                        // dispatch(returnsOrderList(res.data));
-                    })
-            .catch((err)=>{
-               console.log(err.response.data);
-            })
-
-        }
 
     return(
         <>

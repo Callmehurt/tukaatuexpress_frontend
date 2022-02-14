@@ -132,7 +132,7 @@ const PageHome = () => {
                           <div className="tracking_section" data-aos="fade-up" data-aos-anchor-placement="center-bottom">
                               <div>
                                   <div className="logo_section">
-                                      <img src="https://tukaatuexpress.com/front/images/logo.png" alt=""/>
+                                      <img src="https://tukaatudeal.com/front/images/logo.png" alt=""/>
                                   </div>
                                   <div className="input_section">
                                       <h5>Track your Order/ Shipment</h5>

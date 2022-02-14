@@ -5,13 +5,7 @@ import axios from "axios";
 import setAuthorizationToken from "../../../../../utils/setAuthorizationToken";
 import {useSelector, useDispatch} from "react-redux";
 import {loadPartnerList} from "../../../../../redux/actions/loadPartnerList";
-import {updatePartner} from "../../../../../redux/actions/updatePartner";
-import notification from "../../../includes/notification";
-import {RiDeleteBin2Line} from 'react-icons/ri';
 import {ImLocation2} from 'react-icons/im'
-import {BiEdit} from 'react-icons/bi'
-import {Confirm} from "react-st-modal";
-import VendorEditModal from "./VendorEditModal";
 import GetPartnerLocationModal from "./GetPartnerLocationModal";
 import {useHistory} from "react-router-dom";
 
@@ -53,10 +47,7 @@ const PartnerDatatable = () => {
             })
     }
     const partnerReturnList=(partner_id)=>{
-       history.push({
-           pathname:'/staff/admin/partner/return/list',
-           state:{ partnerID:partner_id }
-       })
+       history.push(`/staff/admin/partner/return/list/${partner_id}`)
 
     }
 
@@ -106,7 +97,7 @@ const PartnerDatatable = () => {
           sort: true,
              customBodyRender: (value, tableMeta, updateValue) => (
                   <>
-                      <div style={{width:'100%',display:'flex',placeContent:'start'}} onClick={(event)=>partnerReturnList(tableMeta.rowData[3])} style={{cursor:'pointer'}}>{value}</div>
+                      <div style={{width:'100%',display:'flex',placeContent:'start'}} onClick={(event)=>partnerReturnList(tableMeta.rowData[4])} style={{cursor:'pointer'}}>{value}</div>
                   </>
               )
          }

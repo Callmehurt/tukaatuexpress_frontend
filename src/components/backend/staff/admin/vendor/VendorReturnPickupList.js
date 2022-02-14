@@ -1,39 +1,11 @@
-import React, {useEffect} from 'react';
-import {useHistory, useLocation} from "react-router-dom";
-import setAuthorizationToken from "../../../../../utils/setAuthorizationToken";
-import axios from "axios";
-import {getVendorReturnList} from './../../../../../redux/actions/BranchOperation';
-import {useDispatch, useSelector} from "react-redux";
+import React from 'react';
 import MUIDataTable from "mui-datatables";
 import CustomToolbarSelect from "./../../../staff/admin/vendor/CustomToolbarSelect";
 
-const VendorReturnPickupList=()=>{
-     const location=useLocation();
-     const dispatch=useDispatch();
-     const history = useHistory();
-     const branchOperation = useSelector((state) => state.branchOperation);
-     const allVendorReturnList = branchOperation.allVendorReturnList;
-     useEffect(()=>{
-         let staff_admin = JSON.parse(localStorage.getItem('staff_admin'));
-         console.log(staff_admin);
-         if(staff_admin?.token){
-          setAuthorizationToken(staff_admin.token);
-         }else{
-            history.push('/admin/login');
-         }
-         VendorPickupReturnList();
-     },[]);
-     const VendorPickupReturnList=()=>{
-         let partner_id=location.state?.partnerID;
-         axios.get(`/admin/partner/packet/return/list/${partner_id}`)
-            .then((res) => {
-                console.log(res);
-                dispatch(getVendorReturnList(res.data))
-            })
-            .catch((err) => {
-                console.log(err.response.data);
-            })
-     }
+const VendorReturnPickupList=(props)=>{
+
+    const returnDeliveries = props.returns;
+
      const columns = [
         {
          name: "tex_code",
@@ -135,7 +107,7 @@ const VendorReturnPickupList=()=>{
         <>
              <MUIDataTable
             // title={"Payment Recieved Deliveries"}
-            data={allVendorReturnList?.all_returns}
+            data={returnDeliveries}
             columns={columns}
             options={options}
            />

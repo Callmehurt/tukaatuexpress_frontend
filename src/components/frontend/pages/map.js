@@ -94,7 +94,7 @@ const Map = () => {
              'position': [26.604997993851494, 87.14158875912686]
         }
     ]
-    const position = [27.04715503556404, 86.23082233741818]
+    const position = [28.315177778858335, 83.9109019905555]
     return (
         <MapContainer center={position} zoom={7} scrollWheelZoom={false}>
             <TileLayer

@@ -24,48 +24,12 @@ const DeliveryItemCard = (props) => {
                    {/*<h6>Pending Orders</h6>*/}
                    <div style={{height: '60vh', overflowY: 'auto', overflowX: 'hidden'}}>
                        <div>
-                           {/*{ deliveryChatList.map((chatList,index)=>(*/}
-                           {/*    <>*/}
-                           {/*    <Col lg={12}>*/}
-                           {/*        /!*<a onclick={(e)=>{e.preventDefault();getMessageDetail(2);}}>*!/*/}
-
-                           {/*        <div>*/}
-
-                           {/*           <Card onClick={(e)=>{e.preventDefault();getMessageDetail(chatList.id)}}>*/}
-                           {/*              <Card.Body className="p-0">*/}
-                           {/*                  <Row>*/}
-                           {/*                      <Col xs={3} className="pl-0 pr-0">*/}
-                           {/*                          <Image src={logoImage} roundedCircle />*/}
-                           {/*                      </Col>*/}
-                           {/*                      <Col xs={9} style={{paddingLeft:'0px',paddingRight:'0px'}}>*/}
-                           {/*                          <div className="pt-2">*/}
-                           {/*                              <h6 className="mb-1">{chatList.packet_name}<span style={{fontSize:'12px',fontWeight:'400',paddingLeft:'5px'}}>({chatList.tex_code})</span></h6>*/}
-                           {/*                          </div>*/}
-                           {/*                           <div>*/}
-                           {/*                               <p style={{fontSize:'15px'}}>Recent Message Show</p>*/}
-
-                           {/*                          </div>*/}
-                           {/*                          /!*<div>*!/*/}
-                           {/*                          /!*     <p style={{fontSize:'12px'}}>{chatList.status}</p>*!/*/}
-
-                           {/*                          /!*</div>*!/*/}
-                           {/*                          /!*<Image src="holder.js/171x180" roundedCircle />*!/*/}
-                           {/*                      </Col>*/}
-                           {/*                  </Row>*/}
-                           {/*              </Card.Body>*/}
-                           {/*           </Card>*/}
-                           {/*        </div>*/}
-                           {/*        /!*</a>*!/*/}
-                           {/*    </Col>*/}
-                           {/*    </>*/}
-                           {/*    ))  }*/}
                            {settledOrdersList.length ? <>
                                {
                                    settledOrdersList.map((list) => (
                                        <>
                                            <Col lg={12}>
                                                {/*<a onclick={(e)=>{e.preventDefault();getMessageDetail(2);}}>*/}
-
                                                <div>
 
                                                    <Card onClick={(e) => {
@@ -161,41 +125,6 @@ const DeliveryItemCard = (props) => {
                    {/*<h6>Pending Orders</h6>*/}
                    <div style={{height: '60vh', overflowY: 'auto', overflowX: 'hidden'}}>
                        <div>
-                           {/*{ deliveryChatList.map((chatList,index)=>(*/}
-                           {/*    <>*/}
-                           {/*    <Col lg={12}>*/}
-                           {/*        /!*<a onclick={(e)=>{e.preventDefault();getMessageDetail(2);}}>*!/*/}
-
-                           {/*        <div>*/}
-
-                           {/*           <Card onClick={(e)=>{e.preventDefault();getMessageDetail(chatList.id)}}>*/}
-                           {/*              <Card.Body className="p-0">*/}
-                           {/*                  <Row>*/}
-                           {/*                      <Col xs={3} className="pl-0 pr-0">*/}
-                           {/*                          <Image src={logoImage} roundedCircle />*/}
-                           {/*                      </Col>*/}
-                           {/*                      <Col xs={9} style={{paddingLeft:'0px',paddingRight:'0px'}}>*/}
-                           {/*                          <div className="pt-2">*/}
-                           {/*                              <h6 className="mb-1">{chatList.packet_name}<span style={{fontSize:'12px',fontWeight:'400',paddingLeft:'5px'}}>({chatList.tex_code})</span></h6>*/}
-                           {/*                          </div>*/}
-                           {/*                           <div>*/}
-                           {/*                               <p style={{fontSize:'15px'}}>Recent Message Show</p>*/}
-
-                           {/*                          </div>*/}
-                           {/*                          /!*<div>*!/*/}
-                           {/*                          /!*     <p style={{fontSize:'12px'}}>{chatList.status}</p>*!/*/}
-
-                           {/*                          /!*</div>*!/*/}
-                           {/*                          /!*<Image src="holder.js/171x180" roundedCircle />*!/*/}
-                           {/*                      </Col>*/}
-                           {/*                  </Row>*/}
-                           {/*              </Card.Body>*/}
-                           {/*           </Card>*/}
-                           {/*        </div>*/}
-                           {/*        /!*</a>*!/*/}
-                           {/*    </Col>*/}
-                           {/*    </>*/}
-                           {/*    ))  }*/}
                            {settledOrdersList.length ? <>
                                {
                                    settledOrdersList.map((list) => (
@@ -231,7 +160,7 @@ const DeliveryItemCard = (props) => {
                                                                                fontSize: '15px',
                                                                                fontWeight: '500',
                                                                                paddingLeft: '5px'
-                                                                           }}>(COD Rs.{list.cod})</span></h6>
+                                                                           }}>(COD Received Rs.{list.cod_received})</span></h6>
                                                                    </div>
                                                                    <div>
 

@@ -6,8 +6,6 @@ import VendorEditModal from "../vendor/VendorEditModal";
 
 const Partners = () => {
     const [modalShow, setModalShow] = React.useState(false);
-
-
     return (
         <>
             <Row>

@@ -255,7 +255,7 @@ function App() {
                            <IsAdminStaff exact path="/staff/admin/proceeded_request_detail" component={ViewPickupProceededRequestDetail} />
                            <IsAdminStaff exact path="/staff/admin/pickup_create_image" component={ ImageEntryPickupCreate} />
                            <IsAdminStaff exact path="/staff/admin/pickup_detail" component={ SinglePickupDetail} />
-                           <IsAdminStaff exact path="/staff/admin/partner/return/list" component={ VendorReturnPickup} />
+                           <IsAdminStaff exact path="/staff/admin/partner/return/list/:partner_id" exact component={ VendorReturnPickup} />
 
 
 

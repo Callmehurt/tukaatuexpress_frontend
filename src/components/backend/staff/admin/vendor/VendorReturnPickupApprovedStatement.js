@@ -10,48 +10,11 @@ import {
 import {useHistory, useLocation} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 
-const VendorReturnPickupApprovedStatement=()=>{
-    const location=useLocation();
-     const dispatch=useDispatch();
-     const history = useHistory();
-     const branchOperation = useSelector((state) => state.branchOperation);
-      const vendorReturnApprovedStatement=branchOperation.vendorReturnApprovedStatement;
-    useEffect(()=>{
-         let staff_admin = JSON.parse(localStorage.getItem('staff_admin'));
-         console.log(staff_admin);
-         if(staff_admin?.token){
-          setAuthorizationToken(staff_admin.token);
-         }else{
-            history.push('/admin/login');
-         }
-         VendorPickupReturnStatements();
-         VendorReturnStatementView();
-     },[]);
-    const VendorPickupReturnStatements=()=>{
-            let partner_id=location.state?.partnerID;
-           axios.get(`/admin/partner/return/statement/list/${partner_id}`)
-            .then((res) => {
-                console.log(res);
-                dispatch(getVendorReturnPendingStatement(res.data.pending));
-                dispatch(getVendorReturnApprovedStatement(res.data.approved));
-            })
-            .catch((err) => {
-                console.log(err.response.data);
-            })
-     }
-     const VendorReturnStatementView=(stat_id=1)=>{
+const VendorReturnPickupApprovedStatement = (props) => {
 
-         // let partner_id=location.state?.partnerID;
-         axios.get(`/admin/view/return/statement/${stat_id}`)
-            .then((res) => {
-                // console.log(res);
-                // dispatch(getVendorReturnPendingStatement(res.data.pending));
-                // dispatch(getVendorReturnApprovedStatement(res.data.approved));
-            })
-            .catch((err) => {
-                console.log(err.response.data);
-            })
-     }
+    const statements = props.statements;
+
+
      const columns = [
         {
          name: "statement_num",
@@ -139,7 +102,7 @@ const VendorReturnPickupApprovedStatement=()=>{
     return(
         <>
             <MUIDataTable
-            data={vendorReturnApprovedStatement}
+            data={statements}
             columns={columns}
             options={options}
            />

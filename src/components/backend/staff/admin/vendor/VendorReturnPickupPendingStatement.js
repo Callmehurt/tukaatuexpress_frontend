@@ -1,28 +1,31 @@
-import React, {useEffect} from 'react';
-import {useHistory, useLocation} from "react-router-dom";
-import setAuthorizationToken from "../../../../../utils/setAuthorizationToken";
-import axios from "axios";
+import React, {useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
-import {Button} from 'react-bootstrap';
 import MUIDataTable from "mui-datatables";
-import {getVendorReturnPendingStatement,getVendorReturnApprovedStatement} from "../../../../../redux/actions/BranchOperation";
+import {fetchSelectedReturnStatementDetail, clearSelectedReturnStatementDetail} from "../../../../../redux/actions/partnerReturnStatementAction";
+import {Button, Modal, Table} from "react-bootstrap";
 
-const VendorReturnPickupPendingStatement=()=>{
-    const location=useLocation();
-     const dispatch=useDispatch();
-     const history = useHistory();
-      const branchOperation = useSelector((state) => state.branchOperation);
-      const vendorReturnPendingStatement=branchOperation.vendorReturnPendingStatement;
-     useEffect(()=>{
-         let staff_admin = JSON.parse(localStorage.getItem('staff_admin'));
-         console.log(staff_admin);
-         if(staff_admin?.token){
-          setAuthorizationToken(staff_admin.token);
-         }else{
-            history.push('/admin/login');
-         }
-         VendorPickupReturnStatements();
-     },[]);
+const VendorReturnPickupPendingStatement = (props) => {
+
+    const statements = props.statements;
+
+    const dispatch = useDispatch();
+    const returnStatementDetail = useSelector((state) => state.partnerReturnDetails.selectedReturnStatement);
+
+    const [openModal, setOpenModal] = useState(false);
+
+    const onClickModal = () =>{
+        setOpenModal(true);
+    }
+    const onCloseModal = ()=>{
+        setOpenModal(false);
+        dispatch(clearSelectedReturnStatementDetail())
+    }
+
+    const viewStatement = (statement_id) => {
+        onClickModal();
+        dispatch(fetchSelectedReturnStatementDetail(statement_id))
+    }
+
        const columns = [
         {
          name: "statement_num",
@@ -34,10 +37,17 @@ const VendorReturnPickupPendingStatement=()=>{
         },
        {
          name: "returns",
-         label: "Returns",
-         options: {
+         label: "Returned Packet Count",
+          options: {
           filter: true,
           sort: true,
+             customBodyRender: (value, tableMeta, updateValue) => (
+              <>
+                  {
+                      value.split(',').length
+                  }
+              </>
+          )
          }
       }, {
          name: "approve_status",
@@ -47,16 +57,7 @@ const VendorReturnPickupPendingStatement=()=>{
           sort: true,
              customBodyRender: (value, tableMeta, updateValue) => (
               <>
-                  {/*{console.log(tableMeta.rowData[8])}*/}
-                  {value==0?
-                      <>
-                          <Button variant="warning">UnApproved</Button>
-                      </>:
-                      <>
-                           <Button variant="success">Approved</Button>
-                      </>
-                  }
-
+                  <button className="btn btn-sm btn-warning">Pending</button>
               </>
           )
          }
@@ -68,15 +69,11 @@ const VendorReturnPickupPendingStatement=()=>{
           sort: true,
              customBodyRender: (value, tableMeta, updateValue) => (
               <>
-                  {/*{console.log(tableMeta.rowData[8])}*/}
                   {value==null?
                       <>
-                          {/*<Button variant="warning">UnApproved</Button>*/}
-                          Calculating..
                       </>:
                       <>
                           {value}
-                           {/*<Button variant="success">Approved</Button>*/}
                       </>
                   }
 
@@ -91,11 +88,12 @@ const VendorReturnPickupPendingStatement=()=>{
           sort: true,
               customBodyRender: (value, tableMeta, updateValue) => (
                   <>
+                      <button className='btn btn-sm btn-primary' style={{marginRight: '10px'}} onClick={() => viewStatement(value)}>View</button>
+                      <button className='btn btn-sm btn-primary'>Download</button>
                   </>
               )
          }
       },
-
 
 
        ];
@@ -107,26 +105,82 @@ const VendorReturnPickupPendingStatement=()=>{
         rowsPerPageOptions: [10,20,50,100,500],
         selectableRows:false,
      }
-     const VendorPickupReturnStatements=()=>{
-            let partner_id=location.state?.partnerID;
-           axios.get(`/admin/partner/return/statement/list/${partner_id}`)
-            .then((res) => {
-                console.log(res);
-                dispatch(getVendorReturnPendingStatement(res.data.pending));
-                dispatch(getVendorReturnApprovedStatement(res.data.approved));
-            })
-            .catch((err) => {
-                console.log(err.response.data);
-            })
-     }
+
     return(
         <>
             <MUIDataTable
-            // title={"Payment Recieved Deliveries"}
-            data={vendorReturnPendingStatement}
+            data={statements}
             columns={columns}
             options={options}
            />
+
+            <Modal show={openModal} onHide={onCloseModal} size={'xl'} centered>
+                <Modal.Header >
+                  <Modal.Title>Statement: {
+                      Object.keys(returnStatementDetail).length === 0 ? (
+                          <>.......</>
+                      ): (
+                          <>
+                              {returnStatementDetail.statement.statement_num}
+                          </>
+                      )
+                  }
+                  </Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                   <Table striped bordered hover size="sm">
+                      <thead>
+                        <tr>
+                          <th>#</th>
+                          <th>Tex Code</th>
+                          <th>Customer Details</th>
+                          <th>Destination</th>
+                          <th>Returned Date</th>
+                          <th>Return Charge</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                      {Object.keys(returnStatementDetail).length === 0 ? (
+                              <tr>
+                                  <td colSpan={6} className='text-center'>Loading...</td>
+                              </tr>
+                          ): (
+                              <>
+                                  {returnStatementDetail.returns.map((data, index) => {
+                                     return (
+                                         <tr key={data.tex_code}>
+                                          <td>{index+1}</td>
+                                          <td>{data.tex_code}</td>
+                                          <td>{data.customer_name} - {data.customer_phone}</td>
+                                          <td>{data.customer_address}</td>
+                                          <td>{data.delivery_id === null ? data.updated_at : data.prompt_date}</td>
+                                          <td>Rs. {data.return_charge}</td>
+                                        </tr>
+                                     )
+                                  })}
+
+                            <tr>
+                                <td></td>
+                              <td colSpan={4}><strong>Total</strong></td>
+                              <td>
+                                  <strong>Rs. {
+                                      returnStatementDetail.returns.reduce((total, obj) => parseInt(obj.return_charge) + total, 0)
+                                  }
+                                  </strong>
+                              </td>
+                            </tr>
+                              </>
+                          )}
+                      </tbody>
+                    </Table>
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary"  style={{backgroundColor:'red',border:'1px solid red',borderRadius:'5px',width:'100%'}} onClick={onCloseModal}>
+                             Close
+                    </Button>
+                </Modal.Footer>
+            </Modal>
+
         </>
     )
 }

@@ -1,17 +1,12 @@
 import React from "react";
 import DeliveryItemCard from "./DeliveryItemCard";
+import Tabs from "react-bootstrap/Tabs";
 
 const PaymentReceivedDeliveries = (props) => {
     const deliveries = props.deliveries;
     return (
         <>
-            {
-                Object.keys(deliveries).length === 0 ? (
-                    <>No Recors</>
-                ): (
-                    <DeliveryItemCard deliveries={deliveries} />
-                )
-            }
+            <DeliveryItemCard deliveries={deliveries} />
         </>
     )
 }

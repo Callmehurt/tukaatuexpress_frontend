@@ -76,20 +76,6 @@ const marketingAdmin= JSON.parse(localStorage.getItem('marketingAdmin'));
 if(marketingAdmin){
     store.dispatch(marketingAuthenticate(marketingAdmin.user));
 }
-const config = {
-  // required config props
-  appId: "1279054",
-  clientKey: "c083779ed67708696f1e",
-  cluster: "ap2",
-  secret: "f6c53e55456beb3ba7e9",
-     disableStats: true,
-     forceTLS: false,
-  // required for private/presence channels
-  // also sends auth headers to trigger endpoint
-};
-  // const channel = useChannel("tukaatuexpress");
-  //    useEvent(channel, "notice_to_partner", ({ data }) => console.log(data));
-
 
 ReactDOM.render(
   // <React.StrictMode>
@@ -105,7 +91,5 @@ ReactDOM.render(
   // </React.StrictMode>,
   document.getElementById('root')
 );
-// const channel = useChannel("tukaatuexpress");
-// useEvent(channel, "notice_to_partner", ({ data }) => console.log(data+'pusher'));
 
 reportWebVitals();

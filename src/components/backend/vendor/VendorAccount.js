@@ -38,7 +38,7 @@ const VendorAccount=()=>{
 
     // const [paymentReceivedDeliveries, setPaymentReceivedDeliveries] = useState([]);
     const dispatch = useDispatch();
-    const[receivableAmount,setReceivableAmount]=useState('');
+    const[receivableAmount,setReceivableAmount]=useState('0');
        const history = useHistory();
      const vendor = useSelector((state) => state.vendor);
      const pendingOrdersList=vendor.pendingOrdersList;
@@ -46,7 +46,7 @@ const VendorAccount=()=>{
      const paymentReceivedDeliveries= vendor.paymentReceivedDeliveries;
       const statementAndInvoice=vendor.statementAndInvoice;
      const[activeSearchButton,setActiveSearchButton]=useState(false);
-     const[searchListDisplay,setSearchListDisplay]=useState(0);
+     const[searchListDisplay,setSearchListDisplay]=useState(3);
      const[paymentRequestShow,setPaymentRequestShow]=useState(false);
 
 
@@ -294,109 +294,109 @@ const getPickupDetail=(id)=>{
             <div className="px-2">
                 {/*<h6>vendor Account</h6>*/}
                     <Tabs
-                    defaultActiveKey="pendingOrders"
+                    defaultActiveKey="deliveredDeliveries"
                     transition={false}
                     className="mb-0 mt-3"
                       >
-                        <Tab eventKey="pendingOrders" title={<><div onClick={()=>{getActiveSearch(0)}}>Pending <span>
-                             {
-                                pendingOrdersList.length?
-                                    <>
-                                        {pendingOrdersList.length}
-                                    </>:
-                                    <>
-                                        0
-                                    </>
-                            }
-                        </span></div></>} >
-                        <div style={{minHeight:'100vh'}}>
-                            {searchListDisplay===0 && query && activeSearchButton ?
-                                <>
-                                    {characterResults.length?
-                                       <>
-                                           <div>
-                                      {characterResults.map((character) => {
-                                          const {packet_name, type, customer_phone, cod,tex_code,customer_name} = character;
-                                          return (
-                                              <>
-                                                  <Card onClick={(e)=>{e.preventDefault();getPickupDetail(character.id)}}>
-                                                          <Card.Body className="p-0">
-                                                              <Row>
-                                                                  <Col xs={3} className="pl-0 pr-0">
-                                                                      {/*<Image src={logoImage} roundedCircle />*/}
-                                                                      <div style={{
-                                                                           display: 'grid',
-                                                                           placeContent: 'center',
-                                                                           alignItems: 'center',
-                                                                           height: '55px'
-                                                                       }}>
-                                                                           <Avatar size="40" name={character?.packet_name}
-                                                                                   round={true}/>
-                                                                       </div>
-                                                                  </Col>
-                                                                  <Col xs={9} style={{paddingLeft: '0px', paddingRight: '0px'}}>
-                                                                      <div className="pt-2">
-                                                                          <h6 className="mb-1">{character.tex_code}<span style={{fontSize:'15px',fontWeight:'500',paddingLeft:'5px'}}>(COD Rs.{character.cod})</span></h6>
+                      {/*  <Tab eventKey="pendingOrders" title={<><div onClick={()=>{getActiveSearch(0)}}>Pending <span>*/}
+                      {/*       {*/}
+                      {/*          pendingOrdersList.length?*/}
+                      {/*              <>*/}
+                      {/*                  {pendingOrdersList.length}*/}
+                      {/*              </>:*/}
+                      {/*              <>*/}
+                      {/*                  0*/}
+                      {/*              </>*/}
+                      {/*      }*/}
+                      {/*  </span></div></>} >*/}
+                      {/*  <div style={{minHeight:'100vh'}}>*/}
+                      {/*      {searchListDisplay===0 && query && activeSearchButton ?*/}
+                      {/*          <>*/}
+                      {/*              {characterResults.length?*/}
+                      {/*                 <>*/}
+                      {/*                     <div>*/}
+                      {/*                {characterResults.map((character) => {*/}
+                      {/*                    const {packet_name, type, customer_phone, cod,tex_code,customer_name} = character;*/}
+                      {/*                    return (*/}
+                      {/*                        <>*/}
+                      {/*                            <Card onClick={(e)=>{e.preventDefault();getPickupDetail(character.id)}}>*/}
+                      {/*                                    <Card.Body className="p-0">*/}
+                      {/*                                        <Row>*/}
+                      {/*                                            <Col xs={3} className="pl-0 pr-0">*/}
+                      {/*                                                /!*<Image src={logoImage} roundedCircle />*!/*/}
+                      {/*                                                <div style={{*/}
+                      {/*                                                     display: 'grid',*/}
+                      {/*                                                     placeContent: 'center',*/}
+                      {/*                                                     alignItems: 'center',*/}
+                      {/*                                                     height: '55px'*/}
+                      {/*                                                 }}>*/}
+                      {/*                                                     <Avatar size="40" name={character?.packet_name}*/}
+                      {/*                                                             round={true}/>*/}
+                      {/*                                                 </div>*/}
+                      {/*                                            </Col>*/}
+                      {/*                                            <Col xs={9} style={{paddingLeft: '0px', paddingRight: '0px'}}>*/}
+                      {/*                                                <div className="pt-2">*/}
+                      {/*                                                    <h6 className="mb-1">{character.tex_code}<span style={{fontSize:'15px',fontWeight:'500',paddingLeft:'5px'}}>(COD Rs.{character.cod})</span></h6>*/}
 
-                                                                      </div>
-                                                                      <div>
-                                                                          <Row>
-                                                                             <Col xs={6}>
-                                                                                 {
-                                                                                     character.customer_name?
-                                                                                         <>
-                                                                                             <span style={{fontSize:'15px'}}>{ character.customer_name.length>13 ? <><span>{character.customer_name.substring(0,13)}...</span></>: <><span>{character.customer_name}</span></> }</span>
-                                                                                         </>:
-                                                                                         <>
+                      {/*                                                </div>*/}
+                      {/*                                                <div>*/}
+                      {/*                                                    <Row>*/}
+                      {/*                                                       <Col xs={6}>*/}
+                      {/*                                                           {*/}
+                      {/*                                                               character.customer_name?*/}
+                      {/*                                                                   <>*/}
+                      {/*                                                                       <span style={{fontSize:'15px'}}>{ character.customer_name.length>13 ? <><span>{character.customer_name.substring(0,13)}...</span></>: <><span>{character.customer_name}</span></> }</span>*/}
+                      {/*                                                                   </>:*/}
+                      {/*                                                                   <>*/}
 
-                                                                                         </>
-                                                                                 }
-                                                                             </Col>
-                                                                             <Col xs={6}>
-                                                                              <span style={{fontSize:'14px'}}>Status: {character.status}</span>
-                                                                          </Col>
-                                                                          </Row>
+                      {/*                                                                   </>*/}
+                      {/*                                                           }*/}
+                      {/*                                                       </Col>*/}
+                      {/*                                                       <Col xs={6}>*/}
+                      {/*                                                        <span style={{fontSize:'14px'}}>Status: {character.status}</span>*/}
+                      {/*                                                    </Col>*/}
+                      {/*                                                    </Row>*/}
 
-                                                                      </div>
-                                                                      {/*<div>*/}
-                                                                      {/*    <p style={{fontSize: '15px'}}>{chatList.message}</p>*/}
+                      {/*                                                </div>*/}
+                      {/*                                                /!*<div>*!/*/}
+                      {/*                                                /!*    <p style={{fontSize: '15px'}}>{chatList.message}</p>*!/*/}
 
-                                                                      {/*</div>*/}
-                                                                      {/*<div>*/}
-                                                                      {/*     <p style={{fontSize:'12px'}}>{chatList.status}</p>*/}
+                      {/*                                                /!*</div>*!/*/}
+                      {/*                                                /!*<div>*!/*/}
+                      {/*                                                /!*     <p style={{fontSize:'12px'}}>{chatList.status}</p>*!/*/}
 
-                                                                      {/*</div>*/}
-                                                                      {/*<Image src="holder.js/171x180" roundedCircle />*/}
-                                                                  </Col>
-                                                              </Row>
-                                                          </Card.Body>
-                                                      </Card>
-                                              </>
-                                          )
-                                      })
-                                      }
-                                   </div>
+                      {/*                                                /!*</div>*!/*/}
+                      {/*                                                /!*<Image src="holder.js/171x180" roundedCircle />*!/*/}
+                      {/*                                            </Col>*/}
+                      {/*                                        </Row>*/}
+                      {/*                                    </Card.Body>*/}
+                      {/*                                </Card>*/}
+                      {/*                        </>*/}
+                      {/*                    )*/}
+                      {/*                })*/}
+                      {/*                }*/}
+                      {/*             </div>*/}
 
-                                       </>:
-                                       <>
-                                           <Col xs={12}>
-                                               <div style={{height:'60vh',display:'grid',placeContent:'center',fontSize:'16px',fontWeight:'500'}}>No Orders Here...</div>
-                                            </Col>
-                                       </>
-                                    }
+                      {/*                 </>:*/}
+                      {/*                 <>*/}
+                      {/*                     <Col xs={12}>*/}
+                      {/*                         <div style={{height:'60vh',display:'grid',placeContent:'center',fontSize:'16px',fontWeight:'500'}}>No Orders Here...</div>*/}
+                      {/*                      </Col>*/}
+                      {/*                 </>*/}
+                      {/*              }*/}
 
-                                </>:
-                                <>
-                                    <PendingOrders />
-                                </>
-                            }
+                      {/*          </>:*/}
+                      {/*          <>*/}
+                      {/*              <PendingOrders />*/}
+                      {/*          </>*/}
+                      {/*      }*/}
 
 
-                        </div>
-                      </Tab>
+                      {/*  </div>*/}
+                      {/*</Tab>*/}
 
-                        <Tab eventKey="receivedPayment" title={<><div onClick={() => getActiveSearch(3)}>
-                            Received
+                        <Tab eventKey="deliveredDeliveries" title={<><div onClick={() => getActiveSearch(3)}>
+                            Delivered
                             <span>
                                 {
                                     Object.keys(paymentReceivedDeliveries).length

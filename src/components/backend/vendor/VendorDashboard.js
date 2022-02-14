@@ -74,7 +74,8 @@ const VendorDashboard=()=>{
      const [totalDeliveryCharge,setTotalDeliveryCharge]=useState(0);
      const [allPaymentCount,setAllPaymentCount]=useState(0);
      const [returnAndExchangeTotal,setReturnAndExchangeTotal]=useState(0);
-     const [returnAndExchangeCount,setReturnAndExchangeCount]=useState(0);
+     const [returnAndExchangeCount,setReturnAndExchangeCount]=useState('0');
+     const [returnCount , setReturnCount] = useState('0');
 
 
      const partner = useSelector((state) => state.vendorAuth.user);
@@ -107,7 +108,6 @@ const VendorDashboard=()=>{
         let vendorDetail = JSON.parse(localStorage.getItem('vendorDetail'));
         // console.log(vendorDetail);
         // console.log('staff_admin');
-        console.log('hello use');
         if (vendorDetail) {
             setAuthorizationToken(vendorDetail.token);
         }
@@ -165,16 +165,15 @@ const VendorDashboard=()=>{
             })
     }
     const getNoticeList=()=>{
-        axios.get('/partner/notice/list')
-                    .then((res)=>{
-                        console.log(res);
-                        console.log(res.data);
-                        console.log("notice list");
-                        dispatch(getAllNotice(res.data?.data));
-                    })
-            .catch((err)=>{
-               console.log(err.response.data);
-            })
+        // axios.get('/partner/notice/list')
+        //             .then((res)=>{
+        //                 console.log(res);
+        //                 console.log(res.data);
+        //                 dispatch(getAllNotice(res.data?.data));
+        //             })
+        //     .catch((err)=>{
+        //        console.log(err.response.data);
+        //     })
     }
     const holdsOrderListFunc=()=>{
             axios.get('/partner/get/hold/pickups')
@@ -214,8 +213,7 @@ const VendorDashboard=()=>{
         const getReturnAndExchangeList=()=>{
             axios.get('/partner/get/cancelled/pickups')
                     .then((res)=>{
-                        console.log(res);
-                        console.log(res.data);
+                        console.log('Returns & exchanges',res.data);
                         dispatch(getAllReturnsDeliveries(res.data));
                     })
             .catch((err)=>{
@@ -253,8 +251,8 @@ const VendorDashboard=()=>{
     const counterDetail=()=>{
          axios.get('/partner/counter/details')
             .then((res) => {
-                console.log(res);
-                 console.log(res.data);
+                console.log('counter data', res);
+                 console.log(res.data.return_count);
                 setAllCustomerCount(res.data?.customer_count);
                 setAllDeliveredCodTotal(res.data?.all_delivered);
                 setAllDeliveredCount(res.data?.all_delivered_count);
@@ -267,7 +265,8 @@ const VendorDashboard=()=>{
                 setOnProcessOrderCount(res.data?.onprocess_count);
                 setAllPaymentCount(res.data?.payment_count);
                 setReturnAndExchangeTotal(res.data?.returns_cod);
-                setReturnAndExchangeCount(res.data?.returns_count);
+                setReturnAndExchangeCount(res.data?.return_count);
+                setReturnCount(res.data?.return_count);
 
             })
             .catch((err) => {
@@ -311,9 +310,6 @@ const VendorDashboard=()=>{
     return (
       <>
           <Row >
-              {/*<Col xs={12}>*/}
-              {/*    <MobileSlider />*/}
-              {/*</Col>*/}
               <Col xs={12}  >
                      {/*<Carousel showArrows={true} onChange={onChange} onClickItem={onClickItem} onClickThumb={onClickThumb}>*/}
                       <div style={{marginTop:'-7px',padding:'5px 5px',height:'200px',overflow:'hidden',borderRadius:'20px'}}>
@@ -342,7 +338,7 @@ const VendorDashboard=()=>{
                                            {allBanner.map((data)=>(
                                                <div><img
                                                   className="d-block w-100"
-                                                  src={urlDomain+data.banner}
+                                                  src={data.banner_url}
                                                   alt="First slide"/>
                                                 </div>
                                            ))}
@@ -610,15 +606,17 @@ const VendorDashboard=()=>{
                               <Card.Body>
                                   <div style={{display:'grid',placeContent:'center'}}>
                                   <h4 style={{fontSize:'17px',textAlign:'center'}}>Returns & Exchange</h4>
-                                      {(returnsOrdersList.length+returnsConfirmsOrdersList.length)?
-                                          <>
-                                               <h6 style={{display:'grid',placeContent:'center',fontSize:'14px'}}>({returnAndExchangeCount})</h6>
-                                              <h6 style={{display:'grid',placeContent:'center',fontSize:'14px'}}>Rs. {returnAndExchangeTotal}</h6>
-                                          </>:
-                                          <>
-                                               <h6 style={{display:'grid',placeContent:'center',fontSize:'14px'}}>(0)</h6>
-                                              <h6 style={{display:'grid',placeContent:'center',fontSize:'14px'}}>Rs. {0}</h6>
-                                          </>}
+                                      <h6 style={{display:'grid',placeContent:'center',fontSize:'14px'}}>({returnCount})</h6>
+                                      <h6 style={{display:'grid',placeContent:'center',fontSize:'14px'}}>Rs. {returnAndExchangeTotal}</h6>
+                                      {/*{(returnsOrdersList.length+returnsConfirmsOrdersList.length) > 0?*/}
+                                      {/*    <>*/}
+                                      {/*         <h6 style={{display:'grid',placeContent:'center',fontSize:'14px'}}>({returnCount})</h6>*/}
+                                      {/*        <h6 style={{display:'grid',placeContent:'center',fontSize:'14px'}}>Rs. {returnAndExchangeTotal}</h6>*/}
+                                      {/*    </>:*/}
+                                      {/*    <>*/}
+                                      {/*         <h6 style={{display:'grid',placeContent:'center',fontSize:'14px'}}>(0)</h6>*/}
+                                      {/*        <h6 style={{display:'grid',placeContent:'center',fontSize:'14px'}}>Rs. {0}</h6>*/}
+                                      {/*    </>}*/}
 
                                   </div>
                               </Card.Body>
@@ -668,7 +666,7 @@ const VendorDashboard=()=>{
                       <Card style={{borderRadius:'15px'}}>
                           <Card.Body>
                               <div style={{display:'grid',placeContent:'center'}}>
-                                  <h4 style={{fontSize:'17px',}}>All Delivery Charge</h4>
+                                  <h4 style={{fontSize:'17px',}}>Payable Delivery Charge</h4>
                                   {totalDeliveryCharge?
                                       <>
                                            <h6 style={{display:'grid',placeContent:'center',fontSize:'14px'}}>Rs. {totalDeliveryCharge}</h6>
@@ -726,7 +724,7 @@ const VendorDashboard=()=>{
                                                            {allBanner.map((data)=>(
                                                                <div><img
                                                                   className="d-block w-100"
-                                                                  src={urlDomain+data.banner}
+                                                                  src={data.banner_url}
                                                                   alt="First slide"/>
                                                                 </div>
                                                            ))}
@@ -917,15 +915,17 @@ const VendorDashboard=()=>{
                                           <Card.Body>
                                               <div style={{display:'grid',placeContent:'center'}}>
                                               <h4 style={{fontSize:'17px',textAlign:'center'}}>Returns & Exchange</h4>
-                                                  {(returnsOrdersList.length+returnsConfirmsOrdersList.length)?
-                                                      <>
-                                                           <h6 style={{display:'grid',placeContent:'center',fontSize:'14px'}}>({returnAndExchangeCount})</h6>
-                                                          <h6 style={{display:'grid',placeContent:'center',fontSize:'14px'}}>Rs. {returnAndExchangeTotal}</h6>
-                                                      </>:
-                                                      <>
-                                                           <h6 style={{display:'grid',placeContent:'center',fontSize:'14px'}}>(0)</h6>
-                                                          <h6 style={{display:'grid',placeContent:'center',fontSize:'14px'}}>Rs. {0}</h6>
-                                                      </>}
+                                                  <h6 style={{display:'grid',placeContent:'center',fontSize:'14px'}}>({returnCount})</h6>
+                                                  <h6 style={{display:'grid',placeContent:'center',fontSize:'14px'}}>Rs. {returnAndExchangeTotal}</h6>
+                                                  {/*{(returnsOrdersList.length+returnsConfirmsOrdersList.length) > 0?*/}
+                                                  {/*    <>*/}
+                                                  {/*         <h6 style={{display:'grid',placeContent:'center',fontSize:'14px'}}>({returnCount})</h6>*/}
+                                                  {/*        <h6 style={{display:'grid',placeContent:'center',fontSize:'14px'}}>Rs. {returnAndExchangeTotal}</h6>*/}
+                                                  {/*    </>:*/}
+                                                  {/*    <>*/}
+                                                  {/*         <h6 style={{display:'grid',placeContent:'center',fontSize:'14px'}}>(0)</h6>*/}
+                                                  {/*        <h6 style={{display:'grid',placeContent:'center',fontSize:'14px'}}>Rs. {0}</h6>*/}
+                                                  {/*    </>}*/}
 
                                               </div>
                                           </Card.Body>
@@ -975,7 +975,7 @@ const VendorDashboard=()=>{
                                   <Card style={{borderRadius:'15px'}}>
                                       <Card.Body>
                                           <div style={{display:'grid',placeContent:'center'}}>
-                                              <h4 style={{fontSize:'17px',}}>All Delivery Charge</h4>
+                                              <h4 style={{fontSize:'17px',}}>Payable Delivery Charge</h4>
                                               {totalDeliveryCharge?
                                                   <>
                                                        <h6 style={{display:'grid',placeContent:'center',fontSize:'14px'}}>Rs. {totalDeliveryCharge}</h6>
@@ -1004,11 +1004,6 @@ const VendorDashboard=()=>{
                                   </div>
                           </Col>
                   </Row>
-              {/*</Col>*/}
-              {/* /!*<Col md={3} style={{width:'30%'}}>*!/*/}
-              {/* /!*</Col>*!/*/}
-              {/*</Row>*/}
-
           </>
     );
 

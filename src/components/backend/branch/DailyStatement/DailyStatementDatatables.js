@@ -79,20 +79,21 @@ const DailyStatementDatatables = () =>{
                     dispatch(DailyStatementExpensesList(res.data.expenses));
                     dispatch(DailyStatementTotalExpenses(res.data.total_expenses));
                     dispatch(DailyStatementPettyCash(res.data.petty_cash));
-                    dispatch(DailyStatementTotalPettyCash(res.data.current_petty_cash?.total_petty_cash,0));
-                    if(res.data.current_petty_cash?.on_statement==="0"){
+                    dispatch(DailyStatementTotalPettyCash(res.data?.total_petty_cash,0));
+                    if(res.data.current_petty_cash?.on_statement=="0"){
                         // console.log('ON_Statement0');
-                        dispatch(DailyStatementTotalDeposit(res.data.total_deposit,res.data.current_petty_cash?.provided_petty_cash));
+                        console.log("hello");
+                        dispatch(DailyStatementTotalDeposit(res.data.total_deposit,res.data?.total_petty_cash));
 
                     }
-                    else if(res.data.current_petty_cash?.on_statement==="1") {
+                    else if(res.data.current_petty_cash?.on_statement=="1") {
 
                         dispatch(DailyStatementTotalDeposit(res.data.total_deposit));
 
                     }
-                    else if(res.data?.statements.length){
-                         dispatch(DailyStatementTotalDeposit(res.data.total_deposit));
-                    }
+                    // else if(res.data?.statements.length){
+                    //      dispatch(DailyStatementTotalDeposit(res.data.total_deposit));
+                    // }
 
                 })
                 .catch((err) => {
@@ -145,20 +146,18 @@ const DailyStatementDatatables = () =>{
                             dispatch(DailyStatementExpensesList(res.data.expenses));
                             dispatch(DailyStatementTotalExpenses(res.data.total_expenses));
                             dispatch(DailyStatementPettyCash(res.data.petty_cash));
-                            dispatch(DailyStatementTotalPettyCash(res.data.current_petty_cash?.total_petty_cash,0));
-                            if(res.data.current_petty_cash?.on_statement==="0"){
-                                // console.log('ON_Statement0');
-                                dispatch(DailyStatementTotalDeposit(res.data.total_deposit,res.data.current_petty_cash?.provided_petty_cash));
+                            dispatch(DailyStatementTotalPettyCash(res.data?.total_petty_cash,0));
+                    if(res.data.current_petty_cash?.on_statement=="0"){
+                        // console.log('ON_Statement0');
+                        console.log("hello");
+                        dispatch(DailyStatementTotalDeposit(res.data.total_deposit,res.data?.total_petty_cash));
 
-                            }
-                            else if(res.data.current_petty_cash?.on_statement==="1") {
+                    }
+                    else if(res.data.current_petty_cash?.on_statement=="1") {
 
-                                dispatch(DailyStatementTotalDeposit(res.data.total_deposit));
+                        dispatch(DailyStatementTotalDeposit(res.data.total_deposit));
 
-                            }
-                            else if(res.data?.statements.length){
-                              dispatch(DailyStatementTotalDeposit(res.data.total_deposit));
-                             }
+                    }
 
                         })
                         .catch((err) => {
@@ -188,7 +187,7 @@ const DailyStatementDatatables = () =>{
             }
             <AddExpensesModal show={expensesShow}  toggle={onHide} />
             <Row className="mb-2">
-                  <Col lg={2}><div style={{fontWeight:'600',fontSize:'14px'}}>Remaining Petty Cash : {dailyTotalPettyCash?<>{dailyTotalPettyCash}</>:<>0</>}</div></Col>
+                  <Col lg={2}><div style={{fontWeight:'600',fontSize:'14px'}}>Remaining Petty Cash : {currentPettyCash?.total_petty_cash?<>{currentPettyCash?.total_petty_cash}</>:<>0</>}</div></Col>
                 {/*<Col lg={2}><div style={{fontWeight:'600',fontSize:'14px'}}>Previous Petty Cash : {dailyPettyCash?.prev_petty_cash}</div></Col>*/}
                 {currentPettyCash?.approve_status===0?
                     <>
@@ -320,7 +319,7 @@ const DailyStatementDatatables = () =>{
                               0
                           </>:
                           <>
-                              {currentPettyCash?.provided_petty_cash}
+                              {dailyTotalPettyCash}
                           </>
                       }
 

@@ -1,7 +1,7 @@
 import React from "react";
 import {Col, Container, Row} from "react-bootstrap";
 
-const Shipping = () => {
+const CoverageAreas = () => {
         const service_style={
         dipslay:'flex',
         width:'100%',
@@ -22,4 +22,4 @@ const Shipping = () => {
     )
 }
 
-export default Shipping;
+export default CoverageAreas;

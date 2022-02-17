@@ -15,7 +15,6 @@ const FrontendComponent = ({ component: Component, ...rest }) => {
                         <Container>
                             <Row>
                                 <Col lg={12}>
-                                    {/*<Navbar/>*/}
                                     <Footer/>
                                 </Col>
                             </Row>

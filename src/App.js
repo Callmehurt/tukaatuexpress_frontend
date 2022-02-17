@@ -104,6 +104,8 @@ import AllCustomerList from "./components/backend/vendor/AllCustomerList";
 import PasswordChangeVendor from "./components/backend/vendor/PasswordChangeVendor";
 
 
+import Navbar from "./components/frontend/nav/Navbar";
+
 //staffadmin
 import StaffLoginPage from "./components/backend/staff/login";
 import AdminStaffDashboard from "./components/backend/staff/admin/Admindashboard";
@@ -159,6 +161,13 @@ import MarketingEvent from "./components/backend/marketing/MarketingEvent";
 
 //Profile
 import Profile from './components/frontend/profile/Profile';
+
+//frontend pages
+import TermsOfUse from "./components/frontend/pages/terms-of-use";
+import bgImage from "./assets/backgroundPartner.svg";
+import PrivacyPolicy from "./components/frontend/pages/PrivacyPolicy";
+import CoverageAreas from "./components/frontend/pages/CoverageAreas";
+
 
 function App() {
 
@@ -316,7 +325,12 @@ function App() {
                            {/* Profile page */}
                            <Route path="/verified/employee/:card_num" component={Profile} />
 
+                          <FrontendComponent path='/terms-conditions' exact component={TermsOfUse}/>
+                          <FrontendComponent path='/privacy-policy' exact component={PrivacyPolicy}/>
+                          <FrontendComponent path='/coverage-areas' exact component={CoverageAreas}/>
+
                       </Switch>
+                      {/*<Navbar/>*/}
                   </div>
               </Router>
       </>

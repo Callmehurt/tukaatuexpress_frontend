@@ -5,13 +5,12 @@ import {ImStopwatch} from 'react-icons/im';
 import moment from 'moment';
 import Map from "./map";
 import axios from "axios";
-import {useHistory} from 'react-router-dom';
+import {useHistory, Link} from 'react-router-dom';
 import {vendorAuthenticate} from "../../../redux/actions/vendorAuthenticate";
 import {useDispatch} from "react-redux";
 import showNotification from "../../backend/includes/notification";
 import {AiFillNotification} from 'react-icons/ai';
-import zIndex from "@material-ui/core/styles/zIndex";
-import {allMessageList} from "../../../redux/actions/vendor";
+
 const PageHome = () => {
      const dispatch = useDispatch();
     const history = useHistory();
@@ -37,8 +36,6 @@ const PageHome = () => {
             history.push('/');
         }
         getNoticeList();
-        console.log(noticeList);
-        console.log(noticeDetail);
     },[]);
     const getNoticeDetail=async(id)=>{
 
@@ -92,25 +89,16 @@ const PageHome = () => {
 
             })
             .catch((err) => {
-                console.log(err.response);
                 if(err.response.status==422){
                     if(err.response.data.message.isArray){
                         let messages=err.response.data.message;
-                        console.log(messages);
                         let allMessages=messages.toString();
-                         // messages.map((items,index)=>{
-                         //     console.log(items);
-                         //        // showNotification('danger', items[index]);
-                         //     })
                          showNotification('danger', allMessages);
                     }else{
                          showNotification('danger', err.response.data.message);
                     }
 
                 }
-                console.log('in valid');
-
-                console.log(err.response);
             });
     }
     const checkTerms=(event)=>{
@@ -121,11 +109,10 @@ const PageHome = () => {
        else{
           setEnableButton(false);
        }
-        console.log("clicked");
     }
     return (
           <>
-              <Container>
+                  <Container>
                   <Row>
                       <Col lg={12} className=" d-flex justify-content-md-end pt-3" style={{color:'white'}}><Button variant="outline-primary" style={{zIndex:'9'}} onClick={handleShow} ><AiFillNotification style={{transform:'rotate(180deg)'}} size={20} /></Button><Badge pill style={{color:'red'}} bg="danger">New</Badge></Col>
                       <Col lg={6} style={{marginTop:'-25px'}}>
@@ -162,10 +149,8 @@ const PageHome = () => {
                                       </Form.Group>
                                       <div className="login_agree_section mt-2">
                                           <Form.Group className="mb-3 mt-3" controlId="formBasicCheckbox">
-                                            <Form.Check type="checkbox"  onChange={(event)=>checkTerms(event)} label={<div style={{fontSize:'13px'}}>I agree to the Terms and Privacy Policy</div>} />
+                                            <Form.Check type="checkbox" onChange={(event)=>checkTerms(event)} label={<div style={{fontSize:'14px'}}>I agree to the {<Link to='/terms-conditions' >Terms of Use</Link>} and {<Link to='/privacy-policy' >Privacy Policy</Link>}</div>} />
                                           </Form.Group>
-                                          {/*<input type="checkbox" />*/}
-                                          {/*<span>I agree to the Terms and Privacy Policy</span>*/}
                                       </div>
                                       <Form.Group className="mt-2">
                                           {enableButton?
@@ -282,7 +267,6 @@ const PageHome = () => {
               <div className="map_section" data-aos="fade-up" data-aos-anchor-placement="center-bottom">
                   <Map/>
               </div>
-
               </>
     )
 }

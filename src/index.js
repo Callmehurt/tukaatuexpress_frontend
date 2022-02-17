@@ -23,10 +23,10 @@ import {PusherProvider, useChannel, useEvent} from "@harelpls/use-pusher";
 
 // axios.defaults.baseURL = 'http://207.180.250.139/backend/public/api';
 // axios.defaults.baseURL = 'https://texos.tukaatu.com/api';
-axios.defaults.baseURL = 'https://tukaatuexpress.com/backend/public/api';
+// axios.defaults.baseURL = 'https://tukaatuexpress.com/backend/public/api';
 
 
-// axios.defaults.baseURL = 'http://127.0.0.1:8000/api';
+axios.defaults.baseURL = 'http://127.0.0.1:8000/api';
 
 
 // axios.defaults.baseURL = 'https://test.rastriyasecondaryschool.edu.np/api';
@@ -67,7 +67,6 @@ if(vendorDetail){
    store.dispatch(vendorAuthenticate(vendorDetail.user));
 }
 const entryOperator= JSON.parse(localStorage.getItem('Entry_Operator'));
-console.log(entryOperator+'entry operator index');
 if(entryOperator){
    store.dispatch(entryOperatorAuthenticate(entryOperator.user));
 }
@@ -77,6 +76,14 @@ if(marketingAdmin){
     store.dispatch(marketingAuthenticate(marketingAdmin.user));
 }
 
+// if (window.location.host.startsWith("www")){
+//     // console.log('complete url', url.replace(/^(?:https?:\/\/)?(?:www\.)?/i, "").split('.')[0])
+//     // const url = window.location.protocol + "//" +'' + window.location.host + window.location.pathname
+//     const url = window.location.href
+//     console.log('complete url2', window.location.protocol + "//" +'' + window.location.host + window.location.pathname)
+//     console.log('complete url3', url.replace(/^(?:https?:\/\/)?(?:www\.)?/i, "").split('.')[0])
+//     window.location = window.location.protocol + "//" +  url.replace(/^(?:https?:\/\/)?(?:www\.)?/i, "").split('.')[0];
+// }
 ReactDOM.render(
   // <React.StrictMode>
       <Provider store={store}>

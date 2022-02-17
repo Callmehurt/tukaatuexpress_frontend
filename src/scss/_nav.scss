@@ -1,5 +1,6 @@
 .navbar_area{
   height: auto;
+  margin-top: 20px;
 
   ul{
     padding: 0;
@@ -9,10 +10,11 @@
     li{
       display: inline-block;
       list-style: none;
-      padding: 15px;
+      padding-left: 25px;
+      padding-right: 25px;
 
       a{
-        color: white;
+        color: #212F3D;
         text-decoration: none;
         font-size: 18px;
         text-transform: capitalize;
@@ -20,7 +22,7 @@
       }
 
       a.active{
-        color: #FFD125;
+        color: #ffd125;
       }
     }
   }

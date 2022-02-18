@@ -45,6 +45,9 @@ import Shipping from "./components/frontend/pages/shipping";
 import Services from "./components/frontend/pages/services";
 import ReactNotification from 'react-notifications-component';
 
+//Delivery persons map
+import DeliveryPersonMap from "./components/frontend/DeliveryPersonMap";
+
 //Staffs
 import DeliveryLoginPage from "./components/backend/staff/Deliverylogin";
 import IsDeliveryStaff from "./components/privateComponent/deliveryStaffPrivateRoute";
@@ -177,6 +180,9 @@ function App() {
                   <div className="App">
                       <ReactNotification/>
                       <Switch>
+
+                          <Route exact path="/map/delivery-staffs" component={DeliveryPersonMap} />
+
                           {/*<Route path="/main_admin/login" component={AdminLogin} />*/}
                            <Route exact path="/main_admin" component={AdminLogin} />
                            <Route exact path="/main_admin/login" component={AdminLogin} />

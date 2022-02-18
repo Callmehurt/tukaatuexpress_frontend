@@ -57,33 +57,25 @@ const AddExpensesModal=(props)=>{
      // price cod validation
      if ( !expense_amount || expense_amount === ''  ) newErrors.expense_amount = 'Amount is empty'
      // else if ( expense_amount >= 30 ) newErrors.expense_amount = 'Amount is too long!'
-
-
-
      return newErrors
     }
-    const submitForm = async(event)=>{
-          event.preventDefault();
+    const submitForm = async (e) =>{
+         e.preventDefault();
           const newErrors = FindFormErrors();
         if ( Object.keys(newErrors).length > 0 ) {
           // We got errors!
            setFormerrors(newErrors);
         } else {
-            console.log(formField);
-            if(totalPettyCash) {
-
-
+            console.log('submit')
                 await axios.post('/branch/add/expense', formField)
                     .then((res) => {
                         console.log(res);
                         getActiveExpensesList();
-                        console.log(formField);
-                        history.push('/branch/daily_statement');
+                        // history.push('/branch/daily_statement');
                     })
                     .catch((err) => {
                         console.log(err.response)
                     })
-            }
         }
     }
     const getActiveExpensesList=()=>{
@@ -114,9 +106,6 @@ const AddExpensesModal=(props)=>{
                         dispatch(DailyStatementTotalDeposit(res.data.total_deposit));
 
                     }
-
-
-
 
                     })
                     .catch((err) => {

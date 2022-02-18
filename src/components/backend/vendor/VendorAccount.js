@@ -248,17 +248,10 @@ const getPickupDetail=(id)=>{
                                           <h6 className="text-center">Receivable Balance : Rs. {receivableAmount}</h6>
                                           {/*<h6 className="text-center">Rs. {receivableAmount}</h6>*/}
                                       </div>
-                                    {pendingOrdersList.length>0?
-                                        <>
-                                            <div style={{display: 'flex', placeContent: 'center'}}>
+                                        <div style={{display: 'flex', placeContent: 'center'}}>
                                                <Button variant="primary" style={{fontSize: '14px'}}
-                                                    onClick={(event) => activatePaymentModal()}>Payment Request</Button>
-                                            </div>
-                                        </>:
-                                        <>
-                                        </>
-
-                                    }
+                                                    onClick={(event) => activatePaymentModal()}>Request a Payment</Button>
+                                        </div>
                                 </Card.Body>
                              </Card>
                         </Col>

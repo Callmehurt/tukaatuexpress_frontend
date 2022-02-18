@@ -18,14 +18,14 @@ const PaymentRequestModal=(props)=>{
 
      })
       useEffect( ()=>{
-        console.log('props assign modal');
         let vendorDetail = JSON.parse(localStorage.getItem('vendorDetail'));
         // console.log(staff_admin);
         if(vendorDetail){
           setAuthorizationToken(vendorDetail.token);
         }
 
-    },[0]);
+    },[]);
+
       const selectChange = event => {
         if(event){
             const field = {...paymentRequestData};
@@ -36,10 +36,10 @@ const PaymentRequestModal=(props)=>{
         }
     }
     const handleForm=(event)=>{
-          const field = {...paymentRequestData};
-            field.message=event.target.value;
-            setPaymentRequestData(field);
-            console.log(paymentRequestData);
+      const field = {...paymentRequestData};
+        field.message=event.target.value;
+        setPaymentRequestData(field);
+        console.log(paymentRequestData);
     }
     const paymentRequestOption=[
         {value:'e-sewa',label:'e-sewa',name:"payment_method"},
@@ -47,16 +47,10 @@ const PaymentRequestModal=(props)=>{
         {value:'Connect Ips',label:'Connect Ips',name:"payment_method"},
          {value:'Bank Account',label:'Bank Account',name:"payment_method"}
     ];
-    const onSubmit = async (event) => {
-        console.log(paymentRequestData);
-         let vendorDetail = JSON.parse(localStorage.getItem('vendorDetail'));
-        // console.log(staff_admin);
-        if(vendorDetail){
-          setAuthorizationToken(vendorDetail.token);
-        }
+    const onSubmit = async () => {
+        console.log(paymentRequestData)
         axios.post('/partner/payment/request' ,paymentRequestData)
              .then((res) => {
-                 console.log(res);
                  if(res.data.status === false){
                      showNotification('danger', res.data.message);
                  }else{
@@ -141,8 +135,6 @@ const PaymentRequestModal=(props)=>{
 
                  </Modal.Body>
              </Modal>
-
-
         </>
     )
 }

@@ -44,36 +44,27 @@ const AssignDeliveryModal=(props)=>{
         }else{
              history.push('/admin/login');
         }
-        console.log(props);
          getAssignPacketId(props.packetId);
-        // setAssignPickupId(props.packetId);
-        //  assignpacketfunc();
-        console.log(assignPacketId);
-        console.log('assignpacketId');
         getDeliveryPerson();
-        console.log(deliveryPersonForAssign);
 
 
     },[props.packetId]);
      const getDeliveryPerson=()=>{
         axios.get('/admin/get/delivery/staff/list')
              .then((res) => {
-                 console.log(res);
-                 console.log(res.data);
-                 console.log('get delivery Person');
                 let deliveryPerson = res.data;
                 let deliveryPersonList = [];
                 deliveryPerson.forEach((items,index)=>{
-                console.log('hello list');
-                let arrayObject = {
+                    console.log('ok list')
+                    if(items.isBan === 0){
+                        console.log(items.name)
+                     let arrayObject = {
                     value: items.id,
                     label: items.name + '(' + items.phone + ')',
 
                 };
-                console.log(arrayObject);
                 deliveryPersonList.push(arrayObject);
-                    // dispatch(assignDeliveryPerson(deliveryPersonList));
-
+                    }
                 })
 
                   dispatch(assignDeliveryPerson(deliveryPersonList));

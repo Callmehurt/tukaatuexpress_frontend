@@ -15,8 +15,6 @@ const WareHouse = () => {
 
     return(
         <>
-
-
             <Tabs
             defaultActiveKey="wareHouseListStandard"
             transition={false}

@@ -1,8 +1,11 @@
-import React, {useState} from 'react';
+import React, {useRef, useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import MUIDataTable from "mui-datatables";
 import {fetchSelectedReturnStatementDetail, clearSelectedReturnStatementDetail} from "../../../../../redux/actions/partnerReturnStatementAction";
 import {Button, Modal, Table} from "react-bootstrap";
+import {IoMdPrint} from "react-icons/io";
+import ReactToPrint from "react-to-print";
+import {PrintDetail} from "./PrintDetail";
 
 const VendorReturnPickupPendingStatement = (props) => {
 
@@ -89,7 +92,12 @@ const VendorReturnPickupPendingStatement = (props) => {
               customBodyRender: (value, tableMeta, updateValue) => (
                   <>
                       <button className='btn btn-sm btn-primary' style={{marginRight: '10px'}} onClick={() => viewStatement(value)}>View</button>
-                      <button className='btn btn-sm btn-primary'>Download</button>
+                      <ReactToPrint
+                        trigger={() =>  <button className={'btn btn-sm btn-primary'} style={{marginLeft: '10px'}}><IoMdPrint size={20} /> Print</button>}
+                        onBeforeGetContent={() => dispatch(fetchSelectedReturnStatementDetail(value))}
+                        onAfterPrint={() => dispatch(clearSelectedReturnStatementDetail())}
+                        content={() => printRef.current}
+                      />
                   </>
               )
          }
@@ -106,8 +114,13 @@ const VendorReturnPickupPendingStatement = (props) => {
         selectableRows:false,
      }
 
+         const printRef = useRef();
+
     return(
         <>
+             <div style={{display:'none',}}>
+                  <PrintDetail ref={printRef} returnStatementDetails={returnStatementDetail} />
+            </div>
             <MUIDataTable
             data={statements}
             columns={columns}

@@ -11,14 +11,10 @@ import {wareHouseListCount} from "../../../../../redux/actions/wareHouseListCoun
 import AssignDeliveryModal from "./Warehouseactions/AssignDeliveryModal";
 import WarehouseToHoldModal from "./Warehouseactions/WarehouseToHoldModal";
 import WarehouseToCancelModal from "./Warehouseactions/WarehouseToCancelModal";
-import {updatePartner} from "../../../../../redux/actions/updatePartner";
 import TransferModal from "./Warehouseactions/TransferModal";
-import HoldDeliveryModal from "./Warehouseactions/HoldMoveWarehouseModal";
 import{TransferAllBranch} from './../../../../../redux/actions/Trasnfer';
 import {assignDeliveryPerson} from './../../../../../redux/actions/wareHouseListCount'
-import showNotification from "../../../includes/notification";
-import {getProductExchangeItems} from "../../../../../redux/actions/vendor";
-import PrintButton from "./PrintButton";
+
 import {useHistory} from "react-router-dom";
 
 
@@ -68,22 +64,18 @@ const WarehouseDatatables = () => {
     const getDeliveryPerson=()=>{
         axios.get('/admin/get/delivery/staff/list')
              .then((res) => {
-                 console.log(res);
-                 console.log(res.data);
-                 console.log('get delivery Person');
                 let deliveryPerson = res.data;
                 let deliveryPersonList = [];
                 deliveryPerson.forEach((items,index)=>{
-                console.log('hello list');
-                let arrayObject = {
+                if(items.isBan === 0){
+                    console.log(items.name)
+                    let arrayObject = {
                     value: items.id,
                     label: items.name + '(' + items.phone + ')',
 
                 };
-                console.log(arrayObject);
                 deliveryPersonList.push(arrayObject);
-                    // dispatch(assignDeliveryPerson(deliveryPersonList));
-
+                }
                 })
 
                   dispatch(assignDeliveryPerson(deliveryPersonList));
@@ -107,15 +99,11 @@ const WarehouseDatatables = () => {
              });
       }
      const AssignToDelivery = async (id) =>{
-        console.log('assign delivery');
           setPacketId(id);
-          console.log(packetId);
-           console.log('assign delivery id');
           setAssignDeliveryShow(true);
 
     }
     const MoveToHold = async (id) =>{
-         console.log('Moved to hold');
           setPacketId(id);
           setWarehouseToHoldShow(true);
 

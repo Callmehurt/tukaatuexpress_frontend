@@ -1,18 +1,15 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import MUIDataTable from "mui-datatables";
 import {Button, Modal, Table} from "react-bootstrap";
-import setAuthorizationToken from "../../../../../utils/setAuthorizationToken";
-import axios from "axios";
-import {
-    getVendorReturnApprovedStatement,
-    getVendorReturnPendingStatement
-} from "../../../../../redux/actions/BranchOperation";
-import {useHistory, useLocation} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
+import ReactToPrint from "react-to-print";
 import {
     clearSelectedReturnStatementDetail,
     fetchSelectedReturnStatementDetail
 } from "../../../../../redux/actions/partnerReturnStatementAction";
+
+import {PrintDetail} from "./PrintDetail";
+import {IoMdPrint} from "react-icons/io";
 
 const VendorReturnPickupApprovedStatement = (props) => {
 
@@ -35,6 +32,8 @@ const VendorReturnPickupApprovedStatement = (props) => {
         onClickModal();
         dispatch(fetchSelectedReturnStatementDetail(statement_id))
     }
+
+    const printRef = useRef();
 
      const columns = [
         {
@@ -92,6 +91,12 @@ const VendorReturnPickupApprovedStatement = (props) => {
               customBodyRender: (value, tableMeta, updateValue) => (
                   <>
                       <button className={'btn btn-sm btn-primary'} onClick={() => viewStatement(value)}>View</button>
+                      <ReactToPrint
+                        trigger={() =>  <button className={'btn btn-sm btn-primary'} style={{marginLeft: '10px'}}><IoMdPrint size={20} /> Print</button>}
+                        onBeforeGetContent={() => dispatch(fetchSelectedReturnStatementDetail(value))}
+                        onAfterPrint={() => dispatch(clearSelectedReturnStatementDetail())}
+                        content={() => printRef.current}
+                      />
                   </>
               )
          }
@@ -110,6 +115,9 @@ const VendorReturnPickupApprovedStatement = (props) => {
      }
     return(
         <>
+            <div style={{display:'none',}}>
+                  <PrintDetail ref={printRef} returnStatementDetails={returnStatementDetail} />
+            </div>
             <MUIDataTable
             data={statements}
             columns={columns}

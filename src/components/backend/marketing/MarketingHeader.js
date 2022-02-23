@@ -33,11 +33,8 @@ const MarketingHeader=()=>{
           newField.old_password='';
           newField.confirm_password='';
           setFormField(newField);
-           // const newErrors = FindFormErrors();
-           // Object.keys(newErrors).length=0;
-
-
       }
+
        const handleShowPassword = () => setPasswordShow(true);
        const selectChange=(event)=>{
             console.log(event.target.value);
@@ -97,11 +94,12 @@ const MarketingHeader=()=>{
         }
      },[])
      const headerData=[
-
          {url:'/marketing/dashboard',name:'Dashboard'},
-         {url:'/marketing/Partner',name:'Partner'},
+         {url:'/marketing/Partner',name:'Leads'},
          {url:'/marketing/banner',name:'Partner Banner'},
          {url:'/marketing/notices',name:'Notices'},
+         {url:'/marketing/discounts',name:'Discount Schemes'},
+         {url:'/marketing/my/partners',name:'My Partners'},
     ];
      const logoutAdmin=()=>{
         console.log('logout');

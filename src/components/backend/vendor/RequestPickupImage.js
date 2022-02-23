@@ -78,34 +78,6 @@ const RequestPickupImage=()=>{
                         </div>
                       </Tab>
                       <Tab eventKey="pickup_process" title="Capture Image">
-                          {/*<div style={{minHeight:'150vh'}}>*/}
-                          {/*  <div*/}
-                          {/*    style={{*/}
-                          {/*      justifyContent: "center",*/}
-                          {/*      textAlign: "center",*/}
-                          {/*      background: "transparent",*/}
-                          {/*      padding: "20px"*/}
-                          {/*    }}*/}
-                          {/*  >*/}
-                          {/*    {showOpenBtn && (*/}
-                          {/*      <Button*/}
-                          {/*        variant="contained"*/}
-                          {/*        color="primary"*/}
-                          {/*        style={{ marginBottom: "20px" }}*/}
-                          {/*        onClick={() => setCaptureEnable(true)}*/}
-                          {/*      >*/}
-                          {/*        Open Camera*/}
-                          {/*      </Button>*/}
-                          {/*    )}*/}
-                          {/*    <Button*/}
-                          {/*      style={{ marginBottom: "20px",color:'#fff' }}*/}
-                          {/*      onClick={() => setCaptureEnable(true)}*/}
-                          {/*    >*/}
-                          {/*      Take a Picture*/}
-                          {/*    </Button>*/}
-                          {/*    {captureEnable && <WebcamCapture setShowOpenBtn={showOpenBtnFn} />}*/}
-                          {/*  </div>*/}
-                          {/*</div>*/}
                            <Row>
                                <Col xs={12}>
                                    <div style={{height:'60vh',display:'grid',placeContent:'center',fontSize:'16px',fontWeight:'500'}}>

@@ -1,6 +1,7 @@
-import React, {useEffect, useState} from 'react'
-import {Row,Col,Form,Button,Spinner,OverlayTrigger,Tooltip} from 'react-bootstrap'
+import React, {useEffect, useRef, useState} from 'react'
+import {Row, Col, Form, Button, Spinner, OverlayTrigger, Tooltip, Modal} from 'react-bootstrap'
 import Select from "react-select";
+import AsyncSelect from "react-select/async";
 import Tabs from "react-bootstrap/Tabs";
 import Tab from "react-bootstrap/Tab";
 import setAuthorizationToken from "./../../../utils/setAuthorizationToken";
@@ -15,10 +16,11 @@ import {useDispatch, useSelector} from "react-redux";
 const VendorPickupCreate=()=> {
     const history = useHistory();
      const vendor = useSelector((state) => state.vendor);
-    const allCustomerLists = vendor.allCustomerList;
-    const currentCustomerAdded=vendor.currentCustomerAdded;
-    const productExchangeItems=vendor.productExchangeItems;
-    const customerReplaceItems=vendor.customerReplaceItems;
+    const [allCustomerLists, setAllCustomerList] = useState([]);
+    const [currentCustomer, setCurrentCustomer] = useState({});
+    const currentCustomerAdded = vendor.currentCustomerAdded;
+    const productExchangeItems = vendor.productExchangeItems;
+    const customerReplaceItems = vendor.customerReplaceItems;
     const[reloadAllCustomer,setReloadAllCustomer]=useState(false);
     const[exchange,setExchange]=useState('');
      const[deliveryChargeIncluded,setDeliveryChargeIncluded]=useState(1);
@@ -26,7 +28,12 @@ const VendorPickupCreate=()=> {
      const[custChecked,setCustChecked]=useState(false);
      const [exchangeCustomerField,setExchangeCustomerField]=useState(false);
       const [replaceCustomerField,setReplaceCustomerField]=useState(false);
-     // const[customerExchange,setCustomerExchange]=useState(false);
+    const [customerDetails, setCustomerDetails] = useState({
+       name: '',
+       phone: '',
+       address: ''
+    });
+    const [defaultCustomer, setDefaultCustomer] = useState('');
 
      const dispatch = useDispatch();
      const location=useLocation();
@@ -71,9 +78,6 @@ const VendorPickupCreate=()=> {
     }
     useEffect(() => {
         let vendorDetail = JSON.parse(localStorage.getItem('vendorDetail'));
-        console.log(vendorDetail);
-        // console.log('staff_admin');
-        console.log('hello use');
         if (vendorDetail) {
             setAuthorizationToken(vendorDetail.token);
         }
@@ -83,100 +87,56 @@ const VendorPickupCreate=()=> {
         getPartnerID(vendorDetail.user?.id);
         getCustomerList();
         getCustomerReplace();
-        console.log(currentAddCustomer);
-        console.log('currentAddCustomer');
         setReloadAllCustomer(true);
-        console.log(partnerID);
-        // console.log(formerrors);
-        console.log(currDate);
-        // setInterval(() => setDate(new Date().tolocalString()), 10000);
     },[]);
-    // const getAutoCustomer=()=>{
-    //     // const newField={...formField}
-    //     // newField.customer_id=location.state?.customerData;
-    //     // setFormField(newField);
-    //     let addCustomerData=location.state?.customerData;
-    //     let customerRecentAdd={
-    //         value:addCustomerData.id,
-    //         label:addCustomerData.name+"("+addCustomerData.phone+")",
-    //     }
-    //     setCurrentAddCustomer(customerRecentAdd);
-    // }
-    const getCustomerList=()=>{
-        // setCurrentAddCustomer(allCustomerLists[0])
-        axios.get('/partner/customer/list')
-            .then((res) => {
-                console.log(res)
-                    console.log(formField);
-                    if(res.data){
-                        console.log('dispatch data');
-                        let allcustomerData =res?.data;
-                        let allCustomerDataList=[];
-                        allcustomerData.forEach((items,index)=>{
-                            console.log('hello list');
-                            let arrayObject={
-                                value:items.id,
-                                label:items.name+'('+items.phone+')',
-                            };
-                            // allCustomerDataList.value=items.id;
-                            // allCustomerDataList.label=items.name+'('+items.phone+')';
-                           allCustomerDataList.push( arrayObject);
 
-                        })
-                        console.log(allCustomerDataList);
-                        console.log('customer Data');
-                         dispatch(getAllCustomerList(allCustomerDataList));
-
-                    }
-            })
+    const getCustomerList = async () => {
+       const res = await axios.get('/partner/customer/list')
             .catch((err) => {
                 console.log(err.response)
             })
+       if(await res.data){
+             let allcustomerData =res?.data;
+            let allCustomerDataList=[];
+            allcustomerData.forEach((items,index)=>{
+                let arrayObject={
+                    value:items.id,
+                    label: items.name.concat(' - ', items.phone),
+                };
+               allCustomerDataList.push( arrayObject);
+            })
+           setAllCustomerList(allCustomerDataList)
+             // dispatch(getAllCustomerList(allCustomerDataList));
+       }
     }
     const getCustomerReplace=()=>{
          let vendorDetail = JSON.parse(localStorage.getItem('vendorDetail'));
          let partner_id = vendorDetail.user?.id;
-         console.log(partner_id);
-        console.log('partner_id');
          axios.get(`/partner/get/customer/replace/${partner_id}`)
             .then((res) => {
-                console.log(res)
-                console.log(res.data);
-                if (res.data) {
-                            let customerReplacePickups = res?.data.customer_replace;
-                            let customerReplacePickupsList = [];
-                            customerReplacePickups.forEach((items,index)=>{
-                            console.log('hello list');
-                            let arrayObject = {
-                                value: items.id,
-                                label: items.packet_name + '(' + items.cod + ')',
-                                name:'customer_replace',
-                                partner_id:items.partner_id,
-                                type: items.type,
-                                weight:items.weight,
-                                packet_name: items.packet_name,
-                                cod: items.cod,
-                                packet_replace: items.packet_replace,
-                                packet_exchange: items.packet_exchange,
-                                delivery_type:items.normal_delivery,
-                                customer_charge_payable:items.customer_charge_payable,
-                                // customer_id:items.customer_id,
-                                // customer_name:items.customer,
-                                // phone:items.customer_phone,
-                            };
-                            // let arrayObject_Customer = {
-                            //     value:items.items.customer_id,
-                            //     label:items.customer+'('+items.customer_phone+')',
-                            // };
-                            console.log(arrayObject);
-                             console.log('array data');
-                            // allCustomerDataList.value=items.id;
-                            // allCustomerDataList.label=items.name+'('+items.phone+')';
-                            customerReplacePickupsList.push(arrayObject);
-                            dispatch(getCustomerReplaceItems(customerReplacePickupsList));
 
-                            })
-                        }
+                if (res.data) {
+                    let customerReplacePickups = res?.data.customer_replace;
+                    let customerReplacePickupsList = [];
+                    customerReplacePickups.forEach((items,index)=>{
+                    let arrayObject = {
+                        value: items.id,
+                        label: items.packet_name + '(' + items.cod + ')',
+                        name:'customer_replace',
+                        partner_id:items.partner_id,
+                        type: items.type,
+                        weight:items.weight,
+                        packet_name: items.packet_name,
+                        cod: items.cod,
+                        packet_replace: items.packet_replace,
+                        packet_exchange: items.packet_exchange,
+                        delivery_type:items.normal_delivery,
+                        customer_charge_payable:items.customer_charge_payable,
+                    };
+                    customerReplacePickupsList.push(arrayObject);
+                    dispatch(getCustomerReplaceItems(customerReplacePickupsList));
+                    })
+                }
             })
             .catch((err) => {
                 console.log(err.response)
@@ -185,37 +145,27 @@ const VendorPickupCreate=()=> {
     const getProductExchange=()=>{
         let vendorDetail = JSON.parse(localStorage.getItem('vendorDetail'));
         let partner_id = vendorDetail.user?.id;
-        console.log(partner_id);
-        console.log('partner_id');
          axios.get(`/partner/get/return/exchange/${partner_id}`)
             .then((res) => {
                 console.log(res)
                 console.log(res.data);
                 if (res.data) {
-                            let productExchangePickups = res?.data.exchanges;
-                            let productExchangePickupsList = [];
-                            productExchangePickups.forEach((items,index)=>{
-                            console.log('hello list');
-                            let arrayObject = {
-                                value: items.id,
-                                label: items.packet_name + '(' + items.cod + ')',
-                                name:'Product_exchange',
-                                customer_id:items.customer_id,
-                                customer_name:items.customer,
-                                phone:items.customer_phone,
-                            };
-                            // let arrayObject_Customer = {
-                            //     value:items.items.customer_id,
-                            //     label:items.customer+'('+items.customer_phone+')',
-                            // };
-                            console.log(arrayObject);
-                            // allCustomerDataList.value=items.id;
-                            // allCustomerDataList.label=items.name+'('+items.phone+')';
-                            productExchangePickupsList.push(arrayObject);
-                            dispatch(getProductExchangeItems(productExchangePickupsList));
+                    let productExchangePickups = res?.data.exchanges;
+                    let productExchangePickupsList = [];
+                    productExchangePickups.forEach((items,index)=>{
+                    let arrayObject = {
+                        value: items.id,
+                        label: items.packet_name + '(' + items.cod + ')',
+                        name:'Product_exchange',
+                        customer_id:items.customer_id,
+                        customer_name:items.customer,
+                        phone:items.customer_phone,
+                    };
+                    productExchangePickupsList.push(arrayObject);
+                    dispatch(getProductExchangeItems(productExchangePickupsList));
 
-                            })
-                        }
+                    })
+                }
             })
             .catch((err) => {
                 console.log(err.response)
@@ -235,7 +185,6 @@ const VendorPickupCreate=()=> {
         setSecond(currDate.getSeconds());
     }
     const FindFormErrors = () =>{
-     console.log(formerrors);
      let pattern = /^(\d*)([,.]\d{0,2})?$/;
      let decimalPattern=/^(\d+(\.\d+)?)$/;
      const {packet_name,cod,customer_id,partner_id,weight,type} = formField
@@ -248,7 +197,6 @@ const VendorPickupCreate=()=> {
      else if(!cod.match(pattern)) newErrors.cod = 'Price must be in numbers only'
      // customer validation
      if(!customer_id || customer_id ==='') newErrors.customer_id ='Customer is Required'
-
      if(!partner_id || partner_id ==='') newErrors.partner_id ='Partner is Required'
      if(!weight || weight ==='') newErrors.weight ='Weight is Required'
         else if(!weight.match(decimalPattern)) newErrors.weight ='Weight must be in numbers and . only '
@@ -257,25 +205,18 @@ const VendorPickupCreate=()=> {
 
      return newErrors
     }
-    const onSubmit =(event) => {
-        console.log(formField.delivery_type);
-         console.log(formField);
-         // event.preventDefault();
+    const submitPickupDetails =(event) => {
+        event.preventDefault();
         const newErrors = FindFormErrors();
         if ( Object.keys(newErrors).length > 0 ) {
           // We got errors!
            setFormerrors(newErrors);
         } else {
          setLoading(true);
-         console.log(formField);
-
          axios.post('/partner/pickup/create', formField)
             .then((res) => {
-                console.log(res)
                 if(res.data.status === true){
                     notification('success', res.data.message);
-                    console.log(formField);
-                    // clearform();
                     setLoading(false);
                     history.push('/vendor/Pickup_request_area');
                 }else {
@@ -289,8 +230,6 @@ const VendorPickupCreate=()=> {
 
   };
     const selectChange = event => {
-        console.log(event)
-        let vendorDetail = JSON.parse(localStorage.getItem('vendorDetail'));
         if (event) {
             const field = {...formField};
             // field.customer_id=event.value;
@@ -303,16 +242,12 @@ const VendorPickupCreate=()=> {
         }
     }
     const selectChangeCustomer = event => {
-        console.log(event)
-        let vendorDetail = JSON.parse(localStorage.getItem('vendorDetail'));
-        if (event) {
+        if(event) {
             const field = {...formField};
             field.customer_id=event.value;
             field[event.name] = event.value;
             setFormField(field);
-
-             console.log(exchnageProductCustomer);
-             console.log("exchnageProductCustomer");
+            setDefaultCustomer(event);
             if (!!formerrors[event.name]) setFormerrors({
                 ...formerrors,
                 [event.name]: null
@@ -328,32 +263,12 @@ const VendorPickupCreate=()=> {
             [event.target.name]: null
         })
     }
-    const options = [
-        {value: 'chocolate', label: 'Chocolate'},
-        {value: 'strawberry', label: 'Strawberry'},
-        {value: 'vanilla', label: 'Vanilla'}
-    ]
     const types = [
         {value: 'nonfragile', label: 'Non-Fragile', name: 'type'},
         {value: 'fragile', label: 'Fragile', name: 'type'},
     ]
-    const weights = [
-        {value: '1', label: 'upto 1 Kg', name: 'weight'},
-        {value: '2', label: 'upto 2 Kg', name: 'weight'},
-        {value: '3', label: 'upto 3 Kg', name: 'weight'},
-        {value: '4', label: 'upto 4 Kg', name: 'weight'},
-        {value: '5', label: 'upto 5 Kg', name: 'weight'},
-        {value: '6', label: 'upto 6 Kg', name: 'weight'},
-        {value: '7', label: 'upto 7 Kg', name: 'weight'},
-        {value: '8', label: 'upto 8 Kg', name: 'weight'},
-        {value: '9', label: 'upto 9 Kg', name: 'weight'},
-        {value: '10', label: 'upto 10 Kg', name: 'weight'},
-        {value: '11', label: 'more than 10 Kg', name: 'weight'},
-    ]
+
     const clearform = () => {
-        console.log('clear form');
-        // selectCustomerRef.select.clearValue();
-        // selectPartnerRef.select.clearValue();
         formRef.reset();
     }
     const Urgent = (event) => {
@@ -367,15 +282,14 @@ const VendorPickupCreate=()=> {
         //      console.log('unchecked');
         // }
     }
-    const addCustomer=()=>{
+    const addCustomer = () => {
          history.push({
            pathname: '/vendor/add_customer',
            // state: {messageID: id }
        });
     }
     // const [modalShow, setModalShow] = useState(false);
-const initializeProductExchange=(event)=>{
-       console.log("clicked");
+    const initializeProductExchange=(event)=>{
         if(doubleClickCheck){
             setDoubleClickCheck(false);
              setChecked(false);
@@ -462,8 +376,6 @@ const selectChangeProductExchange=(event)=>{
 }
 const selectChangeCustomerReplace=(event)=>{
        setReplaceCustomerField(true);
-       console.log(event);
-       console.log('event Data');
        const newField = {...formField}
               newField. partner_id = event. partner_id;
               newField.packet_name = event.packet_name;
@@ -477,43 +389,80 @@ const selectChangeCustomerReplace=(event)=>{
               console.log(formField)
         // dispatch(getCurrentCustomerAdded(''));
 }
-// const CurrentCustomerDisplay=()=>{
-//         // console.log(currentAddCustomer);
-//         return(
-//             <>
-//                {/*<Select*/}
-//                {/*     className="basic-single mt-2"*/}
-//                {/*     classNamePrefix="select"*/}
-//                {/*     isDisabled={false}*/}
-//                {/*     isLoading={false}*/}
-//                {/*     isClearable={false}*/}
-//                {/*     isRtl={false}*/}
-//                {/*     isSearchable={true}*/}
-//                {/*     name="customer_id"*/}
-//                {/*     defaultValue={currentAddCustomer}*/}
-//                {/*     // placeholder="== Choose  =="*/}
-//                {/*     options={allCustomerLists}*/}
-//                {/*     onChange={(event) => selectChangeCustomer(event)}*/}
-//                {/* />*/}
-//             </>
-//         );
-// }
+
+    const [openModal, setOpenModal] = useState(false);
+
+    const onClickModal = () =>{
+        setOpenModal(true);
+    }
+    const onCloseModal = ()=>{
+        setOpenModal(false);
+        const newData = {...customerDetails};
+        newData.name = '';
+        newData.phone = '';
+        newData.address = '';
+        setCustomerDetails(newData)
+    }
+
+    const handleCustomerDetailChange = (event) => {
+        const newData = {...customerDetails};
+        newData[event.target.name] = event.target.value;
+        setCustomerDetails(newData)
+    }
+
+    const submitCustomerDetails = async () => {
+
+        const res = await axios.post('/partner/customer/register', customerDetails).catch((err) => {
+            console.log(err)
+        })
+
+        if(await res.data.status === true){
+           const customers = res.data.customers;
+           const options = [];
+           customers.map((cus) => {
+               let obj = {
+                    value: cus.id,
+                    label: cus.name.concat(' - ', cus.phone),
+               }
+               options.push(obj)
+           })
+            notification('success', res.data.message);
+           const filterCustomer = customers.find((data) => data.phone === customerDetails.phone);
+           setCurrentCustomer(filterCustomer);
+           setAllCustomerList(options);
+           onCloseModal();
+        }else {
+            notification('danger', res.data.message);
+        }
+
+    }
+
+
+    useEffect(() => {
+        if(Object.keys(currentCustomer).length > 0){
+            const option = allCustomerLists.find((val) => val.value === currentCustomer.id);
+            setDefaultCustomer(option);
+            const field = {...formField};
+            field.customer_id = option.value;
+            setFormField(field)
+        }
+    }, [allCustomerLists])
+
+
     return (
         <>
             <div style={{height:'80vh',overflowY:'auto',overflowX:'hidden',padding:'10px'}}>
             {/*<h6>Vendor Pickup Create</h6>*/}
             <Row className="pl-2 pr-2">
-
                 {/*<AdminCreateCustomer loadCustomer={() => loadCustomer()} show={modalShow} onHide={() => setModalShow(false)} />*/}
                 <div className="d-flex justify-content-center mt-2 mb-5">
                     <Col lg={12}>
-                        <Form onSubmit={handleSubmit(onSubmit)} ref={form => formRef = form}>
+                        <Form ref={form => formRef = form}>
                             <Row>
                                 <Col lg={12}>
                                     <Form.Group className="mt-0 mb-3">
                                          <Form.Group as={Row} className="mb-3">
                                                   <Col xs={6}>
-
                                                      <Form.Check  onClick={(event)=>initializeProductExchange(event)}
                                                         type="radio"
                                                         id="autoSizingCheckProduct"
@@ -556,7 +505,7 @@ const selectChangeCustomerReplace=(event)=>{
                                             <>
                                             </>
                                         }
-                                        {exchange===0?
+                                        {exchange === 0?
                                             <>
                                                 <Select
                                                     className="basic-single mt-2"
@@ -593,31 +542,22 @@ const selectChangeCustomerReplace=(event)=>{
                                                 <Row>
                                                     <Col xs={6}><div className="mt-2"><Form.Label>Customer</Form.Label></div></Col>
                                                      {/*<Col xs={2}> <Button className="customBtn" style={{width:'97%',margin:'3px'}} onClick={()=>getReplaceCustomer()}>set</Button></Col>*/}
-                                                    <Col xs={6}> <Button className="customBtn" style={{width:'97%',margin:'3px'}} onClick={()=>addCustomer()}>Add Customer</Button></Col>
+                                                    <Col xs={6}> <Button className="customBtn" style={{width:'97%',margin:'3px'}} onClick={()=>onClickModal()}>Add Customer</Button></Col>
                                                 </Row>
-
                                                  <Select
                                                     className="basic-single mt-2"
                                                     classNamePrefix="select"
                                                     isDisabled={false}
                                                     isLoading={false}
-                                                    isClearable={false}
+                                                    isClearable={true}
                                                     isRtl={false}
                                                     isSearchable={true}
                                                     name="customer_id"
-                                                    defaultValue={currentCustomerAdded}
-                                                    // placeholder="== Choose  =="
+                                                    placeholder="== Select Customer  =="
                                                     options={allCustomerLists}
+                                                    value={defaultCustomer}
                                                     onChange={(event) => selectChangeCustomer(event)}
                                                 />
-                                                {/*<Form.Label>Customer</Form.Label>*/}
-                                                {/*<Form.Control type="text" name="customer_id" Placeholder="Add New Customer"*/}
-                                                {/*              readOnly*/}
-                                                {/*              onChange={(event) => handleForm(event)}*/}
-                                                {/*              isInvalid={!!formerrors.customer_id}/>*/}
-                                                {/*<Form.Control.Feedback type='invalid'>*/}
-                                                {/*    {formerrors.customer_id}*/}
-                                                {/*</Form.Control.Feedback>*/}
 
                                             </Form.Group>
                                         </Col>
@@ -669,9 +609,7 @@ const selectChangeCustomerReplace=(event)=>{
                                     <Col lg={12}>
                                          <Form.Group className="mt-3 mb-1">
                                              <Form.Group as={Row} className="mb-2">
-
                                                       <Col xs={6}>
-
                                                          <Form.Check onChange={(event)=>initializeCodIncluded(event)}
                                                              defaultChecked={true}
                                                             type="radio"
@@ -694,16 +632,9 @@ const selectChangeCustomerReplace=(event)=>{
                                                        </Col>
 
                                             </Form.Group>
-                                            {/*<Tabs*/}
-                                            {/*    defaultActiveKey="exchange"*/}
-                                            {/*    transition={false}*/}
-                                            {/*    className="mb-3"*/}
-                                            {/*>*/}
-                                            {/*    <Tab eventKey="exchange" title="Product Exchange">*/}
                                             {deliveryChargeIncluded===1?
                                                 <>
                                                      <Form.Group className="mt-0">
-                                            {/*<Form.Label>COD Including Delivery Charge</Form.Label>*/}
                                             <Form.Control autocomplete="off" type="text" name="cod" placeholder="COD Including Delivery Charge" onChange={(event) => handleForm(event)}
                                                           isInvalid={!!formerrors.cod}/>
                                             <Form.Control.Feedback type='invalid'>
@@ -728,21 +659,7 @@ const selectChangeCustomerReplace=(event)=>{
                                                 <>
                                                 </>
                                             }
-
-                                                {/*</Tab>*/}
-                                                {/*<Tab eventKey="replace" title="Customer Replace">*/}
-
-                                            {/*    </Tab>*/}
-                                            {/*</Tabs>*/}
                                         </Form.Group>
-                                        {/*<Form.Group className="mt-4">*/}
-                                        {/*    <Form.Label>COD</Form.Label>*/}
-                                        {/*    <Form.Control type="text" name="cod" onChange={(event) => handleForm(event)}*/}
-                                        {/*                  isInvalid={!!formerrors.cod}/>*/}
-                                        {/*    <Form.Control.Feedback type='invalid'>*/}
-                                        {/*        {formerrors.cod}*/}
-                                        {/*    </Form.Control.Feedback>*/}
-                                        {/*</Form.Group>*/}
                                     </Col>
                                     <Col lg={12}>
                                         <Form.Group className="mt-4">
@@ -774,8 +691,6 @@ const selectChangeCustomerReplace=(event)=>{
                                             <Col lg={4}>
 
                                                 {date >= 12 ? <>
-                                                    {/*<OverlayTrigger placement="bottom" overlay={<Tooltip id="button-tooltip-2">Check out this avatar</Tooltip>}*/}
-                                                    {/*>*/}
                                                     <Form.Check onChange={(event) => Urgent(event)}
                                                                 disabled
                                                                 type="radio"
@@ -785,7 +700,6 @@ const selectChangeCustomerReplace=(event)=>{
                                                                 label="Same Day Delivery"
                                                                 style={{cursor: 'pointer'}}
                                                     />
-                                                    {/*</OverlayTrigger>*/}
                                                 </> : <>
                                                     <Form.Check onChange={(event) => Urgent(event)}
                                                                 type="radio"
@@ -807,7 +721,7 @@ const selectChangeCustomerReplace=(event)=>{
                                                                                    animation="border"/><span
                                                 style={{marginLeft: '7px'}}>Submitting</span></Button>
                                         ) : (
-                                            <Button type="submit" className="customBtn" style={{width:'97%',margin:'3px'}}>Submit</Button>
+                                            <Button type="submit" className="customBtn" style={{width:'97%',margin:'3px'}} onClick={(event) => submitPickupDetails(event)}>Submit</Button>
                                         )}
 
                                     </Form.Group>
@@ -822,9 +736,45 @@ const selectChangeCustomerReplace=(event)=>{
 
 
                 </div>
-
             </Row>
             </div>
+
+            <Modal show={openModal} onHide={onCloseModal} centered={true}>
+                <Modal.Header >
+                  {/*<Modal.Title>Modal heading</Modal.Title>*/}
+                </Modal.Header>
+                <Modal.Body>
+                    <div style={{padding: '10px'}}>
+                        <Form>
+                          <Form.Group>
+                              <Form.Label>Full Name</Form.Label>
+                              <Form.Control type="text" name="name" value={customerDetails.name} onChange={(event) => handleCustomerDetailChange(event)}  />
+                          </Form.Group>
+                           <Form.Group className="mt-3">
+                              <Form.Label>Phone</Form.Label>
+                              <Form.Control type="text" name="phone" value={customerDetails.phone} onChange={(event) => handleCustomerDetailChange(event)}  />
+                          </Form.Group>
+                          <Form.Group className="mt-3">
+                              <Form.Label>Address</Form.Label>
+                              <Form.Control type="text" name="address" value={customerDetails.address} onChange={(event) => handleCustomerDetailChange(event)}  />
+                          </Form.Group>
+                      </Form>
+                    </div>
+                </Modal.Body>
+                <Modal.Footer>
+                    <Row style={{width:'100%'}}>
+                        <Col lg={6}>
+                            <Button variant="secondary" onClick={() => submitCustomerDetails()} style={{backgroundColor:'#147298',border:'1px solid #147298',borderRadius:'5px',width:'100%'}}>Submit</Button>
+                        </Col>
+                        <Col lg={6}>
+                           <Button variant="secondary"  style={{backgroundColor:'red',border:'1px solid red',borderRadius:'5px',width:'100%'}} onClick={onCloseModal}>
+                             Cancel
+                          </Button>
+                        </Col>
+                    </Row>
+
+                </Modal.Footer>
+        </Modal>
         </>
     );
 

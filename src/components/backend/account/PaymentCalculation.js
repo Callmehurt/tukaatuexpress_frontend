@@ -5,7 +5,7 @@ import UploadFile from "./UploadFile";
 import checkToken from "../../../utils/checkToken";
 import setAuthorizationToken from "../../../utils/setAuthorizationToken";
 import {useDispatch, useSelector} from "react-redux";
-import {fetchPartnerDeliveryDetails, clearPartnerDeliveryDetails} from "../../../redux/actions/PartnerPaymentAction";
+import {fetchPartnerDeliveryDetails, clearPartnerDeliveryDetails, fetchPartnerDiscountScheme} from "../../../redux/actions/PartnerPaymentAction";
 import notification from "../includes/notification";
 
 const PaymentCalculation=()=>{
@@ -23,6 +23,7 @@ const PaymentCalculation=()=>{
     const [paidAmount, setPaidAmount] = useState(0);
     const [reimbursement, setReimbursement] = useState(0);
     const [nextAddDeduct, setNextAddDeduct] = useState(0);
+    const [discountAmount, setDiscountAmount] = useState(0);
 
     const [cookies, setCookie, removeCookie] = useCookies(['selected_pickups']);
     const pickupData = cookies.selected_pickups;
@@ -31,6 +32,8 @@ const PaymentCalculation=()=>{
     const returns = useSelector((state) => state.partnerPaymentDetails.returns);
     const pickups = useSelector((state) => state.partnerPaymentDetails.pickups);
     const otherCalculations = useSelector((state) => state.partnerPaymentDetails.calculationDetails);
+    const discountScheme = useSelector((state) => state.partnerPaymentDetails.discountScheme);
+
     useEffect(()=>{
         let AccountStorage = JSON.parse(localStorage.getItem('Account_storage'));
         if(AccountStorage){
@@ -53,9 +56,29 @@ const PaymentCalculation=()=>{
         setPaymentCalculations(otherCalculations)
     }, [otherCalculations])
 
+    useEffect(() => {
+       const deliveryCharge = otherCalculations.total_delivery_charge;
+        if(Object.keys(discountScheme).length > 0){
+            if(discountScheme.discount_type === 'percentage'){
+                const disVal = (deliveryCharge*discountScheme.discount_value)/100;
+                setDiscountAmount(Math.round(disVal));
+            }else {
+                setDiscountAmount(parseFloat(discountScheme.discount_value));
+            }
+        }else {
+            setDiscountAmount(0)
+        }
+    }, [discountScheme])
 
     useEffect(() => {
-        const totalTransferable = parseFloat(paymentCalculations.total_cod_received)+parseFloat(reimbursement)+parseFloat(paymentCalculations.prev_add_deduct)-parseFloat(paymentCalculations.total_delivery_charge)-parseFloat(paymentCalculations.total_return_charge)-parseFloat(paymentCalculations.total_pickup_charge);
+        if(deliveredDeliveries.length > 0){
+            dispatch(fetchPartnerDiscountScheme(deliveredDeliveries[0].partner_id))
+        }
+    }, [deliveredDeliveries])
+
+
+    useEffect(() => {
+        const totalTransferable = parseFloat(paymentCalculations.total_cod_received)+parseFloat(reimbursement)+parseFloat(paymentCalculations.prev_add_deduct)-parseFloat(paymentCalculations.total_delivery_charge)-parseFloat(paymentCalculations.total_return_charge)-parseFloat(paymentCalculations.total_pickup_charge)+discountAmount;
         const forNextStat = totalTransferable-parseFloat(paidAmount);
         setNextAddDeduct(forNextStat);
         }, [paidAmount])
@@ -82,7 +105,7 @@ const PaymentCalculation=()=>{
           if(event.target.value !== ''){
               if(event.target.value.match(numbers))
               {
-                          setReimbursement(parseFloat(event.target.value))
+                  setReimbursement(parseFloat(event.target.value))
               }
               else
               {
@@ -271,53 +294,63 @@ const PaymentCalculation=()=>{
                     </Table>
                      <Table striped bordered hover>
                          <tbody>
+                            <tr>
+                                <td colSpan={5}></td>
+                                <td>Total COD Amount</td>
+                                <td>Rs. {paymentCalculations.total_cod_received}</td>
+                            </tr>
                              <tr>
-                                 <td rowSpan="10" colSpan="4" style={{minWidth:'200px'}}>
+                                 <td rowSpan="12" colSpan="4" style={{minWidth:'200px'}}>
                                    <div style={{display:'flex',justifyContent:'center',alignItems:'center',height:'300px'}}>{paymentCalculations.statement_num}</div>
                                      {/*<span style={{display:'grid',placeContent:'center'}}>statement-11</span>*/}
                                  </td>
                                  <td rowSpan="2">
                                  </td>
-                                  <td>Total COD Amount</td>
+                                  <td>Total Delivery Charge</td>
                                    <td >
-                                       Rs. {paymentCalculations.total_cod_received}
+                                       Rs. {paymentCalculations.total_delivery_charge}
                                    </td>
                              </tr>
                              <tr>
-                                   <td>Total Delivery Charge</td>
-                                   <td>Rs. {paymentCalculations.total_delivery_charge}</td>
+                                   <td>Total Pickup Charge</td>
+                                   <td>Rs. {paymentCalculations.total_pickup_charge}</td>
                               </tr>
                              <tr >
                                  <td></td>
-                                   <td>Total Pickup Charge</td>
-                                   <td >Rs. {paymentCalculations.total_pickup_charge}</td>
-
+                                   <td>Reimbursements</td>
+                                   <td>
+                                       <input type="text"  style={{width:'100%',border:'none'}} value={reimbursement} onChange={(event) => handleReimbusermentChange(event)} />
+                                   </td>
                               </tr>
 
                              <tr>
                                    <td rowSpan="2">
                                        <span style={{display:'grid',placeContent:'center',alignItems:'center'}}>Paid by:Account</span>
                                    </td>
-                                    <td>Reimbursements</td>
+                                    <td>Return Charges</td>
                                     <td >
-                                        <input type="text"  style={{width:'100%',border:'none'}} value={reimbursement} onChange={(event) => handleReimbusermentChange(event)} />
+                                        Rs. {paymentCalculations.total_return_charge}
                                     </td>
                                </tr>
 
                              <tr>
-                                   <td>Return Charges</td>
-                                    <td>Rs. {paymentCalculations.total_return_charge}</td>
+                                   <td>Add/ deduct from prev. Stat.</td>
+                                    <td>Rs. {paymentCalculations.prev_add_deduct}</td>
                                </tr>
                              <tr>
                                     <td>Paid Date: {(new Date()).toDateString()}</td>
-                                    <td>Add/ deduct from prev. Stat.</td>
-                                    <td >Rs. {paymentCalculations.prev_add_deduct}</td>
+                                    <td>Discount</td>
+                                    <td >Rs. {discountAmount}</td>
                                </tr>
                              <tr>
                                    <td rowSpan="2"></td>
-                                    <td >Total COD Transferable</td>
+                                 {(parseFloat(paymentCalculations.total_cod_received)+parseFloat(reimbursement)+parseFloat(paymentCalculations.prev_add_deduct)-parseFloat(paymentCalculations.total_delivery_charge)-parseFloat(paymentCalculations.total_return_charge)-parseFloat(paymentCalculations.total_pickup_charge)+discountAmount) >= 0 ? (
+                                    <td>Total COD Transferable</td>
+                                 ): (
+                                     <td>Total COD Receivable</td>
+                                 ) }
                                    <td>
-                                       Rs. {parseFloat(paymentCalculations.total_cod_received)+parseFloat(reimbursement)+parseFloat(paymentCalculations.prev_add_deduct)-parseFloat(paymentCalculations.total_delivery_charge)-parseFloat(paymentCalculations.total_return_charge)-parseFloat(paymentCalculations.total_pickup_charge)}
+                                       Rs. {parseFloat(paymentCalculations.total_cod_received)+parseFloat(reimbursement)+parseFloat(paymentCalculations.prev_add_deduct)-parseFloat(paymentCalculations.total_delivery_charge)-parseFloat(paymentCalculations.total_return_charge)-parseFloat(paymentCalculations.total_pickup_charge)+discountAmount}
                                    </td>
                                </tr>
                              <tr>
@@ -329,7 +362,7 @@ const PaymentCalculation=()=>{
                              <tr>
                                 <th colSpan="1"></th>
                                 <th>To add/ deduct on next Stat.</th>
-                                <th>Rs. {parseFloat(paymentCalculations.total_cod_received)+parseFloat(reimbursement)+parseFloat(paymentCalculations.prev_add_deduct)-parseFloat(paidAmount)-parseFloat(paymentCalculations.total_delivery_charge)-parseFloat(paymentCalculations.total_return_charge)-parseFloat(paymentCalculations.total_pickup_charge)}</th>
+                                <th>Rs. {parseFloat(paymentCalculations.total_cod_received)+parseFloat(reimbursement)+parseFloat(paymentCalculations.prev_add_deduct)-parseFloat(paidAmount)-parseFloat(paymentCalculations.total_delivery_charge)-parseFloat(paymentCalculations.total_return_charge)-parseFloat(paymentCalculations.total_pickup_charge)+discountAmount}</th>
                              </tr>
                          </tbody>
                      </Table>
@@ -338,7 +371,7 @@ const PaymentCalculation=()=>{
             </Row>
             <Row>
                 <Col lg={12}>
-                    <UploadFile paymentCalculations={paymentCalculations} deliveries={deliveredDeliveries} reimbursement={reimbursement} pickups={pickups} returns={returns} nextAddDeduct={nextAddDeduct} paid={paidAmount} />
+                    <UploadFile paymentCalculations={paymentCalculations} deliveries={deliveredDeliveries} reimbursement={reimbursement} pickups={pickups} returns={returns} nextAddDeduct={nextAddDeduct} discount={discountAmount} paid={paidAmount} />
                 </Col>
             </Row>
         </>

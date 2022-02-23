@@ -32,10 +32,8 @@ const ImageEntryPickupCreate=()=>{
     const [formerrors, setFormerrors ] = useState({});
     const[imageRequestID,setImageRequestID]=useState(location.state?.imageRequestID);
     const[deliveryChargeIncluded,setDeliveryChargeIncluded]=useState(1);
-    const appSetting = useSelector((state) => state.appSetting);
     const branchOperation = useSelector((state) => state.branchOperation);
     const currentCustomerAddedOperation=branchOperation.currentCustomerAddedOperation;
-    const urlDomain=appSetting.urlDomain;
     const [formField, setFormField] = useState({
         customer_id: '',
         partner_id: location.state.requestData.partner_id,
@@ -56,24 +54,15 @@ const ImageEntryPickupCreate=()=>{
          let staff_admin = JSON.parse(localStorage.getItem('staff_admin'));
          // console.log(staff_admin);
          // console.log('staff_admin');
-        console.log('hello use');
-        console.log();
          if(staff_admin?.token){
           setAuthorizationToken(staff_admin.token);
         }else{
              history.push('/admin/login');
         }
-         console.log(location.state);
-         console.log('location state');
          loadCustomer();
          loadPartner();
          getImageId();
-         console.log(formerrors);
-         console.log(currDate);
-         console.log(location.state.requestData);
-         console.log(location.state.requestData.id);
-         console.log('location Request Data');
-         // setInterval(() => setDate(new Date().tolocalString()), 10000);
+
     },[]);
     const getImageId=()=>{
           const newField = {...formField}
@@ -87,7 +76,6 @@ const ImageEntryPickupCreate=()=>{
         setSecond(currDate.getSeconds());
     }
     const FindFormErrors = () =>{
-     console.log(formerrors);
      let pattern = /^(\d*)([,.]\d{0,2})?$/;
       let decimalPattern=/^(\d+(\.\d+)?)$/;
      const {packet_name,cod,customer_id,partner_id,weight,type} = formField
@@ -130,8 +118,6 @@ const ImageEntryPickupCreate=()=>{
              }
     }
     const onSubmit = async (event) => {
-        console.log(formField.delivery_type);
-        console.log(formField)
         const newErrors = FindFormErrors();
         if ( Object.keys(newErrors).length > 0 ) {
            setFormerrors(newErrors);
@@ -166,7 +152,6 @@ const ImageEntryPickupCreate=()=>{
             setFormField(newField);
     }
     const selectChange = event => {
-        console.log(event)
         let staff_admin = JSON.parse(localStorage.getItem('staff_admin'));
         if(event){
             const field = {...formField};
@@ -237,7 +222,6 @@ const ImageEntryPickupCreate=()=>{
         }
     }
     const[requestData,setRequestData]=useState(location.state?.requestData);
-    const urlServer='https://jawaikhana.techxbay.com/';
     setInterval(() =>{updateTime()}, 1000);
     const[rotateImage,setRotateImage]=useState(0)
     const loadCustomer = async () => {
@@ -389,9 +373,6 @@ const ImageEntryPickupCreate=()=>{
                            const field = {...formField};
                             field.customer_id = arrayObject.value;
                             setFormField(field);
-                           console.log(currentCustomer);
-                           console.log(currentCustomer);
-                           console.log("currentCustomer");
                             dispatch(getCurrentCustomerAddedOperation(arrayObject));
                             loadCustomer();
 
@@ -459,30 +440,7 @@ const ImageEntryPickupCreate=()=>{
                                              <Col lg={12}>
                                                         <Row>
                                                             <Col lg={12}>
-                                                                {/*<Select*/}
-                                                                {/*         ref={ref => {*/}
-                                                                {/*        selectCustomerRef = ref;*/}
-                                                                {/*      }}*/}
-                                                                {/*      className="basic-single"*/}
-                                                                {/*      classNamePrefix="select"*/}
-                                                                {/*      defaultValue={currentCustomerAddedOperation}*/}
-                                                                {/*      isDisabled={false}*/}
-                                                                {/*      isLoading={false}*/}
-                                                                {/*      isClearable={false}*/}
-                                                                {/*      isRtl={false}*/}
-                                                                {/*      isSearchable={true}*/}
-                                                                {/*      name="customer"*/}
-                                                                {/*      placeholder="== Select Customer =="*/}
-                                                                {/*      options={customer}*/}
-                                                                {/*      onChange={(event) => selectChange(event)}*/}
-                                                                {/*         isInvalid={ !!formerrors.customer_id }*/}
-                                                                {/*    />*/}
-                                                                {/*/!*<Form.Control.Feedback type='invalid'>*!/*/}
-                                                                {/*/!*    {formerrors.customer_id}*!/*/}
-                                                                {/*/!*</Form.Control.Feedback>*!/*/}
-                                                                {/*<Form.Label style={{color:'red',paddingLeft:'3px',paddingTop:'2px',}}>*/}
-                                                                {/*    {formerrors.customer_id}*/}
-                                                                {/*</Form.Label>*/}
+
                                                                 {currentCustomer?
                                                                      <>
                                                                          <Row>
@@ -763,7 +721,7 @@ const ImageEntryPickupCreate=()=>{
                 </Col>
                 <Col lg={6}>
                    <div style={{position:'relative',display:'flex'}}>
-                      <img src={urlDomain+ requestData.image} style={{transform:`rotate(${rotateImage}deg)`}} className="img-fluid pt-3" />
+                      <img src={requestData.img_url} style={{transform:`rotate(${rotateImage}deg)`}} className="img-fluid pt-3" />
                     <div onClick={makeRotation} style={{position:'absolute',display:'flex',top:'0px'}}><MdCropRotate style={{color:'#147298'}} size={20} /></div>
                     </div>
                 </Col>

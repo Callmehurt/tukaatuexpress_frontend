@@ -170,6 +170,8 @@ import TermsOfUse from "./components/frontend/pages/terms-of-use";
 import bgImage from "./assets/backgroundPartner.svg";
 import PrivacyPolicy from "./components/frontend/pages/PrivacyPolicy";
 import CoverageAreas from "./components/frontend/pages/CoverageAreas";
+import Discounts from "./components/backend/marketing/Discounts";
+import RegisteredPartnerList from "./components/backend/marketing/RegisteredPartnerList";
 
 
 function App() {
@@ -298,7 +300,8 @@ function App() {
                           <MarketingPrivateRoute exact path="/marketing/banner" component={MarketingPartnerBanner} />
                           <MarketingPrivateRoute exact path="/marketing/notices" component={MarketingNotices} />
                           <MarketingPrivateRoute exact path="/marketing/events" component={MarketingEvent} />
-                          {/*<MarketingPrivateRoute exact path="/marketing/events" component={MarketingNotices} />*/}
+                          <MarketingPrivateRoute exact path="/marketing/discounts" component={Discounts} />
+                          <MarketingPrivateRoute exact path="/marketing/my/partners" component={RegisteredPartnerList} />
 
 
 

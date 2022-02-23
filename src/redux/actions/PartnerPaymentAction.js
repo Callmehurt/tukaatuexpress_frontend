@@ -8,7 +8,6 @@ export const fetchPartnerDeliveryDetails = (deliveries) =>
         }).catch((err) => {
                 console.log(err)
         });
-        console.log(response?.data)
         const calculationDetails = {
             statement_num: response?.data.statement_num,
             prev_add_deduct: response?.data.prev_add_deduct,
@@ -35,6 +34,18 @@ export const fetchPartnerDeliveryDetails = (deliveries) =>
         });
 
 };
+
+
+export const fetchPartnerDiscountScheme = (partner_id) =>
+    async (dispatch) => {
+        const res = await axios.get(`/account/partner/discount/scheme/${partner_id}`).catch((err) => {
+            console.log(err)
+        })
+        dispatch({
+            type: PartnerPaymentTypes.FETCH_DISCOUNT_SCHEME,
+            payload: await res.data
+        })
+    }
 
 export const clearPartnerDeliveryDetails = () =>
     async (dispatch) => {

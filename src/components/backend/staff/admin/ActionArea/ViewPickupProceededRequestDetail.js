@@ -19,15 +19,11 @@ const ViewPickupProceededRequestDetail=()=>{
      const location=useLocation();
       const dispatch = useDispatch();
       const thisState = useSelector((state) => state.branchOperation);
-       const appSetting = useSelector((state) => state.appSetting);
-       const urlDomain=appSetting.urlDomain;
       const partnerProceededRequestDetail = thisState.partnerProceededRequestDetail;
       const entryDetailPartnerProceededRequest = thisState.entryDetailPartnerProceededRequest;
       const[requestID,setRequestID]=useState(location.state?.requestID);
       const[completeDetail,setCompleteDetail]=useState(location.state?.completeDetail);
 
-
-      const urlServer='https://jawaikhana.techxbay.com/';
      useEffect(()=>{
          let staff_admin = JSON.parse(localStorage.getItem('staff_admin'));
         // console.log(staff_admin);
@@ -37,19 +33,11 @@ const ViewPickupProceededRequestDetail=()=>{
              history.push('/admin/login');
         }
         getProceededRequestedPickups();
-        console.log(entryDetailPartnerProceededRequest);
-        console.log("entryDetailPartnerProceededRequest");
      },[0]);
      const getProceededRequestedPickups=()=>{
          if(completeDetail){
-             console.log('complete');
              axios.get(`/admin/view/partner/pickup/request/complete/${requestID}`)
                     .then((res)=>{
-                        console.log(res);
-                        console.log(res.data);
-                        // console.log(res.data.original);
-                        console.log('original pickup')
-                        // dispatch(getPartnerProceededRequestDetail(res.data.original.pickup_by_image));
                         dispatch(requestProceededEntryDetailGetPartner(res.data));
 
                     })
@@ -58,18 +46,10 @@ const ViewPickupProceededRequestDetail=()=>{
             })
          }
          else{
-             console.log('Process');
              axios.get(`/admin/view/partner/pickup/request/${requestID}`)
                     .then((res)=>{
-                        console.log(res);
-                        console.log(res.data.original.pickup);
-                        console.log(res.data.original);
-                        console.log('original pickup')
                         dispatch(getPartnerProceededRequestDetail(res.data.original.pickup_by_image));
                         dispatch(requestProceededEntryDetailGetPartner(res.data.original.pickup));
-                        // if(res.data.original.pickup){
-                        //     history.push('')
-                        // }
 
                     })
             .catch((err)=>{
@@ -79,7 +59,6 @@ const ViewPickupProceededRequestDetail=()=>{
 
      }
      const viewImageDetail=(img_id)=>{
-         // console.log(id);
          axios.get(`/admin/partner/pickup/request/detail/${img_id}`)
                     .then((res)=>{
                         console.log(res.data);
@@ -423,43 +402,7 @@ const ViewPickupProceededRequestDetail=()=>{
                                         <Card style={{backgroundColor:'#147298',color:'#fff'}} onClick={(event)=>{getImageEntry(items)}}>
                                            <Card.Body style={{padding:'0px'}}>
                                                {/*<p className="d-flex justify-content-center">{items.id}</p>*/}
-                                               <img src={urlDomain+items.image} className="img-fluid" />
-                                               {/*<div className="d-flex justify-content-center">*/}
-                                               {/*    <Row>*/}
-                                               {/*        <Col lg={6}>*/}
-                                               {/*    {*/}
-                                               {/*        items.proceed_status==='1'?*/}
-                                               {/*            <>*/}
-                                               {/*                 <Button variant="primary" style={{fontSize:'12px'}}>Proceeded</Button>*/}
-                                               {/*            </>:*/}
-                                               {/*            <>*/}
-                                               {/*                <Button variant="primary" style={{fontSize:'12px'}}>Unproceed</Button>*/}
-                                               {/*            </>*/}
-
-                                               {/*    }*/}
-                                               {/*    </Col>*/}
-                                               {/*         <Col lg={6}>*/}
-                                               {/*             {*/}
-                                               {/*                items.received_status==='1'?*/}
-                                               {/*                    <>*/}
-                                               {/*                         <Button variant="primary" style={{fontSize:'12px'}}>Received</Button>*/}
-                                               {/*                    </>:*/}
-                                               {/*                    <>*/}
-                                               {/*                        <Button variant="primary" style={{fontSize:'12px'}}>Unreceived</Button>*/}
-                                               {/*                    </>*/}
-
-                                               {/*            }*/}
-                                               {/*         </Col>*/}
-                                               {/*         <Col lg={12}>*/}
-                                               {/*             <div className="d-flex justify-content-center pt-3">*/}
-                                               {/*                  <Button variant="primary" style={{fontSize:'12px'}} onClick={(event)=>viewImageDetail(items.id)}>View Image</Button>*/}
-
-                                               {/*             </div>*/}
-                                               {/*         </Col>*/}
-                                               {/*     </Row>*/}
-
-                                               {/*</div>*/}
-                                                {/*<Button variant="primary">Primary</Button>*/}
+                                               <img src={items.img_url} className="img-fluid" />
                                            </Card.Body>
                                         </Card>
                                     </Col>
@@ -468,53 +411,6 @@ const ViewPickupProceededRequestDetail=()=>{
                      </Row>
                  </Col>
                 <div>
-                            {/*<Col lg={4} className="pt-3 pr-5">*/}
-                            {/*    {entryDetailPartnerRequest?*/}
-                            {/*        <>*/}
-                            {/*            {entryDetailPartnerRequest.map((items) => (*/}
-                            {/*               <Card >*/}
-                            {/*                  <Card.Body className="p-0">*/}
-                            {/*                      <Row>*/}
-                            {/*                          <Col xs={3} className="pl-0 pr-0">*/}
-                            {/*                              <div style={{display:'grid',placeContent:'center',alignItems:'center',height:'55px'}}>*/}
-                            {/*                                    <Avatar size="40" name={items.packet_name}  round={true}/>*/}
-                            {/*                              </div>*/}
-
-                            {/*                              /!*<Image src={logoImage} roundedCircle />*!/*/}
-                            {/*                          </Col>*/}
-                            {/*                          <Col xs={9} style={{paddingLeft:'0px',paddingRight:'0px'}}>*/}
-                            {/*                                  <div className="pt-2">*/}
-                            {/*                                      <h6 className="mb-1">{items.tex_code}<span style={{fontSize:'15px',fontWeight:'500',paddingLeft:'5px'}}>*/}
-
-                            {/*                                         </span>*/}
-                            {/*                                      </h6>*/}
-                            {/*                                  </div>*/}
-                            {/*                                  <div>*/}
-                            {/*                                      <Row>*/}
-                            {/*                                          <Col xs={6}>*/}
-                            {/*                                               <span style={{fontSize:'14px'}}>{items.customer_name}</span>*/}
-                            {/*                                             /!*<span style={{fontSize:'15px'}}>{ list.customer_name.length>13 ? <div><span>{list.customer_name.substring(0,13)}...</span></div>: <div><span>{list.customer_name}</span></div> }</span>*!/*/}
-                            {/*                                          </Col>*/}
-                            {/*                                          <Col xs={6}>*/}
-                            {/*                                              <span style={{fontSize:'14px'}}>Status: {items.status}</span>*/}
-                            {/*                                          </Col>*/}
-                            {/*                                      </Row>*/}
-                            {/*                                  </div>*/}
-                            {/*                              /!*<Image src="holder.js/171x180" roundedCircle />*!/*/}
-                            {/*                          </Col>*/}
-                            {/*                      </Row>*/}
-                            {/*                  </Card.Body>*/}
-                            {/*               </Card>*/}
-                            {/*            ))*/}
-                            {/*            }*/}
-
-                            {/*        </>:*/}
-                            {/*        <>*/}
-
-                            {/*        </>*/}
-                            {/*    }*/}
-
-                            {/*</Col>*/}
                     </div>
 
             </Row>

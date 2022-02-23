@@ -68,9 +68,6 @@ const AddCustomerFromVendor=()=>{
         })
     }
     const submitForm = (event) => {
-         // getDispatchData();
-         console.log(formField);
-         console.log('form Field');
         event.preventDefault();
         const newErrors = FindFormErrors();
         if ( Object.keys(newErrors).length > 0 ) {
@@ -79,41 +76,22 @@ const AddCustomerFromVendor=()=>{
         } else {
             axios.post('/partner/customer/register', formField)
                 .then((res) => {
-                    console.log(res);
-                    console.log('post add customer');
-                    console.log(res.data);
                     if (res.data.status === true) {
                         getCustomerList();
                         notification('success', res.data.message);
-
                             setLoading(true);
-                            console.log('history push data');
                         if(Array.isArray(res.data.data))
                         {
                             // let allCurrentCustomerData = res.data.data[0];
-                            console.log('hello array exist');
                             let allCurrentCustomerData = res.data.data[0];
-                            console.log(allCurrentCustomerData);
-                            console.log("allCurrentCustomerData");
                             let allCurrentCustomerDataList = [];
                             // allcustomerData.forEach((items,index)=>{
-                            console.log('hello list');
                             let arrayObject = {
                                 value: allCurrentCustomerData.id,
                                 label: allCurrentCustomerData.name + '(' + allCurrentCustomerData.phone + ')',
                             };
-                            console.log(arrayObject);
-                            // allCustomerDataList.value=items.id;
-                            // allCustomerDataList.label=items.name+'('+items.phone+')';
                             allCurrentCustomerDataList.push( arrayObject);
                             dispatch(getCurrentCustomerAdded(allCurrentCustomerDataList));
-
-                            // })
-                            //  history.push({
-                            //     pathname: '/vendor/request_pickup',
-                            //     state: {customerData: allCustomerLists[0] }
-                            // });
-                            // history.push('/vendor/request_pickup');
                            history.push({
                             pathname: '/vendor/request_pickup',
                             state: {customerData: arrayObject}
@@ -226,23 +204,7 @@ const AddCustomerFromVendor=()=>{
                                             {formerrors.name}
                     </Form.Control.Feedback>
                   </Form.Group>
-
                    <Form.Group className="mt-3">
-                       {/* <Form.Label>Phone</Form.Label>*/}
-                       {/*<Select*/}
-                       {/*     className="basic-single mt-0"*/}
-                       {/*     classNamePrefix="select"*/}
-                       {/*     defaultValue=""*/}
-                       {/*     isDisabled={false}*/}
-                       {/*     isLoading={false}*/}
-                       {/*     isClearable={false}*/}
-                       {/*     isRtl={false}*/}
-                       {/*     isSearchable={true}*/}
-                       {/*     name="phone"*/}
-                       {/*     placeholder="==choose number =="*/}
-                       {/*     options={options}*/}
-                       {/*     onChange={(event) => selectChange(event)}*/}
-                       {/* />*/}
                       <Form.Label>Phone</Form.Label>
                       <Form.Control type="text" name="phone" value={formField.phone} onChange={(event) => handleForm(event)} isInvalid={!!formerrors.phone}  />
                        <Form.Control.Feedback type='invalid'>

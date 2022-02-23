@@ -4,6 +4,7 @@ const initialState = {
     deliveries: [],
     pickups: [],
     returns: [],
+    discountScheme: {},
     calculationDetails: {
         statement_num: '',
         prev_add_deduct: 0,
@@ -22,6 +23,8 @@ export const PartnerPaymentReducer = (state = initialState, {type, payload}) => 
             return {...state, pickups: payload};
         case PartnerPaymentTypes.FETCH_RETURNS:
             return {...state, returns: payload};
+        case PartnerPaymentTypes.FETCH_DISCOUNT_SCHEME:
+            return {...state, discountScheme: payload};
         case PartnerPaymentTypes.CLEAR_PAYMENT_DETAILS:
             return {...state,
                 deliveries: [],

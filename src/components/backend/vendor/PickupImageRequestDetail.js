@@ -6,29 +6,16 @@ import axios from "axios";
 import {Row, Col, Image, Card,Button} from 'react-bootstrap';
 import {AiFillDelete} from 'react-icons/ai';
 import {getMessageDetail,getRequestImageDetail,getRequestEntryDetail} from "../../../redux/actions/vendor";
-import Loginimage01 from '../../../assets/hanuman01.png';
-import Loginimage02 from '../../../assets/hanuman02.png';
-import Loginimage03 from '../../../assets/hanuman03.png';
-import Loginimage04 from '../../../assets/hanuman04.png';
-import Loginimage05 from '../../../assets/hanuman05.png';
-import Loginimage06 from '../../../assets/hanuman06.png';
-import Loginimage07 from '../../../assets/hanuman07.png';
-import Loginimage08 from '../../../assets/hanuman08.png';
-import Loginimage from '../../../assets/hanuman.png';
 import logoImage from "../../../logo.svg";
-import {GrView} from "react-icons/gr";
 import { SRLWrapper } from "simple-react-lightbox";
 import useWindowSize from "../../../use-window-size";
 
 const PickupImageRequestDetail = () =>{
 
-    let serverUrl='https://jawaikhana.techxbay.com/'
      const history = useHistory();
      const dispatch = useDispatch();
      const location = useLocation();
       const vendor = useSelector((state) => state.vendor);
-       const appSetting = useSelector((state) => state.appSetting);
-       const urlDomain=appSetting.urlDomain;
      const requestImageDetail=vendor.requestImageDetail;
       const requestEntryDetails=vendor.requestEntryDetail;
      const[pickupRequestID,setPickupRequestID]=useState(location.state?.PickupRequestID);
@@ -48,7 +35,6 @@ const PickupImageRequestDetail = () =>{
        });
     }
     const deleteImagePickup=(img_id)=>{
-        console.log(img_id);
         axios.delete(`/partner/remove/request/image/${img_id}`)
                     .then((res)=>{
                         console.log(res);
@@ -64,8 +50,6 @@ const PickupImageRequestDetail = () =>{
         let id = location.state.PickupRequestID;
         axios.get(`/partner/my/pickup/request/detail/${id}`)
                     .then((res)=>{
-                        console.log(res);
-                        console.log(res.data);
                         dispatch(getRequestImageDetail(res.data.pickup_by_image));
                         dispatch(getRequestEntryDetail(res.data.pickup))
                     })
@@ -105,9 +89,9 @@ const PickupImageRequestDetail = () =>{
                                                                    {/*<div style={{position:'relative',display:'flex',width:'100%'}}>*/}
                                                                    <Button variant="outline-danger" style={{padding:'0px',fontSize:'15px',color:'transparent',zIndex:'99'}} onClick={(event)=>deleteImagePickup(items.id)}><AiFillDelete style={{color:'red'}} /></Button>
 
-                                                                   <a href={urlDomain + items.image}
+                                                                   <a href={items.img_url}
                                                                       style={{display: 'flex', position: 'relative'}}>
-                                                                       <img src={urlDomain + items.image}
+                                                                       <img src={items.img_url}
                                                                             className="img-fluid"/>
                                                                        <div style={{
                                                                            position: 'absolute',
@@ -161,9 +145,9 @@ const PickupImageRequestDetail = () =>{
                                                                    border: '1px dashed #000'
                                                                }}>
                                                                    <Button variant="outline-danger" style={{padding:'0px',fontSize:'15px',color:'transparent',zIndex:'99'}} onClick={(event)=>deleteImagePickup(items.id)}><AiFillDelete style={{color:'red'}} /></Button>
-                                                                   <a href={urlDomain + items.image}
+                                                                   <a href={items.img_url}
                                                                       style={{display: 'flex', position: 'relative'}}>
-                                                                       <img src={urlDomain + items.image}
+                                                                       <img src={items.img_url}
                                                                             className="img-fluid"/>
                                                                        <div style={{
                                                                            position: 'absolute',
@@ -613,9 +597,9 @@ const PickupImageRequestDetail = () =>{
                                                                }}>
                                                                    <Button variant="outline-danger" style={{padding:'0px',fontSize:'15px',color:'transparent',zIndex:'99'}} onClick={(event)=>deleteImagePickup(items.id)}><AiFillDelete style={{color:'red'}} /></Button>
 
-                                                                   <a href={urlDomain + items.image}
+                                                                   <a href={items.img_url}
                                                                       style={{display: 'flex', position: 'relative'}}>
-                                                                       <img src={urlDomain + items.image}
+                                                                       <img src={items.img_url}
                                                                             className="img-fluid"/>
                                                                        <div style={{
                                                                            position: 'absolute',
@@ -664,9 +648,9 @@ const PickupImageRequestDetail = () =>{
                                                                    border: '1px dashed #000'
                                                                }}>
                                                                    <Button variant="outline-danger" style={{padding:'0px',fontSize:'15px',color:'transparent',zIndex:'99'}} onClick={(event)=>deleteImagePickup(items.id)}><AiFillDelete style={{color:'red'}} /></Button>
-                                                                   <a href={urlDomain + items.image}
+                                                                   <a href={items.img_url}
                                                                       style={{display: 'flex', position: 'relative'}}>
-                                                                       <img src={urlDomain + items.image}
+                                                                       <img src={items.img_url}
                                                                             className="img-fluid"/>
                                                                        <div style={{
                                                                            position: 'absolute',

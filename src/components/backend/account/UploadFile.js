@@ -54,9 +54,16 @@ const UploadFile = (props)=>{
         const total_pickup_charge = props.paymentCalculations.total_pickup_charge;
         const prev_add_deduct = parseFloat(props.paymentCalculations.prev_add_deduct);
         const reimbursement = props.reimbursement;
-        const payable = (total_cod_received-total_delivery_charge-total_return_charge-total_pickup_charge+reimbursement+prev_add_deduct)
+        const discount = props.discount;
+        const payable = (total_cod_received-total_delivery_charge-total_return_charge-total_pickup_charge+reimbursement+prev_add_deduct+discount)
         const paid = parseFloat(props.paid);
         const add_deduct = payable-paid;
+
+        if(payable > 0 && paid === 0){
+            notification('danger', 'Paid amount cannot be zero');
+            setLoading(false);
+            return false;
+        }
 
         const formData = new FormData();
         invoiceFiles.forEach(file=>{
@@ -71,6 +78,7 @@ const UploadFile = (props)=>{
         formData.append('total_pickup_charge', total_pickup_charge);
         formData.append('return_deduction', total_return_charge);
         formData.append('reimbursement', reimbursement);
+        formData.append('discount', discount);
         formData.append('payable', payable);
         formData.append('paid', paid);
         formData.append('add_deduct', add_deduct);

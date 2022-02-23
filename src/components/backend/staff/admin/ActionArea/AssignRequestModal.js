@@ -121,7 +121,6 @@ const AssignRequestModal=(props)=>{
                                               options={deliveryPersonForAssign}
                                               onChange={(event) => selectChange(event)}
                                               style={{width:'100%'}}
-
                                             />
 
                                     </Col>

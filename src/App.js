@@ -172,6 +172,7 @@ import PrivacyPolicy from "./components/frontend/pages/PrivacyPolicy";
 import CoverageAreas from "./components/frontend/pages/CoverageAreas";
 import Discounts from "./components/backend/marketing/Discounts";
 import RegisteredPartnerList from "./components/backend/marketing/RegisteredPartnerList";
+import InvoiceViewer from "./components/backend/vendor/InvoiceViewer";
 
 
 function App() {
@@ -330,6 +331,7 @@ function App() {
                           <VendorPrivateRoute exact path="/vendor/all_customer" component={AllCustomerList} />
                            <VendorPrivateRoute exact path="/vendor/change_password" component={PasswordChangeVendor} />
 
+                          <Route path='/invoice/viewer/:invoiceId' component={InvoiceViewer} />
 
                            {/* Profile page */}
                            <Route path="/verified/employee/:card_num" component={Profile} />

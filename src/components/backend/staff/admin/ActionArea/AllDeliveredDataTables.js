@@ -71,6 +71,20 @@ const columns = [
           )
          }
         },
+    {
+         name: "prompt_date",
+         label: "Delivered Date",
+         options: {
+          filter: true,
+          sort: true,
+             customBodyRender: (value, tableMeta, updateValue) => (
+              <>
+                  {/*{console.log(tableMeta)}*/}
+                  <div style={{cursor:'pointer'}} onDoubleClick={(event)=> getPickupDetail(tableMeta.rowData[9])}>{value}</div>
+              </>
+          )
+         }
+        },
          {
          name: "name",
          label: "Delivery Person",
@@ -101,7 +115,7 @@ const columns = [
         },
         {
          name: "customer_name",
-         label: "Reciever Name",
+         label: "Receiver Name",
          options: {
           filter: true,
           sort: true,
@@ -136,7 +150,7 @@ const columns = [
              customBodyRender: (value, tableMeta, updateValue) => (
               <>
                   {/*{console.log(tableMeta)}*/}
-                  <div style={{cursor:'pointer'}} onDoubleClick={(event)=> getPickupDetail(tableMeta.rowData[9])}>{value}</div>
+                  <div style={{cursor:'pointer'}} onDoubleClick={(event)=> getPickupDetail(tableMeta.rowData[9])}>Rs. {value}</div>
               </>
           )
          }
@@ -150,7 +164,7 @@ const columns = [
              customBodyRender: (value, tableMeta, updateValue) => (
               <>
                   {/*{console.log(tableMeta)}*/}
-                  <div style={{cursor:'pointer'}} onDoubleClick={(event)=> getPickupDetail(tableMeta.rowData[9])}>{value}</div>
+                  <div style={{cursor:'pointer'}} onDoubleClick={(event)=> getPickupDetail(tableMeta.rowData[9])}>Rs. {value}</div>
               </>
           )
          }

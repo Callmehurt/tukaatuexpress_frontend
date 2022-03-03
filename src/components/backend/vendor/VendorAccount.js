@@ -608,7 +608,7 @@ const getPickupDetail=(id)=>{
 
                                 </>:
                                 <>
-                                    <StatementAndInvoices />
+                                    <StatementAndInvoices itemsPerPage={8} />
                                 </>
                                 }
                         </div>

@@ -59,6 +59,12 @@ const UploadFile = (props)=>{
         const paid = parseFloat(props.paid);
         const add_deduct = payable-paid;
 
+        if(Object.is(NaN, parseFloat(paid))){
+            notification('danger', 'Paid amount should be integer');
+            setLoading(false);
+            return false;
+       }
+
         if(payable > 0 && paid === 0){
             notification('danger', 'Paid amount cannot be zero');
             setLoading(false);

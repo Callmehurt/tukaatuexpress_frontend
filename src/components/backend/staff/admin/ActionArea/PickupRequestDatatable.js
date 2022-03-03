@@ -119,7 +119,6 @@ const PickupRequestDatatable=()=>{
             setAssignRequestShow(true);
      }
      const viewPickups=(id)=>{
-         console.log(id);
          history.push({
            pathname: '/staff/admin/pickup_request_detail',
            state: {requestID: id }
@@ -143,23 +142,15 @@ const options = {
                             let DeliveryPerson = res.data;
                             let DeliveryPersonList = [];
                             DeliveryPerson.forEach((items,index)=>{
-                            console.log('hello list');
-                            let arrayObject = {
+                            if(items.isBan === 0){
+                                let arrayObject = {
                                 value: items.id,
-                                label: items.name + '(' + items.phone + ')',
-
-                            };
-                            // let arrayObject_Customer = {
-                            //     value:items.items.customer_id,
-                            //     label:items.customer+'('+items.customer_phone+')',
-                            // };
-                            console.log(arrayObject);
-                            // allCustomerDataList.value=items.id;
-                            // allCustomerDataList.label=items.name+'('+items.phone+')';
-                            DeliveryPersonList.push(arrayObject);
-                            dispatch(assignDeliveryPerson(DeliveryPersonList));
-
+                                label: items.name.concat(' - ', items.phone),
+                                };
+                                DeliveryPersonList.push(arrayObject);
+                            }
                             })
+                            dispatch(assignDeliveryPerson(DeliveryPersonList));
                         }
 
              })

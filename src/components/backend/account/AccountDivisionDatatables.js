@@ -43,8 +43,8 @@ const AccountDivisionDatatables =()=>{
                 console.log(err.response.data);
             })
      }
-     const getPartnerAccountDetail=(partner_id)=>{
-             axios.get(`/account/partner/deliveries/details/${partner_id}`)
+     const getPartnerAccountDetail= async (partner_id)=>{
+             await axios.get(`/account/partner/deliveries/details/${partner_id}`)
             .then((res) => {
                 console.log(res);
                 dispatch(AccountPaymentAllDeliveries(res.data.all_deliveries));
@@ -66,7 +66,7 @@ const AccountDivisionDatatables =()=>{
         label: 'Name',
         options: {
           customBodyRender: (value, tableMeta, updateValue) => (
-             <div  onClick={(event)=>getPartnerAccountDetail(tableMeta.rowData[10])} style={{color:'#147298',textDecoration:'none',cursor:'pointer'}}>{value}</div>
+             <div  onClick={(event)=>getPartnerAccountDetail(paymentPartnerList[tableMeta.rowIndex].partner_id)} style={{color:'#147298',textDecoration:'none',cursor:'pointer'}}>{value}</div>
           )
         },
       },
@@ -77,7 +77,7 @@ const AccountDivisionDatatables =()=>{
           filter: true,
           sort: true,
           customBodyRender: (value, tableMeta, updateValue) => (
-             <div  onClick={(event)=>getPartnerAccountDetail(tableMeta.rowData[10])} style={{color:'#147298',textDecoration:'none',cursor:'pointer'}}>{value}</div>
+             <div  onClick={(event)=>getPartnerAccountDetail(paymentPartnerList[tableMeta.rowIndex].partner_id)} style={{color:'#147298',textDecoration:'none',cursor:'pointer'}}>{value}</div>
           )
          },
         },
@@ -88,7 +88,20 @@ const AccountDivisionDatatables =()=>{
           filter: true,
           sort: true,
           customBodyRender: (value, tableMeta, updateValue) => (
-             <div  onClick={(event)=>getPartnerAccountDetail(tableMeta.rowData[10])} style={{color:'#147298',textDecoration:'none',cursor:'pointer'}}>{value}</div>
+             <div  onClick={(event)=>getPartnerAccountDetail(paymentPartnerList[tableMeta.rowIndex].partner_id)} style={{color:'#147298',textDecoration:'none',cursor:'pointer'}}>{value}</div>
+          )
+         }
+        },
+        {
+         name: "total_delivered",
+         label: "Delivered",
+         options: {
+          filter: true,
+          sort: true,
+          customBodyRender: (value, tableMeta, updateValue) => (
+             <>
+             <span>{value}</span>
+             </>
           )
          }
         },
@@ -129,7 +142,7 @@ const AccountDivisionDatatables =()=>{
           filter: true,
           sort: true,
              customBodyRender: (value, tableMeta, updateValue) => (
-             <div  onClick={(event)=>getPartnerAccountDetail(tableMeta.rowData[10])} style={{color:'#147298',textDecoration:'none',cursor:'pointer'}}>{value}</div>
+             <div  onClick={(event)=>getPartnerAccountDetail(paymentPartnerList[tableMeta.rowIndex].partner_id)} style={{color:'#147298',textDecoration:'none',cursor:'pointer'}}>{value}</div>
           )
          }
         },
@@ -140,7 +153,7 @@ const AccountDivisionDatatables =()=>{
           filter: true,
           sort: true,
              customBodyRender: (value, tableMeta, updateValue) => (
-             <div  onClick={(event)=>getPartnerAccountDetail(tableMeta.rowData[10])} style={{color:'#147298',textDecoration:'none',cursor:'pointer'}}>{value}</div>
+             <div  onClick={(event)=>getPartnerAccountDetail(paymentPartnerList[tableMeta.rowIndex].partner_id)} style={{color:'#147298',textDecoration:'none',cursor:'pointer'}}>{value}</div>
           )
          }
         },
@@ -151,7 +164,7 @@ const AccountDivisionDatatables =()=>{
           filter: true,
           sort: true,
              customBodyRender: (value, tableMeta, updateValue) => (
-             <div  onClick={(event)=>getPartnerAccountDetail(tableMeta.rowData[10])} style={{color:'#147298',textDecoration:'none',cursor:'pointer'}}>{value}</div>
+             <div  onClick={(event)=>getPartnerAccountDetail(paymentPartnerList[tableMeta.rowIndex].partner_id)} style={{color:'#147298',textDecoration:'none',cursor:'pointer'}}>{value}</div>
           )
          }
         },
@@ -162,7 +175,7 @@ const AccountDivisionDatatables =()=>{
           filter: true,
           sort: true,
              customBodyRender: (value, tableMeta, updateValue) => (
-             <div  onClick={(event)=>getPartnerAccountDetail(tableMeta.rowData[10])} style={{color:'#147298',textDecoration:'none',cursor:'pointer'}}>{value}</div>
+             <div  onClick={(event)=>getPartnerAccountDetail(paymentPartnerList[tableMeta.rowIndex].partner_id)} style={{color:'#147298',textDecoration:'none',cursor:'pointer'}}>{value}</div>
           )
          }
         },
@@ -173,7 +186,7 @@ const AccountDivisionDatatables =()=>{
           filter: true,
           sort: true,
              customBodyRender: (value, tableMeta, updateValue) => (
-             <div  onClick={(event)=>getPartnerAccountDetail(tableMeta.rowData[10])} style={{color:'#147298',textDecoration:'none',cursor:'pointer'}}>{value}</div>
+             <div  onClick={(event)=>getPartnerAccountDetail(paymentPartnerList[tableMeta.rowIndex].partner_id)} style={{color:'#147298',textDecoration:'none',cursor:'pointer'}}>{value}</div>
           )
          }
         },

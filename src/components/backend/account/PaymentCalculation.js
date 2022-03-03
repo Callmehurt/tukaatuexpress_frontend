@@ -79,25 +79,47 @@ const PaymentCalculation=()=>{
 
     useEffect(() => {
         const totalTransferable = parseFloat(paymentCalculations.total_cod_received)+parseFloat(reimbursement)+parseFloat(paymentCalculations.prev_add_deduct)-parseFloat(paymentCalculations.total_delivery_charge)-parseFloat(paymentCalculations.total_return_charge)-parseFloat(paymentCalculations.total_pickup_charge)+discountAmount;
-        const forNextStat = totalTransferable-parseFloat(paidAmount);
-        setNextAddDeduct(forNextStat);
+        if(totalTransferable < 0){
+
+        }else {
+            const forNextStat = totalTransferable-parseFloat(paidAmount);
+            setNextAddDeduct(forNextStat);
+        }
         }, [paidAmount])
 
     const handlePaidChange = (event) => {
-        const numbers = /^[0-9]+$/;
-          if(event.target.value !== ''){
-              if(event.target.value.match(numbers))
-              {
-                setPaidAmount(parseFloat(event.target.value));
+        // const numbers = /^[0-9]+$/;
+        const numbers = /^[0-9-+()]*$/
+      const totalTransferable = parseFloat(paymentCalculations.total_cod_received)+parseFloat(reimbursement)+parseFloat(paymentCalculations.prev_add_deduct)-parseFloat(paymentCalculations.total_delivery_charge)-parseFloat(paymentCalculations.total_return_charge)-parseFloat(paymentCalculations.total_pickup_charge)+discountAmount;
+        if(Object.is(NaN, parseFloat(event.target.value))){
+           setPaidAmount(0);
+           return false
+        }
+        if(event.target.value !== ''){
+             if(Object.is(NaN, parseFloat(event.target.value))){
+                    setPaidAmount(0);
+                    return false
               }
-              else
+          if(event.target.value.match(numbers)) {
+              if(Object.is(NaN, parseFloat(event.target.value))){
+                    setPaidAmount(0);
+              }else {
+                  if(totalTransferable < 0){
+                      setPaidAmount(-Math.abs(event.target.value));
+                  }else {
+                      setPaidAmount(parseFloat(event.target.value));
+                  }
+              }
+
+          }
+          else
               {
                   notification('danger', 'Please input numeric characters only')
                   return false;
               }
-          }else {
-              setPaidAmount(0)
-          }
+      }else {
+          setPaidAmount(0)
+      }
     }
 
     const handleReimbusermentChange = (event) => {
@@ -362,7 +384,9 @@ const PaymentCalculation=()=>{
                              <tr>
                                 <th colSpan="1"></th>
                                 <th>To add/ deduct on next Stat.</th>
-                                <th>Rs. {parseFloat(paymentCalculations.total_cod_received)+parseFloat(reimbursement)+parseFloat(paymentCalculations.prev_add_deduct)-parseFloat(paidAmount)-parseFloat(paymentCalculations.total_delivery_charge)-parseFloat(paymentCalculations.total_return_charge)-parseFloat(paymentCalculations.total_pickup_charge)+discountAmount}</th>
+                                <th>Rs. {
+                                    nextAddDeduct === '' ? 0: parseFloat(paymentCalculations.total_cod_received)+parseFloat(reimbursement)+parseFloat(paymentCalculations.prev_add_deduct)-parseFloat(paidAmount)-parseFloat(paymentCalculations.total_delivery_charge)-parseFloat(paymentCalculations.total_return_charge)-parseFloat(paymentCalculations.total_pickup_charge)+discountAmount
+                                }</th>
                              </tr>
                          </tbody>
                      </Table>

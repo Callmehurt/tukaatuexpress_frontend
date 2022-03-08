@@ -23,7 +23,6 @@ const AllHoldsDatatables=()=>{
          const [packetId,setPacketId]=useState('');
         useEffect(()=>{
             let staff_admin = JSON.parse(localStorage.getItem('staff_admin'));
-            // console.log(staff_admin);
             if(staff_admin){
               setAuthorizationToken(staff_admin.token);
             }
@@ -56,16 +55,6 @@ const AllHoldsDatatables=()=>{
           console.log(packetId);
            console.log('hold move id');
           setHoldMoveShow(true);
-        // await axios.get(`admin/pickup/move/to/warehouse/${id}`)
-        //     .then((res) => {
-        //         console.log(res.data);
-        //         console.log('res data pickup')
-        //         showNotification('success', res.data.message);
-        //         getAllHolds();
-        //     })
-        //     .catch((err) => {
-        //         console.log(err.response.data);
-        //     })
     }
     const holdConfirmFunc =(data_id)=>{
         let PostData={
@@ -106,7 +95,6 @@ const AllHoldsDatatables=()=>{
           sort: true,
              customBodyRender: (value, tableMeta, updateValue) => (
               <>
-                  {/*{console.log(tableMeta)}*/}
                   <div style={{cursor:'pointer'}} onDoubleClick={(event)=> getPickupDetail(tableMeta.rowData[9])}>{value}</div>
               </>
           )
@@ -254,16 +242,6 @@ const AllHoldsDatatables=()=>{
                               </>
 
                           }
-
-                          {/* <div style={{width:'25%',}}>*/}
-                          {/*      <button style={{width:'90px',borderRadius:'5px',border:'none',backgroundColor:'#ffc107',padding:'5px 10px'}} onClick={() => MoveToCancel(value)}> Move to Cancel <ImBoxRemove/></button>*/}
-                          {/*</div>*/}
-                          {/* <div style={{width:'25%',}}>*/}
-                          {/*      <button style={{width:'90px',borderRadius:'5px',border:'none',backgroundColor:'#ffc107',padding:'5px 10px'}} onClick={() => TransferAction(value)}> Transfer <ImBoxRemove/></button>*/}
-                          {/*</div>*/}
-                          {/*<div style={{width:'50%',}}>*/}
-                          {/*      <button className="editBtn" ><BiEdit /></button>*/}
-                          {/*</div>*/}
                       </div>
                   </>
               )

@@ -21,19 +21,16 @@ const TransferOutRequest=()=>{
         // console.log('fetch api');
         axios.get('admin/pickup/transfer/outs')
             .then((res) => {
-                console.log(res.data);
                 dispatch(TransferOuts(res.data));
                 dispatch(TransferOutsCount(res.data.length));
-                console.log('transfer Out data');
             })
             .catch((err) => {
                 console.log(err.response);
                 // console.log('error transfer ins')
             })
     },[0]);
+
      const getPickupDetail=(id)=>{
-       console.log(id);
-       console.log('id pickup Detail');
         history.push({
               pathname: '/staff/admin/pickup_detail',
            state: {imageDetail: id }

@@ -15,18 +15,6 @@ const VendorPickUpArea=()=>{
     return(
         <>
             <div className="px-2">
-                {/*<h6>vendorPickup area</h6>*/}
-                {/*<Row>*/}
-                {/*    <Col style={{width:'40%'}} >*/}
-                {/*        <Link to="/vendor/request_pickup"> <Button variant="secondary" style={{fontSize:'12px',width:'130px'}} >Request Pickup</Button></Link>*/}
-                {/*    </Col>*/}
-                {/*    <Col style={{width:'40%'}}>*/}
-                {/*        <Link to="/vendor/request_image"><Button variant="secondary" style={{fontSize:'12px',width:'170px'}}>Request Pickup by Image</Button></Link>*/}
-                {/*    </Col>*/}
-                {/*    <Col style={{width:'20%'}}>*/}
-                {/*         /!*<Button variant="secondary" style={{fontSize:'12px'}}>Create Pick up</Button>*!/*/}
-                {/*    </Col>*/}
-                {/*</Row>*/}
                 <Row style={{paddingTop:'10px'}}>
                     <Col xs={4}>
 
@@ -46,8 +34,6 @@ const VendorPickUpArea=()=>{
 
                             </>
                         }
-                        {/*<FaRegListAlt size={20} />*/}
-                        {/*<span style={{paddingLeft:'7px',paddingTop:'3px'}}>List View</span>*/}
                     </Col>
                     <Col xs={4}>
                         {changeView ?
@@ -64,8 +50,6 @@ const VendorPickUpArea=()=>{
                             </>
 
                         }
-                        {/*<RiRoadMapLine size={24} />*/}
-                        {/*  <span style={{paddingLeft:'3px',paddingTop:'3px'}}> Map View</span>*/}
                     </Col>
                     {
                         changeView?

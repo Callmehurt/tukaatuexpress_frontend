@@ -39,6 +39,14 @@ const VendorReturnPickupList=(props)=>{
           sort: true,
          }
         },
+         {
+         name: "customer_address",
+         label: "Address",
+         options: {
+          filter: true,
+          sort: true,
+         }
+        },
        {
          name: "packet_name",
          label: "Product Name",
@@ -53,22 +61,37 @@ const VendorReturnPickupList=(props)=>{
          options: {
           filter: true,
           sort: true,
+             customBodyRender: (value, tableMeta, updateValue) => (
+              <>
+                  Rs. {value}
+              </>
+          )
          }
         },
-       {
+           {
          name: "delivery_charge",
          label: "Delivery Charge",
          options: {
           filter: true,
           sort: true,
+             customBodyRender: (value, tableMeta, updateValue) => (
+              <>
+                  Rs. {value}
+              </>
+          )
          }
         },
-       {
-         name: "customer_address",
-         label: "Address",
+         {
+         name: "return_charge",
+         label: "Return Charge",
          options: {
           filter: true,
           sort: true,
+             customBodyRender: (value, tableMeta, updateValue) => (
+              <>
+                  Rs. {value}
+              </>
+          )
          }
         },
         {

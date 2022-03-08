@@ -15,71 +15,16 @@ const windowsSize = useWindowSize();
   if (windowsSize.width<=isMobile) {
       return (
           <>
-              {/*<div style={{paddingTop:'10px'}}>Pick up request list</div>*/}
               <Row style={{paddingTop: '10px'}}>
-                  {/*<Col xs={1}>*/}
-
-                  {/*</Col>*/}
                   <Col xs={6}>
                       <div className="d-flex justify-content-center">
-                          {/*{imageList ?*/}
-                          {/*    <>*/}
-                          {/*        <FaListAlt size={20}/>*/}
-                          {/*        <span style={{paddingLeft: '7px', paddingTop: '3px'}}>Entry Request</span>*/}
-
-                          {/*    </> :*/}
-                          {/*    <>*/}
-                          {/*        <div onClick={(event) => setImageList(true)}>*/}
-                          {/*            <FaRegListAlt size={20}/>*/}
-                          {/*            <span style={{paddingLeft: '7px', paddingTop: '3px'}}>Entry Request</span>*/}
-                          {/*        </div>*/}
-
-                          {/*    </>*/}
-                          {/*}*/}
-                          {/*All Request List*/}
                       </div>
-                      {/*<FaRegListAlt size={20} />*/}
-                      {/*<span style={{paddingLeft:'7px',paddingTop:'3px'}}>List View</span>*/}
                   </Col>
                   <Col xs={6}>
                       <div className="d-flex justify-content-center">
-                          {/*{imageList ?*/}
-                          {/*    <>*/}
-                          {/*        <div onClick={(event) => setImageList(false)}>*/}
-                          {/*            <RiRoadMapLine size={24}/>*/}
-                          {/*            <span style={{paddingLeft: '3px', paddingTop: '3px'}}> Image Request</span>*/}
-                          {/*        </div>*/}
-
-                          {/*    </> :*/}
-                          {/*    <>*/}
-                          {/*        <RiRoadMapFill size={24}/>*/}
-                          {/*        <span style={{paddingLeft: '3px', paddingTop: '3px'}}> Image Request</span>*/}
-                          {/*    </>*/}
-                          {/*}*/}
                       </div>
-                      {/*<RiRoadMapLine size={24} />*/}
-                      {/*  <span style={{paddingLeft:'3px',paddingTop:'3px'}}> Map View</span>*/}
                   </Col>
-                  {/*{*/}
-                  {/*    imageList ?*/}
-                  {/*        <>*/}
-                  {/*            <Col lg={12} className="pt-2">*/}
-                  {/*                /!*<AllPickupsDatatables />*!/*/}
-                  {/*                <PickupRequestListView/>*/}
-                  {/*            </Col>*/}
-                  {/*        </>*/}
-                  {/*        :*/}
-                  {/*        <>*/}
-                  {/*            <Col lg={12} className="pt-2">*/}
-                  {/*                /!*<AllPickupListMapView />*!/*/}
-                  {/*                /!* Image List*!/*/}
-                  {/*                <PickupRequestImageView/>*/}
-                  {/*            </Col>*/}
-                  {/*        </>*/}
-                  {/*}*/}
                    <Col lg={12} className="pt-2">
-                                  {/*<AllPickupListMapView />*/}
-                                  {/* Image List*/}
                        <PickupRequestImageView/>
                    </Col>
 

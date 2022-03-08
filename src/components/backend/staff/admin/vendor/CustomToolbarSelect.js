@@ -42,7 +42,7 @@ const CustomToolbarSelect = (props) => {
         selectedIndex.map((selected) => {
             datas.map((record) => {
                 if(record.dataIndex === selected.dataIndex){
-                    idArray.push(record.data[8])
+                    idArray.push(record.data[9])
                 }
             })
         })

@@ -50,15 +50,23 @@ const Items = ({ currentItems, viewPaymentStatement, viewInvoicePdf }) => {
                                               <Col xs={6} className="pt-1 pb-2" >
                                                    <Button variant="outline-secondary" onClick={() => viewPaymentStatement(item.id)}><AiFillEye size={20} /> Statement</Button>
                                               </Col>
-                                              <Col xs={6} className="pt-1 pb-2" >
-                                                  {
-                                                      item.invoices.split(',').map((inv) => {
-                                                          return (
-                                                              <Button variant="outline-secondary" onClick={() => viewInvoicePdf(inv)}> <AiFillEye size={20} /> Invoices </Button>
-                                                          )
-                                                      })
-                                                  }
-                                              </Col>
+                                              {
+                                                  item.invoices === '' || item.invoices === null ? (
+                                                        <Col xs={6} className="pt-1 pb-2" >
+                                                                  <Button variant="outline-danger">No Invoices </Button>
+                                                        </Col>
+                                                  ):(
+                                                      <Col xs={6} className="pt-1 pb-2" >
+                                                          {
+                                                              item.invoices.split(',').map((inv) => {
+                                                                return (
+                                                                  <Button variant="outline-secondary" onClick={() => viewInvoicePdf(inv)}> <AiFillEye size={20} /> Invoices </Button>
+                                                              )
+                                                              })
+                                                          }
+                                                        </Col>
+                                                  )
+                                              }
                                           </Row>
 
                                       </div>
@@ -147,14 +155,10 @@ const StatementAndInvoices = ({ itemsPerPage }) => {
         setReturns([]);
     }
 
-    const downloadPdf = (statement_id) => {
-        axios.get(`/partner/download/${statement_id}`)
-            .then((res) => {
-                console.log(res)
-            })
-            .catch((err) => {
-            console.log(err)
-        })
+    const downloadPdf = async (statement_id) => {
+         const url = `https://tukaatuexpress.com/backend/public/download/payment/statement/${statement_id}`
+      const newWindow = window.open(url, '_blank', 'noopener,noreferrer')
+      if (newWindow) newWindow.opener = null
     }
 
     const viewInvoicePdf = (invoice_id) => {
@@ -301,7 +305,7 @@ const StatementAndInvoices = ({ itemsPerPage }) => {
                                             <td>{data.created_at}</td>
                                             <td>{data.completed}</td>
                                             <td>Rs. {
-                                                data.completed > 3 ? 0 : data.completed*50
+                                                data.completed > 3 ? 0 : 50
                                             }</td>
                                         </tr>
                                     )

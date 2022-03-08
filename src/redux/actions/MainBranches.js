@@ -67,11 +67,11 @@ export const DailyStatements= (data) => {
         })
     }
 }
-export const DailyStatementTotalDeposit= (data,providedPettyCash=0,totalCommission=0) => {
+export const DailyStatementTotalDeposit= (toDeposit, providedPettyCash=0,totalCommission=0) => {
     return(dispatch) => {
         dispatch({
             type: MainBranchesTypes.DAILY_STATEMENT_TOTAL_DEPOSIT,
-            payload: data,
+            payload: toDeposit,
             providedPettyCash:providedPettyCash,
             totalCommission:totalCommission
         })

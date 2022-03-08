@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import Tab from "react-bootstrap/Tab";
 import Tabs from "react-bootstrap/Tabs";
 import {useDispatch, useSelector} from "react-redux";
@@ -8,16 +8,19 @@ import VendorReturnPickupApprovedStatement from "./VendorReturnPickupApprovedSta
 import setAuthorizationToken from "../../../../../utils/setAuthorizationToken";
 import {useHistory, useParams} from "react-router-dom";
 import {fetchPartnerReturnDetails, fetchPartnerReturnStatements, removePartnerReturnDetails} from "../../../../../redux/actions/partnerReturnStatementAction";
+import axios from "axios";
 
-const VendorReturnPickup=()=>{
+const VendorReturnPickup = () => {
 
     const {partner_id} = useParams();
     const history = useHistory();
     const dispatch = useDispatch();
 
+    const [currentPartner, setCurrentPartner] = useState('');
     const partnerReturnDeliveries = useSelector((state) => state.partnerReturnDetails.returnDeliveries);
     const partnerPendingReturnStatements = useSelector((state) => state.partnerReturnDetails.pendingReturnStatements);
     const partnerApprovedReturnStatements = useSelector((state) => state.partnerReturnDetails.approvedReturnStatements);
+
 
     useEffect(()=>{
          let staff_admin = JSON.parse(localStorage.getItem('staff_admin'));
@@ -29,6 +32,7 @@ const VendorReturnPickup=()=>{
 
          return () => {
              dispatch(removePartnerReturnDetails());
+             setCurrentPartner('');
          }
 
      },[]);
@@ -37,13 +41,26 @@ const VendorReturnPickup=()=>{
         if(partner_id && partner_id !== ''){
             dispatch(fetchPartnerReturnDetails(partner_id));
             dispatch(fetchPartnerReturnStatements(partner_id))
+            getCurrentPartner(partner_id)
         }
     }, [partner_id])
+
+    const getCurrentPartner = async (partner_id) => {
+        const res = axios.get(`/admin/vendor/detail/${partner_id}`).catch((err) => {
+            console.log(err)
+        })
+
+        if((await res)){
+            setCurrentPartner((await res).data.vendor_name)
+        }
+    }
 
 
     return(
         <>
-
+            <h4 style={{textAlign: 'center', marginTop: '15px', marginBottom: '15px'}}><strong>
+                {currentPartner === '' ? '........' : currentPartner}
+            </strong></h4>
              <Tabs
             defaultActiveKey="partnerAllReturns"
             transition={false}

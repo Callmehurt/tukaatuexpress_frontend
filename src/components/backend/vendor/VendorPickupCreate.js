@@ -66,7 +66,7 @@ const VendorPickupCreate=()=> {
         customer_charge_payable:0,
         // staff_id: '',
     });
-    const [exchnageProductCustomer,setExchnageProductCustomer]=useState({
+    const [exchnageProductCustomer, setExchnageProductCustomer]=useState({
         value:'',
         label:'',
         // name:''
@@ -121,7 +121,7 @@ const VendorPickupCreate=()=> {
                     customerReplacePickups.forEach((items,index)=>{
                     let arrayObject = {
                         value: items.id,
-                        label: items.packet_name + '(' + items.cod + ')',
+                        label: items.packet_name.concat(' - ', `Rs. ${items.cod}`).concat(' - ', items.customer),
                         name:'customer_replace',
                         partner_id:items.partner_id,
                         type: items.type,
@@ -155,7 +155,7 @@ const VendorPickupCreate=()=> {
                     productExchangePickups.forEach((items,index)=>{
                     let arrayObject = {
                         value: items.id,
-                        label: items.packet_name + '(' + items.cod + ')',
+                        label: items.packet_name.concat(' - ', `Rs. ${items.cod}`).concat(' - ', items.customer),
                         name:'Product_exchange',
                         customer_id:items.customer_id,
                         customer_name:items.customer,
@@ -411,6 +411,18 @@ const selectChangeCustomerReplace=(event)=>{
     }
 
     const submitCustomerDetails = async () => {
+
+        const regex = /^[0-9]+$/;
+        const regex2 = /^[0-9]{10}$/;
+        if(!customerDetails.phone.match(regex)){
+            notification('danger', 'Characters are not allowed!')
+            return false;
+        }
+
+        if(!customerDetails.phone.match(regex2)){
+            notification('danger', 'Number should contain 10 digits')
+            return false;
+        }
 
         const res = await axios.post('/partner/customer/register', customerDetails).catch((err) => {
             console.log(err)

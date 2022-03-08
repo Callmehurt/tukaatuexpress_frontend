@@ -1,6 +1,6 @@
 import React, {useState,useEffect} from 'react';
 import {Card, Col, Image, Row} from "react-bootstrap";
-import logoImage from "../../../logo.svg";
+import logoImage from "../../../assets/faviconwhite.png";
 import {GrView} from "react-icons/gr";
 import {useHistory} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
@@ -48,7 +48,7 @@ const PickupRequestListView=()=>{
                           <Card.Body className="p-0">
                               <Row>
                                   <Col xs={3} className="pl-0 pr-0">
-                                      <Image src={logoImage} roundedCircle />
+                                      <Image src={logoImage} roundedCircle style={{height: '80px', width: 'auto'}} />
                                   </Col>
                                   <Col xs={9} style={{paddingLeft:'0px',paddingRight:'0px'}}>
                                       <Row>

@@ -25,8 +25,6 @@ const PendingReturnOrders=()=>{
      const getPendingReturnList=()=>{
             axios.get('/partner/get/cancelled/pickups')
                     .then((res)=>{
-                        console.log(res);
-                        console.log(res.data);
                         dispatch(returnsOrderList(res.data));
                     })
             .catch((err)=>{

@@ -6,7 +6,7 @@ import axios from "axios";
 import {Row, Col, Image, Card,Button} from 'react-bootstrap';
 import {AiFillDelete} from 'react-icons/ai';
 import {getMessageDetail,getRequestImageDetail,getRequestEntryDetail} from "../../../redux/actions/vendor";
-import logoImage from "../../../logo.svg";
+import logoImage from "../../../assets/faviconwhite.png";
 import { SRLWrapper } from "simple-react-lightbox";
 import useWindowSize from "../../../use-window-size";
 
@@ -213,8 +213,10 @@ const PickupImageRequestDetail = () =>{
                                                    }}>
                                                        <Card.Body className="p-0">
                                                            <Row>
-                                                               <Col xs={3} className="pl-0 pr-0">
-                                                                   <Image src={logoImage} roundedCircle/>
+                                                               <Col xs={3} className="pl-0 pr-0" style={{display: 'grid', placeItems: 'center'}}>
+                                                              <div style={{height: '55px', width: '55px', borderRadius: '50%', display: 'grid', placeItems: 'center', border: '1px solid rgba(36, 36, 36, .5'}}>
+                                                              <Image src={logoImage} roundedCircle className="img-fluid" style={{height:'40px'}}/>
+                                                              </div>
                                                                </Col>
                                                                <Col xs={9}
                                                                     style={{paddingLeft: '0px', paddingRight: '0px'}}>
@@ -299,8 +301,10 @@ const PickupImageRequestDetail = () =>{
                                                    }}>
                                                        <Card.Body className="p-0">
                                                            <Row>
-                                                               <Col xs={3} className="pl-0 pr-0">
-                                                                   <Image src={logoImage} roundedCircle/>
+                                                               <Col xs={3} className="pl-0 pr-0" style={{display: 'grid', placeItems: 'center'}}>
+                                                          <div style={{height: '55px', width: '55px', borderRadius: '50%', display: 'grid', placeItems: 'center', border: '1px solid rgba(36, 36, 36, .5'}}>
+                                                          <Image src={logoImage} roundedCircle className="img-fluid" style={{height:'40px'}}/>
+                                                          </div>
                                                                </Col>
                                                                <Col xs={9}
                                                                     style={{paddingLeft: '0px', paddingRight: '0px'}}>
@@ -366,208 +370,6 @@ const PickupImageRequestDetail = () =>{
 
                        </>
                }
-               {/*<Card onClick={(e)=>{e.preventDefault(); getRequestDetail(2)}}>*/}
-               {/*     <Card.Body className="p-0">*/}
-               {/*         <Row>*/}
-               {/*             <Col xs={3} className="pl-0 pr-0">*/}
-               {/*                 <Image src={logoImage} roundedCircle />*/}
-               {/*             </Col>*/}
-               {/*             <Col xs={9} style={{paddingLeft:'0px',paddingRight:'0px'}}>*/}
-               {/*                 <Row>*/}
-               {/*                     <Col xs={8}>*/}
-               {/*                         <div style={{display:'grid',height:'50px',alignContent:'center'}}>*/}
-               {/*                             <h6 className="mb-1">Product Name<span style={{fontSize:'12px',fontWeight:'400',paddingLeft:'5px'}}>(Tex Code)</span></h6>*/}
-               {/*                         </div>*/}
-               {/*                     </Col>*/}
-               {/*                     <Col xs={4}>*/}
-               {/*                         <div style={{display:'grid',height:'50px',alignContent:'center'}}>*/}
-               {/*                             <div onClick={(event)=>getRequestDetail(2)}>*/}
-               {/*                                   <GrView size={25} />*/}
-               {/*                             </div>*/}
-
-               {/*                         </div>*/}
-               {/*                         /!*<h6>view Button</h6>*!/*/}
-               {/*                     </Col>*/}
-               {/*                 </Row>*/}
-               {/*                 <div className="pt-2">*/}
-               {/*                     /!*<h6 className="mb-1">{requestList.packet_name}<span style={{fontSize:'12px',fontWeight:'400',paddingLeft:'5px'}}>({requestList.tex_code})</span></h6>*!/*/}
-
-               {/*                 </div>*/}
-               {/*                  <div>*/}
-               {/*                      /!*<p style={{fontSize:'15px'}}>Recent Message Show</p>*!/*/}
-
-               {/*                 </div>*/}
-               {/*                 /!*<div>*!/*/}
-               {/*                 /!*     <p style={{fontSize:'12px'}}>{chatList.status}</p>*!/*/}
-
-               {/*                 /!*</div>*!/*/}
-               {/*                 /!*<Image src="holder.js/171x180" roundedCircle />*!/*/}
-               {/*             </Col>*/}
-               {/*         </Row>*/}
-               {/*     </Card.Body>*/}
-               {/*  </Card>*/}
-               {/*<Card onClick={(e)=>{e.preventDefault(); getRequestDetail(2)}}>*/}
-               {/*     <Card.Body className="p-0">*/}
-               {/*         <Row>*/}
-               {/*             <Col xs={3} className="pl-0 pr-0">*/}
-               {/*                 <Image src={logoImage} roundedCircle />*/}
-               {/*             </Col>*/}
-               {/*             <Col xs={9} style={{paddingLeft:'0px',paddingRight:'0px'}}>*/}
-               {/*                 <Row>*/}
-               {/*                     <Col xs={8}>*/}
-               {/*                         <div style={{display:'grid',height:'50px',alignContent:'center'}}>*/}
-               {/*                             <h6 className="mb-1">Product Name<span style={{fontSize:'12px',fontWeight:'400',paddingLeft:'5px'}}>(Tex Code)</span></h6>*/}
-               {/*                         </div>*/}
-               {/*                     </Col>*/}
-               {/*                     <Col xs={4}>*/}
-               {/*                         <div style={{display:'grid',height:'50px',alignContent:'center'}}>*/}
-               {/*                             <div onClick={(event)=>getRequestDetail(2)}>*/}
-               {/*                                   <GrView size={25} />*/}
-               {/*                             </div>*/}
-
-               {/*                         </div>*/}
-               {/*                         /!*<h6>view Button</h6>*!/*/}
-               {/*                     </Col>*/}
-               {/*                 </Row>*/}
-               {/*                 <div className="pt-2">*/}
-               {/*                     /!*<h6 className="mb-1">{requestList.packet_name}<span style={{fontSize:'12px',fontWeight:'400',paddingLeft:'5px'}}>({requestList.tex_code})</span></h6>*!/*/}
-
-               {/*                 </div>*/}
-               {/*                  <div>*/}
-               {/*                      /!*<p style={{fontSize:'15px'}}>Recent Message Show</p>*!/*/}
-
-               {/*                 </div>*/}
-               {/*                 /!*<div>*!/*/}
-               {/*                 /!*     <p style={{fontSize:'12px'}}>{chatList.status}</p>*!/*/}
-
-               {/*                 /!*</div>*!/*/}
-               {/*                 /!*<Image src="holder.js/171x180" roundedCircle />*!/*/}
-               {/*             </Col>*/}
-               {/*         </Row>*/}
-               {/*     </Card.Body>*/}
-               {/*  </Card>*/}
-               {/* <Card onClick={(e)=>{e.preventDefault(); getRequestDetail(2)}}>*/}
-               {/*     <Card.Body className="p-0">*/}
-               {/*         <Row>*/}
-               {/*             <Col xs={3} className="pl-0 pr-0">*/}
-               {/*                 <Image src={logoImage} roundedCircle />*/}
-               {/*             </Col>*/}
-               {/*             <Col xs={9} style={{paddingLeft:'0px',paddingRight:'0px'}}>*/}
-               {/*                 <Row>*/}
-               {/*                     <Col xs={8}>*/}
-               {/*                         <div style={{display:'grid',height:'50px',alignContent:'center'}}>*/}
-               {/*                             <h6 className="mb-1">Product Name<span style={{fontSize:'12px',fontWeight:'400',paddingLeft:'5px'}}>(Tex Code)</span></h6>*/}
-               {/*                         </div>*/}
-               {/*                     </Col>*/}
-               {/*                     <Col xs={4}>*/}
-               {/*                         <div style={{display:'grid',height:'50px',alignContent:'center'}}>*/}
-               {/*                             <div onClick={(event)=>getRequestDetail(2)}>*/}
-               {/*                                   <GrView size={25} />*/}
-               {/*                             </div>*/}
-
-               {/*                         </div>*/}
-               {/*                         /!*<h6>view Button</h6>*!/*/}
-               {/*                     </Col>*/}
-               {/*                 </Row>*/}
-               {/*                 <div className="pt-2">*/}
-               {/*                     /!*<h6 className="mb-1">{requestList.packet_name}<span style={{fontSize:'12px',fontWeight:'400',paddingLeft:'5px'}}>({requestList.tex_code})</span></h6>*!/*/}
-
-               {/*                 </div>*/}
-               {/*                  <div>*/}
-               {/*                      /!*<p style={{fontSize:'15px'}}>Recent Message Show</p>*!/*/}
-
-               {/*                 </div>*/}
-               {/*                 /!*<div>*!/*/}
-               {/*                 /!*     <p style={{fontSize:'12px'}}>{chatList.status}</p>*!/*/}
-
-               {/*                 /!*</div>*!/*/}
-               {/*                 /!*<Image src="holder.js/171x180" roundedCircle />*!/*/}
-               {/*             </Col>*/}
-               {/*         </Row>*/}
-               {/*     </Card.Body>*/}
-               {/*  </Card>*/}
-               {/* <Card onClick={(e)=>{e.preventDefault(); getRequestDetail(2)}}>*/}
-               {/*     <Card.Body className="p-0">*/}
-               {/*         <Row>*/}
-               {/*             <Col xs={3} className="pl-0 pr-0">*/}
-               {/*                 <Image src={logoImage} roundedCircle />*/}
-               {/*             </Col>*/}
-               {/*             <Col xs={9} style={{paddingLeft:'0px',paddingRight:'0px'}}>*/}
-               {/*                 <Row>*/}
-               {/*                     <Col xs={8}>*/}
-               {/*                         <div style={{display:'grid',height:'50px',alignContent:'center'}}>*/}
-               {/*                             <h6 className="mb-1">Product Name<span style={{fontSize:'12px',fontWeight:'400',paddingLeft:'5px'}}>(Tex Code)</span></h6>*/}
-               {/*                         </div>*/}
-               {/*                     </Col>*/}
-               {/*                     <Col xs={4}>*/}
-               {/*                         <div style={{display:'grid',height:'50px',alignContent:'center'}}>*/}
-               {/*                             <div onClick={(event)=>getRequestDetail(2)}>*/}
-               {/*                                   <GrView size={25} />*/}
-               {/*                             </div>*/}
-
-               {/*                         </div>*/}
-               {/*                         /!*<h6>view Button</h6>*!/*/}
-               {/*                     </Col>*/}
-               {/*                 </Row>*/}
-               {/*                 <div className="pt-2">*/}
-               {/*                     /!*<h6 className="mb-1">{requestList.packet_name}<span style={{fontSize:'12px',fontWeight:'400',paddingLeft:'5px'}}>({requestList.tex_code})</span></h6>*!/*/}
-
-               {/*                 </div>*/}
-               {/*                  <div>*/}
-               {/*                      /!*<p style={{fontSize:'15px'}}>Recent Message Show</p>*!/*/}
-
-               {/*                 </div>*/}
-               {/*                 /!*<div>*!/*/}
-               {/*                 /!*     <p style={{fontSize:'12px'}}>{chatList.status}</p>*!/*/}
-
-               {/*                 /!*</div>*!/*/}
-               {/*                 /!*<Image src="holder.js/171x180" roundedCircle />*!/*/}
-               {/*             </Col>*/}
-               {/*         </Row>*/}
-               {/*     </Card.Body>*/}
-               {/*  </Card>*/}
-               {/* <Card onClick={(e)=>{e.preventDefault(); getRequestDetail(2)}}>*/}
-               {/*     <Card.Body className="p-0">*/}
-               {/*         <Row>*/}
-               {/*             <Col xs={3} className="pl-0 pr-0">*/}
-               {/*                 <Image src={logoImage} roundedCircle />*/}
-               {/*             </Col>*/}
-               {/*             <Col xs={9} style={{paddingLeft:'0px',paddingRight:'0px'}}>*/}
-               {/*                 <Row>*/}
-               {/*                     <Col xs={8}>*/}
-               {/*                         <div style={{display:'grid',height:'50px',alignContent:'center'}}>*/}
-               {/*                             <h6 className="mb-1">Product Name<span style={{fontSize:'12px',fontWeight:'400',paddingLeft:'5px'}}>(Tex Code)</span></h6>*/}
-               {/*                         </div>*/}
-               {/*                     </Col>*/}
-               {/*                     <Col xs={4}>*/}
-               {/*                         <div style={{display:'grid',height:'50px',alignContent:'center'}}>*/}
-               {/*                             <div onClick={(event)=>getRequestDetail(2)}>*/}
-               {/*                                   <GrView size={25} />*/}
-               {/*                             </div>*/}
-
-               {/*                         </div>*/}
-               {/*                         /!*<h6>view Button</h6>*!/*/}
-               {/*                     </Col>*/}
-               {/*                 </Row>*/}
-               {/*                 <div className="pt-2">*/}
-               {/*                     /!*<h6 className="mb-1">{requestList.packet_name}<span style={{fontSize:'12px',fontWeight:'400',paddingLeft:'5px'}}>({requestList.tex_code})</span></h6>*!/*/}
-
-               {/*                 </div>*/}
-               {/*                  <div>*/}
-               {/*                      /!*<p style={{fontSize:'15px'}}>Recent Message Show</p>*!/*/}
-
-               {/*                 </div>*/}
-               {/*                 /!*<div>*!/*/}
-               {/*                 /!*     <p style={{fontSize:'12px'}}>{chatList.status}</p>*!/*/}
-
-               {/*                 /!*</div>*!/*/}
-               {/*                 /!*<Image src="holder.js/171x180" roundedCircle />*!/*/}
-               {/*             </Col>*/}
-               {/*         </Row>*/}
-               {/*     </Card.Body>*/}
-               {/*  </Card>*/}
-
-
            </>
        );
    }else{
@@ -714,8 +516,10 @@ const PickupImageRequestDetail = () =>{
                                                    }}>
                                                        <Card.Body className="p-0">
                                                            <Row>
-                                                               <Col lg={2} className="pl-0 pr-0">
-                                                                   <Image src={logoImage} roundedCircle className="img-fluid" style={{height:'60px'}}/>
+                                                               <Col lg={2} className="pl-0 pr-0" style={{display: 'grid', placeItems: 'center'}}>
+                                                          <div style={{height: '55px', width: '55px', borderRadius: '50%', display: 'grid', placeItems: 'center', border: '1px solid rgba(36, 36, 36, .5'}}>
+                                                          <Image src={logoImage} roundedCircle className="img-fluid" style={{height:'40px'}}/>
+                                                          </div>
                                                                </Col>
                                                                <Col lg={10}
                                                                     style={{paddingLeft: '0px', paddingRight: '0px'}}>
@@ -800,8 +604,10 @@ const PickupImageRequestDetail = () =>{
                                                    }}>
                                                        <Card.Body className="p-0">
                                                            <Row>
-                                                               <Col xs={2} className="pl-0 pr-0">
-                                                                   <Image src={logoImage} roundedCircle className="img-fluid" style={{height:'60px'}}/>
+                                                               <Col xs={2} className="pl-0 pr-0" style={{display: 'grid', placeItems: 'center'}}>
+                                                          <div style={{height: '55px', width: '55px', borderRadius: '50%', display: 'grid', placeItems: 'center', border: '1px solid rgba(36, 36, 36, .5'}}>
+                                                          <Image src={logoImage} roundedCircle className="img-fluid" style={{height:'40px'}}/>
+                                                          </div>
                                                                </Col>
                                                                <Col xs={10}
                                                                     style={{paddingLeft: '0px', paddingRight: '0px'}}>
@@ -867,208 +673,6 @@ const PickupImageRequestDetail = () =>{
 
                        </>
                }
-               {/*<Card onClick={(e)=>{e.preventDefault(); getRequestDetail(2)}}>*/}
-               {/*     <Card.Body className="p-0">*/}
-               {/*         <Row>*/}
-               {/*             <Col xs={3} className="pl-0 pr-0">*/}
-               {/*                 <Image src={logoImage} roundedCircle />*/}
-               {/*             </Col>*/}
-               {/*             <Col xs={9} style={{paddingLeft:'0px',paddingRight:'0px'}}>*/}
-               {/*                 <Row>*/}
-               {/*                     <Col xs={8}>*/}
-               {/*                         <div style={{display:'grid',height:'50px',alignContent:'center'}}>*/}
-               {/*                             <h6 className="mb-1">Product Name<span style={{fontSize:'12px',fontWeight:'400',paddingLeft:'5px'}}>(Tex Code)</span></h6>*/}
-               {/*                         </div>*/}
-               {/*                     </Col>*/}
-               {/*                     <Col xs={4}>*/}
-               {/*                         <div style={{display:'grid',height:'50px',alignContent:'center'}}>*/}
-               {/*                             <div onClick={(event)=>getRequestDetail(2)}>*/}
-               {/*                                   <GrView size={25} />*/}
-               {/*                             </div>*/}
-
-               {/*                         </div>*/}
-               {/*                         /!*<h6>view Button</h6>*!/*/}
-               {/*                     </Col>*/}
-               {/*                 </Row>*/}
-               {/*                 <div className="pt-2">*/}
-               {/*                     /!*<h6 className="mb-1">{requestList.packet_name}<span style={{fontSize:'12px',fontWeight:'400',paddingLeft:'5px'}}>({requestList.tex_code})</span></h6>*!/*/}
-
-               {/*                 </div>*/}
-               {/*                  <div>*/}
-               {/*                      /!*<p style={{fontSize:'15px'}}>Recent Message Show</p>*!/*/}
-
-               {/*                 </div>*/}
-               {/*                 /!*<div>*!/*/}
-               {/*                 /!*     <p style={{fontSize:'12px'}}>{chatList.status}</p>*!/*/}
-
-               {/*                 /!*</div>*!/*/}
-               {/*                 /!*<Image src="holder.js/171x180" roundedCircle />*!/*/}
-               {/*             </Col>*/}
-               {/*         </Row>*/}
-               {/*     </Card.Body>*/}
-               {/*  </Card>*/}
-               {/*<Card onClick={(e)=>{e.preventDefault(); getRequestDetail(2)}}>*/}
-               {/*     <Card.Body className="p-0">*/}
-               {/*         <Row>*/}
-               {/*             <Col xs={3} className="pl-0 pr-0">*/}
-               {/*                 <Image src={logoImage} roundedCircle />*/}
-               {/*             </Col>*/}
-               {/*             <Col xs={9} style={{paddingLeft:'0px',paddingRight:'0px'}}>*/}
-               {/*                 <Row>*/}
-               {/*                     <Col xs={8}>*/}
-               {/*                         <div style={{display:'grid',height:'50px',alignContent:'center'}}>*/}
-               {/*                             <h6 className="mb-1">Product Name<span style={{fontSize:'12px',fontWeight:'400',paddingLeft:'5px'}}>(Tex Code)</span></h6>*/}
-               {/*                         </div>*/}
-               {/*                     </Col>*/}
-               {/*                     <Col xs={4}>*/}
-               {/*                         <div style={{display:'grid',height:'50px',alignContent:'center'}}>*/}
-               {/*                             <div onClick={(event)=>getRequestDetail(2)}>*/}
-               {/*                                   <GrView size={25} />*/}
-               {/*                             </div>*/}
-
-               {/*                         </div>*/}
-               {/*                         /!*<h6>view Button</h6>*!/*/}
-               {/*                     </Col>*/}
-               {/*                 </Row>*/}
-               {/*                 <div className="pt-2">*/}
-               {/*                     /!*<h6 className="mb-1">{requestList.packet_name}<span style={{fontSize:'12px',fontWeight:'400',paddingLeft:'5px'}}>({requestList.tex_code})</span></h6>*!/*/}
-
-               {/*                 </div>*/}
-               {/*                  <div>*/}
-               {/*                      /!*<p style={{fontSize:'15px'}}>Recent Message Show</p>*!/*/}
-
-               {/*                 </div>*/}
-               {/*                 /!*<div>*!/*/}
-               {/*                 /!*     <p style={{fontSize:'12px'}}>{chatList.status}</p>*!/*/}
-
-               {/*                 /!*</div>*!/*/}
-               {/*                 /!*<Image src="holder.js/171x180" roundedCircle />*!/*/}
-               {/*             </Col>*/}
-               {/*         </Row>*/}
-               {/*     </Card.Body>*/}
-               {/*  </Card>*/}
-               {/* <Card onClick={(e)=>{e.preventDefault(); getRequestDetail(2)}}>*/}
-               {/*     <Card.Body className="p-0">*/}
-               {/*         <Row>*/}
-               {/*             <Col xs={3} className="pl-0 pr-0">*/}
-               {/*                 <Image src={logoImage} roundedCircle />*/}
-               {/*             </Col>*/}
-               {/*             <Col xs={9} style={{paddingLeft:'0px',paddingRight:'0px'}}>*/}
-               {/*                 <Row>*/}
-               {/*                     <Col xs={8}>*/}
-               {/*                         <div style={{display:'grid',height:'50px',alignContent:'center'}}>*/}
-               {/*                             <h6 className="mb-1">Product Name<span style={{fontSize:'12px',fontWeight:'400',paddingLeft:'5px'}}>(Tex Code)</span></h6>*/}
-               {/*                         </div>*/}
-               {/*                     </Col>*/}
-               {/*                     <Col xs={4}>*/}
-               {/*                         <div style={{display:'grid',height:'50px',alignContent:'center'}}>*/}
-               {/*                             <div onClick={(event)=>getRequestDetail(2)}>*/}
-               {/*                                   <GrView size={25} />*/}
-               {/*                             </div>*/}
-
-               {/*                         </div>*/}
-               {/*                         /!*<h6>view Button</h6>*!/*/}
-               {/*                     </Col>*/}
-               {/*                 </Row>*/}
-               {/*                 <div className="pt-2">*/}
-               {/*                     /!*<h6 className="mb-1">{requestList.packet_name}<span style={{fontSize:'12px',fontWeight:'400',paddingLeft:'5px'}}>({requestList.tex_code})</span></h6>*!/*/}
-
-               {/*                 </div>*/}
-               {/*                  <div>*/}
-               {/*                      /!*<p style={{fontSize:'15px'}}>Recent Message Show</p>*!/*/}
-
-               {/*                 </div>*/}
-               {/*                 /!*<div>*!/*/}
-               {/*                 /!*     <p style={{fontSize:'12px'}}>{chatList.status}</p>*!/*/}
-
-               {/*                 /!*</div>*!/*/}
-               {/*                 /!*<Image src="holder.js/171x180" roundedCircle />*!/*/}
-               {/*             </Col>*/}
-               {/*         </Row>*/}
-               {/*     </Card.Body>*/}
-               {/*  </Card>*/}
-               {/* <Card onClick={(e)=>{e.preventDefault(); getRequestDetail(2)}}>*/}
-               {/*     <Card.Body className="p-0">*/}
-               {/*         <Row>*/}
-               {/*             <Col xs={3} className="pl-0 pr-0">*/}
-               {/*                 <Image src={logoImage} roundedCircle />*/}
-               {/*             </Col>*/}
-               {/*             <Col xs={9} style={{paddingLeft:'0px',paddingRight:'0px'}}>*/}
-               {/*                 <Row>*/}
-               {/*                     <Col xs={8}>*/}
-               {/*                         <div style={{display:'grid',height:'50px',alignContent:'center'}}>*/}
-               {/*                             <h6 className="mb-1">Product Name<span style={{fontSize:'12px',fontWeight:'400',paddingLeft:'5px'}}>(Tex Code)</span></h6>*/}
-               {/*                         </div>*/}
-               {/*                     </Col>*/}
-               {/*                     <Col xs={4}>*/}
-               {/*                         <div style={{display:'grid',height:'50px',alignContent:'center'}}>*/}
-               {/*                             <div onClick={(event)=>getRequestDetail(2)}>*/}
-               {/*                                   <GrView size={25} />*/}
-               {/*                             </div>*/}
-
-               {/*                         </div>*/}
-               {/*                         /!*<h6>view Button</h6>*!/*/}
-               {/*                     </Col>*/}
-               {/*                 </Row>*/}
-               {/*                 <div className="pt-2">*/}
-               {/*                     /!*<h6 className="mb-1">{requestList.packet_name}<span style={{fontSize:'12px',fontWeight:'400',paddingLeft:'5px'}}>({requestList.tex_code})</span></h6>*!/*/}
-
-               {/*                 </div>*/}
-               {/*                  <div>*/}
-               {/*                      /!*<p style={{fontSize:'15px'}}>Recent Message Show</p>*!/*/}
-
-               {/*                 </div>*/}
-               {/*                 /!*<div>*!/*/}
-               {/*                 /!*     <p style={{fontSize:'12px'}}>{chatList.status}</p>*!/*/}
-
-               {/*                 /!*</div>*!/*/}
-               {/*                 /!*<Image src="holder.js/171x180" roundedCircle />*!/*/}
-               {/*             </Col>*/}
-               {/*         </Row>*/}
-               {/*     </Card.Body>*/}
-               {/*  </Card>*/}
-               {/* <Card onClick={(e)=>{e.preventDefault(); getRequestDetail(2)}}>*/}
-               {/*     <Card.Body className="p-0">*/}
-               {/*         <Row>*/}
-               {/*             <Col xs={3} className="pl-0 pr-0">*/}
-               {/*                 <Image src={logoImage} roundedCircle />*/}
-               {/*             </Col>*/}
-               {/*             <Col xs={9} style={{paddingLeft:'0px',paddingRight:'0px'}}>*/}
-               {/*                 <Row>*/}
-               {/*                     <Col xs={8}>*/}
-               {/*                         <div style={{display:'grid',height:'50px',alignContent:'center'}}>*/}
-               {/*                             <h6 className="mb-1">Product Name<span style={{fontSize:'12px',fontWeight:'400',paddingLeft:'5px'}}>(Tex Code)</span></h6>*/}
-               {/*                         </div>*/}
-               {/*                     </Col>*/}
-               {/*                     <Col xs={4}>*/}
-               {/*                         <div style={{display:'grid',height:'50px',alignContent:'center'}}>*/}
-               {/*                             <div onClick={(event)=>getRequestDetail(2)}>*/}
-               {/*                                   <GrView size={25} />*/}
-               {/*                             </div>*/}
-
-               {/*                         </div>*/}
-               {/*                         /!*<h6>view Button</h6>*!/*/}
-               {/*                     </Col>*/}
-               {/*                 </Row>*/}
-               {/*                 <div className="pt-2">*/}
-               {/*                     /!*<h6 className="mb-1">{requestList.packet_name}<span style={{fontSize:'12px',fontWeight:'400',paddingLeft:'5px'}}>({requestList.tex_code})</span></h6>*!/*/}
-
-               {/*                 </div>*/}
-               {/*                  <div>*/}
-               {/*                      /!*<p style={{fontSize:'15px'}}>Recent Message Show</p>*!/*/}
-
-               {/*                 </div>*/}
-               {/*                 /!*<div>*!/*/}
-               {/*                 /!*     <p style={{fontSize:'12px'}}>{chatList.status}</p>*!/*/}
-
-               {/*                 /!*</div>*!/*/}
-               {/*                 /!*<Image src="holder.js/171x180" roundedCircle />*!/*/}
-               {/*             </Col>*/}
-               {/*         </Row>*/}
-               {/*     </Card.Body>*/}
-               {/*  </Card>*/}
-
-
            </>
        );
    }

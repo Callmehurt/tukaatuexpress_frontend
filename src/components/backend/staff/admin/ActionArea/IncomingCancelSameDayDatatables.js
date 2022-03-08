@@ -180,7 +180,7 @@ const IncomingCancelSameDayDatatables=()=>{
         },
         {
             name: "customer_name",
-            label: "Reciever Name",
+            label: "Receiver Name",
             options: {
                 filter: true,
                 sort: true,
@@ -215,21 +215,21 @@ const IncomingCancelSameDayDatatables=()=>{
                 customBodyRender: (value, tableMeta, updateValue) => (
                       <>
                           {/*{console.log(tableMeta)}*/}
-                          <div style={{cursor:'pointer'}} onDoubleClick={(event)=> getPickupDetail(tableMeta.rowData[12])}>{value}</div>
+                          <div style={{cursor:'pointer'}} onDoubleClick={(event)=> getPickupDetail(tableMeta.rowData[12])}>Rs. {value}</div>
                       </>
                   )
             }
         },
         {
-            name: "delivery_charge",
-            label: "Delivery Charge",
+            name: "return_charge",
+            label: "Return Charge",
             options: {
                 filter: true,
                 sort: true,
                 customBodyRender: (value, tableMeta, updateValue) => (
                       <>
                           {/*{console.log(tableMeta)}*/}
-                          <div style={{cursor:'pointer'}} onDoubleClick={(event)=> getPickupDetail(tableMeta.rowData[12])}>{value}</div>
+                          <div style={{cursor:'pointer'}} onDoubleClick={(event)=> getPickupDetail(tableMeta.rowData[12])}>Rs. {value}</div>
                       </>
                   )
             }

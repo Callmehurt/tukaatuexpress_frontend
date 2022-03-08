@@ -23,10 +23,13 @@ const DailyStatementDatatables = () =>{
          const dailyTotalCommission = mainBranches.DailyStatementTotalCommission;
          const dailyTotalToDeposit = mainBranches.DailyStatementTotalDeposit;
          const currentPettyCash=mainBranches.currentPettyCash;
-         const [requestedPettyCashCount,setRequestedPettyCashCount]=useState('');
+         const [requestedPettyCashCount,setRequestedPettyCashCount] = useState('');
 
-        const [expensesShow, setExpensesShow] = React.useState(false);
-        const [pettyCashShow, setPettyCashShow] = React.useState(false);
+        const [expensesShow, setExpensesShow] = useState(false);
+        const [pettyCashShow, setPettyCashShow] = useState(false);
+
+        console.log('to deposit', dailyTotalToDeposit)
+
 
 
         const addExpenses =()=>{
@@ -51,15 +54,12 @@ const DailyStatementDatatables = () =>{
         const RequestPettyCashCount=()=>{
             axios.get('/branch/request/petty-cash/count')
                 .then((res) => {
-                    console.log(res);
                     setRequestedPettyCashCount(res.data);
-
                     })
                 .catch((err) => {
                     console.log(err.response)
                 })
         }
-
 
 
         const getDailyBranchDetail=()=>{
@@ -69,8 +69,7 @@ const DailyStatementDatatables = () =>{
             }
             axios.get('branch/daily/details')
                 .then((res) => {
-                    console.log(res.data);
-                    console.log('branch transaction detail');
+                    console.log('branch transaction detail', res.data);
                     dispatch(DailyStatements(res.data.statements));
                     dispatch(DailyStatementTotalDeliveryCharge(res.data.total_delivery_charge));
                     dispatch(DailyStatementTotalCommission(res.data.total_commission));
@@ -81,20 +80,17 @@ const DailyStatementDatatables = () =>{
                     dispatch(DailyStatementPettyCash(res.data.petty_cash));
                     dispatch(DailyStatementTotalPettyCash(res.data?.total_petty_cash,0));
                     if(res.data.current_petty_cash?.on_statement=="0"){
-                        // console.log('ON_Statement0');
-                        console.log("hello");
                         dispatch(DailyStatementTotalDeposit(res.data.total_deposit,res.data?.total_petty_cash));
-
-                    }
-                    else if(res.data.current_petty_cash?.on_statement=="1") {
-
+                    }else {
                         dispatch(DailyStatementTotalDeposit(res.data.total_deposit));
-
                     }
-                    // else if(res.data?.statements.length){
-                    //      dispatch(DailyStatementTotalDeposit(res.data.total_deposit));
+                    // if(res.data.current_petty_cash?.on_statement=="0"){
+                    //     dispatch(DailyStatementTotalDeposit(res.data.total_deposit,res.data?.total_petty_cash));
+                    //
                     // }
-
+                    // else if(res.data.current_petty_cash?.on_statement=="1") {
+                    //     dispatch(DailyStatementTotalDeposit(res.data.total_deposit));
+                    // }
                 })
                 .catch((err) => {
                     console.log(err.response)
@@ -102,39 +98,21 @@ const DailyStatementDatatables = () =>{
         }
 
         const makeApplyStatement = () =>{
-
               axios.get('/branch/make/daily/statement')
                 .then((res) => {
-                    console.log(res);
                     if(res.data.status===true){
                           showNotification('success', res.data.message);
                           getDailyBranchDetail();
-
                     }
                     else{
                         showNotification('danger', res.data.message);
                     }
-
                     })
                 .catch((err) => {
                     console.log(err.response)
                 })
         }
-    // const getActiveExpensesList=()=>{
-    //         let branch_detail = JSON.parse(localStorage.getItem('branch_detail'));
-    //         if(branch_detail){
-    //           setAuthorizationToken(branch_detail.token);
-    //         }
-    //         axios.get('/branch/active/expenses')
-    //             .then((res) => {
-    //                 console.log(res);
-    //                dispatch(DailyStatementExpensesList(res.data.expenses));
-    //                dispatch(DailyStatementTotalExpenses(res.data.total_expenses));
-    //             })
-    //             .catch((err) => {
-    //                 console.log(err.response)
-    //             })
-    // }
+
     const removeExpenses=(expense_id)=>{
              axios.delete(`/branch/remove/expense/${expense_id}`)
                 .then((res) => {
@@ -147,18 +125,17 @@ const DailyStatementDatatables = () =>{
                             dispatch(DailyStatementTotalExpenses(res.data.total_expenses));
                             dispatch(DailyStatementPettyCash(res.data.petty_cash));
                             dispatch(DailyStatementTotalPettyCash(res.data?.total_petty_cash,0));
-                    if(res.data.current_petty_cash?.on_statement=="0"){
-                        // console.log('ON_Statement0');
-                        console.log("hello");
-                        dispatch(DailyStatementTotalDeposit(res.data.total_deposit,res.data?.total_petty_cash));
-
-                    }
-                    else if(res.data.current_petty_cash?.on_statement=="1") {
-
-                        dispatch(DailyStatementTotalDeposit(res.data.total_deposit));
-
-                    }
-
+                            if(res.data.current_petty_cash?.on_statement=="0"){
+                                dispatch(DailyStatementTotalDeposit(res.data.total_deposit,res.data?.total_petty_cash));
+                            }else {
+                                dispatch(DailyStatementTotalDeposit(res.data.total_deposit));
+                            }
+                            // if(res.data.current_petty_cash?.on_statement=="0"){
+                            //     dispatch(DailyStatementTotalDeposit(res.data.total_deposit,res.data?.total_petty_cash));
+                            // }
+                            // else if(res.data.current_petty_cash?.on_statement=="1") {
+                            //     dispatch(DailyStatementTotalDeposit(res.data.total_deposit));
+                            // }
                         })
                         .catch((err) => {
                             console.log(err.response)
@@ -218,24 +195,8 @@ const DailyStatementDatatables = () =>{
                 </tr>
               </thead>
               <tbody>
-              {/*{ dailyStatements ? <>*/}
-              {/*    dailyStatements.map((statements)=>(*/}
-              {/*        <tr>*/}
-
-              {/*            <td>{statements.statement_num}</td>*/}
-              {/*            <td>{statements.delivery_boy}</td>*/}
-              {/*            <td>{statements.delivered}</td>*/}
-              {/*            <td>{statements.total_delivery_charge}</td>*/}
-              {/*            <td>{statements.total_cod_received}</td>*/}
-              {/*            <td>{statements.commission}</td>*/}
-              {/*            <td>{statements.to_deposit}</td>*/}
-              {/*            <td>{statements.approved_date}</td>*/}
-              {/*        </tr>*/}
-              {/*    ))</>:<><tr><div style={{display:'flex',justifyContent:'center'}}>Sorry no Result found</div></tr></>*/}
-              {/*}*/}
               { dailyStatementsLists?.length >0 ?<>{dailyStatementsLists.map((statements)=>(
                           <tr>
-
                               <td>{statements?.statement_num}</td>
                               <td>{statements?.delivery_boy}</td>
                                <td>{
@@ -262,53 +223,41 @@ const DailyStatementDatatables = () =>{
                 <tr>
 
                   <th colSpan="8"><div className="text-center">Expenses <Button variant="primary" onClick={(event)=>addExpenses()} style={{padding:'2px 5px',fontSize:'13px',marginLeft:'10px'}}>Add Expenses</Button></div></th>
-                  {/*<th>Add Expenses</th>*/}
-
                 </tr>
               </thead>
               <tbody>
               {
                   expensesList.map((expensesList) => (
                       <tr>
-
-                          <td colSpan="4"></td>
-                          <td colSpan="2" style={{fontWeight:'400',fontSize:'14px'}}>{expensesList.remarks}</td>
+                          <td colSpan={4}></td>
+                          <td colSpan={2} style={{fontWeight:'400',fontSize:'14px'}}>{expensesList.remarks}</td>
                           <td style={{fontWeight:'400',fontSize:'14px'}}>{expensesList.amount}</td>
                           <td key={expensesList.id}><Button variant="primary" onClick={(event)=>removeExpenses(expensesList.id)} style={{padding:'2px 5px',fontSize:'13px',marginLeft:'10px',backgroundColor:'red',border:'1px solid red'}}>Remove</Button></td>
-
                       </tr>
                   ))
               }
               <tr>
-
-                          <td colSpan="4"></td>
-                          <td colSpan="2" style={{fontWeight:'500',fontSize:'14px'}}>Total Expenses</td>
-                          <td>{totalExpenses}</td>
+                  <td colSpan="4"></td>
+                  <td colSpan="2" style={{fontWeight:'500',fontSize:'14px'}}>Total Expenses</td>
+                  <td>{totalExpenses}</td>
 
               </tr>
                   <td colSpan="3"></td>
                  <td colSpan="2" style={{fontWeight:'500',fontSize:'17px'}}>Total Calculation</td>
-
               <tr>
-
-                          <td colSpan="4"></td>
-                          <td colSpan="2" style={{fontWeight:'500',fontSize:'14px'}}>Total Collected Cash</td>
-                          <td>{dailyTotalCashCollected}</td>
-
+                  <td colSpan="4"></td>
+                  <td colSpan="2" style={{fontWeight:'500',fontSize:'14px'}}>Total Collected Cash</td>
+                  <td>{dailyTotalCashCollected}</td>
               </tr>
               <tr>
-
-                          <td colSpan="4"></td>
-                          <td colSpan="2" style={{fontWeight:'500',fontSize:'14px'}}>Total Delivery Charge</td>
-                          <td>{dailyTotalDeliveryCharge}</td>
-
+                  <td colSpan="4"></td>
+                  <td colSpan="2" style={{fontWeight:'500',fontSize:'14px'}}>Total Delivery Charge</td>
+                  <td>{dailyTotalDeliveryCharge}</td>
               </tr>
               <tr>
-
-                          <td colSpan="4"></td>
-                          <td colSpan="2" style={{fontWeight:'500',fontSize:'14px'}}>Total Commission</td>
-                          <td>{dailyTotalCommission}</td>
-
+                  <td colSpan="4"></td>
+                  <td colSpan="2" style={{fontWeight:'500',fontSize:'14px'}}>Total Commission</td>
+                  <td>{dailyTotalCommission}</td>
               </tr>
               <tr>
                    <td colSpan="4"></td>
@@ -331,14 +280,9 @@ const DailyStatementDatatables = () =>{
                   </td>
               </tr>
               <tr>
-
-                          <td colSpan="4"></td>
-                          <td colSpan="2" style={{fontWeight:'500',fontSize:'14px'}}>Total To Deposit</td>
-                          <td>{dailyTotalToDeposit?<>{dailyTotalToDeposit}</>:<>0</>}
-                              {/*minus{dailyTotalPettyCash}*/}
-                          </td>
-                          {/*<td>{dailyTotalToDeposit>(dailyTotalPettyCash)?<>{dailyTotalToDeposit}</>:<>-{dailyTotalToDeposit}</>}</td>*/}
-
+                  <td colSpan="4"></td>
+                  <td colSpan="2" style={{fontWeight:'500',fontSize:'14px'}}>Total To Deposit</td>
+                  <td>{dailyTotalToDeposit?<>{dailyTotalToDeposit}</>:<>0</>}</td>
               </tr>
 
               </tbody>

@@ -34,8 +34,6 @@ const AllReturnsSameDayDatatables=()=>{
                }
            axios.post('admin/send/back/branch',PostData)
                 .then((res) => {
-                    console.log(res);
-                    console.log(res.data);
                     if(res.data.status === false){
                        showNotification('danger', res.data.message);
                      }else{
@@ -55,8 +53,6 @@ const AllReturnsSameDayDatatables=()=>{
                }
             axios.post('admin/confirm/cancel',PostData)
                 .then((res) => {
-                    console.log(res);
-                    console.log(res.data);
                     if(res.data.status === false){
                        showNotification('danger', res.data.message);
                      }else{
@@ -72,8 +68,6 @@ const AllReturnsSameDayDatatables=()=>{
       const getAllReturnAndCancelSameDay=()=>{
         axios.get('/admin/pickup/sameday/cancel/list')
              .then((res) => {
-                 console.log(res);
-                 console.log(res.data);
                  dispatch(allReturnListSameDay(res.data));
              })
              .catch((err) => {
@@ -81,8 +75,6 @@ const AllReturnsSameDayDatatables=()=>{
              });
     }
      const getPickupDetail=(id)=>{
-       console.log(id);
-       console.log('id pickup Detail');
         history.push({
               pathname: '/staff/admin/pickup_detail',
            state: {imageDetail: id }
@@ -176,15 +168,15 @@ const AllReturnsSameDayDatatables=()=>{
             }
         },
         {
-            name: "delivery_charge",
-            label: "Delivery Charge",
+            name: "return_charge",
+            label: "Return Charge",
             options: {
                 filter: true,
                 sort: true,
                 customBodyRender: (value, tableMeta, updateValue) => (
                   <>
                       {/*{console.log(tableMeta)}*/}
-                      <div style={{cursor:'pointer'}} onDoubleClick={(event)=> getPickupDetail(tableMeta.rowData[12])}>{value}</div>
+                      <div style={{cursor:'pointer'}} onDoubleClick={(event)=> getPickupDetail(tableMeta.rowData[12])}>Rs. {value}</div>
                   </>
               )
             }

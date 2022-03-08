@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 import {Row,Col,Image,Card} from 'react-bootstrap';
-import logoImage from "../../../logo.svg";
+import logoImage from "../../../assets/faviconwhite.png";
 import {GrView} from 'react-icons/gr';
 import {useHistory} from "react-router-dom";
 import setAuthorizationToken from "../../../utils/setAuthorizationToken";
@@ -8,6 +8,7 @@ import axios from "axios";
 import {pendingOrderList,getNewRequestList} from "../../../redux/actions/vendor";
 import {useDispatch, useSelector} from "react-redux";
 import useWindowSize from "../../../use-window-size";
+import Avatar from "react-avatar";
 
 const PickupRequestImageView=()=>{
      const history = useHistory();
@@ -66,8 +67,10 @@ const windowsSize = useWindowSize();
                                           }}>
                                               <Card.Body className="p-0">
                                                   <Row>
-                                                      <Col xs={3} className="pl-0 pr-0">
-                                                          <Image src={logoImage} roundedCircle/>
+                                                      <Col xs={3} className="pl-0 pr-0" style={{display: 'grid', placeItems: 'center'}}>
+                                                      <div style={{height: '55px', width: '55px', borderRadius: '50%', display: 'grid', placeItems: 'center', border: '1px solid rgba(36, 36, 36, .5'}}>
+                                                          <Image src={logoImage} roundedCircle className="img-fluid" style={{height:'40px'}}/>
+                                                          </div>
                                                       </Col>
                                                       <Col xs={9} style={{paddingLeft: '0px', paddingRight: '0px'}}>
                                                           <Row>
@@ -197,8 +200,10 @@ const windowsSize = useWindowSize();
                                           }}>
                                               <Card.Body className="p-0">
                                                   <Row>
-                                                      <Col lg={2} className="pl-0 pr-0">
-                                                          <Image src={logoImage} roundedCircle className="img-fluid" style={{height:'60px'}}/>
+                                                      <Col lg={2} className="pl-0 pr-0" style={{display: 'grid', placeItems: 'center'}}>
+                                                          <div style={{height: '55px', width: '55px', borderRadius: '50%', display: 'grid', placeItems: 'center', border: '1px solid rgba(36, 36, 36, .5'}}>
+                                                          <Image src={logoImage} roundedCircle className="img-fluid" style={{height:'40px'}}/>
+                                                          </div>
                                                       </Col>
                                                       <Col lg={10} style={{paddingLeft: '0px', paddingRight: '0px'}}>
                                                           <Row>

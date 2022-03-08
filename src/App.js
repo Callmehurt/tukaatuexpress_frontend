@@ -277,7 +277,6 @@ function App() {
 
 
 
-
                           {/*<AccountPrivateRoute path="/account/login" component={AccountLogin} />*/}
                           <AccountPrivateRoute exact path="/account/dashboard" component={AccountDashboard} />
                           <AccountPrivateRoute exact path="/account/account_division" component={AccountDivision} />
@@ -332,6 +331,7 @@ function App() {
                            <VendorPrivateRoute exact path="/vendor/change_password" component={PasswordChangeVendor} />
 
                           <Route path='/invoice/viewer/:invoiceId' component={InvoiceViewer} />
+                          <Route path='/payment/statement/viewer/:statementId' component={InvoiceViewer} />
 
                            {/* Profile page */}
                            <Route path="/verified/employee/:card_num" component={Profile} />

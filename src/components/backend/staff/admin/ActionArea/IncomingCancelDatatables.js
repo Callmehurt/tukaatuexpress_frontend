@@ -36,8 +36,6 @@ const IncomingCancelDatatables=()=>{
         const getAllIncomingCancel = () => {
         axios.get('admin/pickup/transfer/cancel/incoming')
             .then((res) => {
-                console.log(res);
-                console.log(res.data);
                 dispatch(getIncomingCancels(res.data));
             })
             .catch((err) => {
@@ -51,8 +49,6 @@ const IncomingCancelDatatables=()=>{
                }
             axios.post('admin/confirm/cancel',PostData)
                 .then((res) => {
-                    console.log(res);
-                    console.log(res.data);
                     if(res.data.status === false){
                        showNotification('danger', res.data.message);
                      }else{
@@ -164,7 +160,7 @@ const IncomingCancelDatatables=()=>{
         },
         {
             name: "customer_name",
-            label: "Reciever Name",
+            label: "Receiver Name",
             options: {
                 filter: true,
                 sort: true,
@@ -199,21 +195,21 @@ const IncomingCancelDatatables=()=>{
                 customBodyRender: (value, tableMeta, updateValue) => (
                       <>
                           {/*{console.log(tableMeta)}*/}
-                          <div style={{cursor:'pointer'}} onDoubleClick={(event)=> getPickupDetail(tableMeta.rowData[12])}>{value}</div>
+                          <div style={{cursor:'pointer'}} onDoubleClick={(event)=> getPickupDetail(tableMeta.rowData[12])}>Rs. {value}</div>
                       </>
                   )
             }
         },
         {
-            name: "delivery_charge",
-            label: "Delivery Charge",
+            name: "return_charge",
+            label: "Return Charge",
             options: {
                 filter: true,
                 sort: true,
                 customBodyRender: (value, tableMeta, updateValue) => (
                       <>
                           {/*{console.log(tableMeta)}*/}
-                          <div style={{cursor:'pointer'}} onDoubleClick={(event)=> getPickupDetail(tableMeta.rowData[12])}>{value}</div>
+                          <div style={{cursor:'pointer'}} onDoubleClick={(event)=> getPickupDetail(tableMeta.rowData[12])}>Rs. {value}</div>
                       </>
                   )
             }

@@ -9,6 +9,7 @@ import {
 import MUIDataTable from "mui-datatables";
 import {useDispatch, useSelector} from "react-redux";
 import {useHistory} from "react-router-dom";
+import moment from "moment";
 
 const AccountPartnerRequests=()=>{
     const dispatch = useDispatch();
@@ -25,7 +26,7 @@ const AccountPartnerRequests=()=>{
     const getPartnerRequest=()=>{
       axios.get('account/payment/request/list')
             .then((res) => {
-                console.log(res.data);
+                console.log('payment requests', res.data);
                 dispatch(AccountPaymentRequestPartner(res.data));
             })
             .catch((err) => {
@@ -101,9 +102,9 @@ const AccountPartnerRequests=()=>{
           )
          }
         },
-        {
-         name: "receivable_amount",
-         label: "Rece. Amount",
+      {
+         name: "created_at",
+         label: "Request Date",
          options: {
           filter: true,
           sort: true,
@@ -112,9 +113,35 @@ const AccountPartnerRequests=()=>{
           )
          }
         },
+       {
+         name: "created_at",
+         label: "Requested On",
+         options: {
+          filter: true,
+          sort: true,
+             customBodyRender: (value, tableMeta, updateValue) => (
+             <div  onClick={(event)=>getPartnerAccountDetail(tableMeta.rowData[0])} style={{color:'#147298',textDecoration:'none',cursor:'pointer'}}>
+                 {
+                     moment(value, 'YYYY-MM-DD').fromNow()
+                 }
+             </div>
+          )
+         }
+        },
+        {
+         name: "receivable_amount",
+         label: "Receivable Amount",
+         options: {
+          filter: true,
+          sort: true,
+             customBodyRender: (value, tableMeta, updateValue) => (
+             <div  onClick={(event)=>getPartnerAccountDetail(tableMeta.rowData[0])} style={{color:'#147298',textDecoration:'none',cursor:'pointer'}}>Rs. {value}</div>
+          )
+         }
+        },
           {
              name: "vendor_name",
-             label: "Part. Name",
+             label: "Partner Name",
              options: {
               filter: true,
               sort: true,
@@ -125,7 +152,7 @@ const AccountPartnerRequests=()=>{
             },
           {
              name: "vendor_address",
-             label: "Part. Address",
+             label: "Address",
              options: {
               filter: true,
               sort: true,
@@ -136,7 +163,7 @@ const AccountPartnerRequests=()=>{
         },
           {
                  name: "vendor_phone",
-                 label: "Part. Phone",
+                 label: "Phone",
                  options: {
                   filter: true,
                   sort: true,

@@ -28,10 +28,8 @@ const TransferOut=()=>{
         // console.log('fetch api');
         axios.get('admin/pickup/transfer/outs')
             .then((res) => {
-                console.log(res.data);
                 dispatch(TransferOuts(res.data));
                 dispatch(TransferOutsCount(res.data.length));
-                console.log('transfer Out data');
             })
             .catch((err) => {
                 console.log(err.response?.data);

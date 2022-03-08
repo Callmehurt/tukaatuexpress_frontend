@@ -30,24 +30,10 @@ const MessageLayout=(props)=>{
         if(staffAdmin){
           setAuthorizationToken(staffAdmin.token);
         }
-        console.log(props.pickupID);
-        console.log('pickup ID');
         getMessage(props.pickupID);
-        // getLoadId();
         scrollToBottom();
-        // if (messagesEndRef) {
-        //   messagesEndRef.current.addEventListener('DOMNodeInserted', event => {
-        //     const { currentTarget: target } = event;
-        //     target.scroll({ top: target.scrollHeight, behavior: 'smooth' });
-        //   });
-        // }
-       // scrollSpan.current.scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"});
-
      },[props.pickupID]);
-      // const ref = React.createRef<HTMLDivElement>();
-    // const getLoadId=()=>{
-    //
-    // }
+
     const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"})
   }
@@ -56,23 +42,6 @@ const MessageLayout=(props)=>{
            // setPickup_id(data);
            console.log(pickup_id+'pickupId');
            console.log('get message')
-            // if(pickup_id){
-            //     axios.get(`/admin/get/pickup/comment/${pickup_id}`)
-            //         .then((res)=>{
-            //               console.log(res);
-            //              // showNotification('success', res.data.message);
-            //               dispatch(getMessageDetail(res.data));
-            //         })
-            //     .catch((err)=>{
-            //        console.log(err.response);
-            //     })
-            //
-            // }
-            // else{
-            //     console.log('no pickup_id')
-            // }
-
-
     }
 
     return(
@@ -85,7 +54,7 @@ const MessageLayout=(props)=>{
                     className={"message_modal"}
                     onRequestClose={closeMessage}
                     top={height-410}
-                    left={width-400}
+                    left={300}
                     isOpen={props.show}
             >
                 <div style={{position:'absolute',top:'0px',display:'grid',placeContent:'center',height:'50px',paddingLeft:'10px',zIndex:'5',width:'100%'}}>

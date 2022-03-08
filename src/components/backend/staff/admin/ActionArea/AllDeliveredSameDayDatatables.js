@@ -20,8 +20,6 @@ const AllDeliveredSameDayDatatables=()=>{
       const  getAllDelivered =()=>{
         axios.get('/admin/pickup/sameday/delivered/list')
              .then((res) => {
-                 console.log(res);
-                 console.log(res.data);
                  dispatch(DeliveredListSameDay(res.data));
              })
              .catch((err) => {

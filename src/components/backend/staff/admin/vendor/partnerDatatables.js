@@ -19,7 +19,6 @@ const PartnerDatatable = () => {
     const[partnerId,setPartnerId]=useState('');
     useEffect(() => {
         let staff_admin = JSON.parse(localStorage.getItem('staff_admin'));
-        console.log(staff_admin);
         if(staff_admin?.token){
           setAuthorizationToken(staff_admin.token);
         }else{
@@ -27,7 +26,6 @@ const PartnerDatatable = () => {
         }
         axios.get('/admin/vendor/list')
             .then((res) => {
-                console.log(res);
                 dispatch(loadPartnerList(res.data))
             })
             .catch((err) => {
@@ -51,43 +49,6 @@ const PartnerDatatable = () => {
 
     }
 
-
-    // const removePartner = async (id) => {
-    //     const result = await Confirm('Are you sure to continue?',
-    //         'Confirm Removal');
-    //     if (result) {
-    //          await axios.delete(`/admin/vendor/destroy/${id}`)
-    //              .then((res) => {
-    //                  console.log(res)
-    //                  if(res.data.status === true){
-    //                      refreshTable();
-    //                      notification('success', res.data.message)
-    //                  }else {
-    //                      notification('danger', res.data.message)
-    //                  }
-    //              })
-    //              .catch((err) => {
-    //                  notification('danger', 'Encountered some technical error. Please contact IT Team!')
-    //                  console.log(err.response);
-    //              })
-    //     }
-    // }
-    // const editPartner = async (id) =>{
-    //     console.log('editpartner');
-    //     axios.get(`/admin/vendor/detail/${id}`)
-    //         .then((res) => {
-    //             // setEditData(res);
-    //             console.log(res.data);
-    //             dispatch(updatePartner(res.data));
-    //
-    //         })
-    //         .catch((err) => {
-    //             console.log(err.response.data);
-    //         })
-    //        setUpdateShow(true);
-    // }
-
-
     const columns = [
         {
          name: "vendor_name",
@@ -97,7 +58,23 @@ const PartnerDatatable = () => {
           sort: true,
              customBodyRender: (value, tableMeta, updateValue) => (
                   <>
-                      <div style={{width:'100%',display:'flex',placeContent:'start'}} onClick={(event)=>partnerReturnList(tableMeta.rowData[4])} style={{cursor:'pointer'}}>{value}</div>
+                      {
+                          console.log(partnerList[tableMeta.rowIndex].id)
+                      }
+                      <div style={{width:'100%',display:'flex',placeContent:'start'}} onClick={(event)=>partnerReturnList(partnerList[tableMeta.rowIndex].id)} style={{cursor:'pointer'}}>{value}</div>
+                  </>
+              )
+         }
+        },
+        {
+         name: "return_count",
+         label: "Unsettled returns",
+         options: {
+          filter: true,
+          sort: true,
+             customBodyRender: (value, tableMeta, updateValue) => (
+                  <>
+                      <div style={{width:'100%',display:'flex',placeContent:'start'}} onClick={(event)=>partnerReturnList(partnerList[tableMeta.rowIndex].id)} style={{cursor:'pointer'}}>{value}</div>
                   </>
               )
          }

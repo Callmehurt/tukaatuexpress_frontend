@@ -58,9 +58,6 @@ const PartnerDatatable = () => {
           sort: true,
              customBodyRender: (value, tableMeta, updateValue) => (
                   <>
-                      {
-                          console.log(partnerList[tableMeta.rowIndex].id)
-                      }
                       <div style={{width:'100%',display:'flex',placeContent:'start'}} onClick={(event)=>partnerReturnList(partnerList[tableMeta.rowIndex].id)} style={{cursor:'pointer'}}>{value}</div>
                   </>
               )

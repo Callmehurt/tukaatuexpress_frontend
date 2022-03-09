@@ -14,7 +14,6 @@ const TransferOutsCompleteSameDay=()=>{
     const transferOutsCompleteSameDay = branchOperation.transferOutsCompleteSameDay;
     useEffect(()=>{
         let staff_admin = JSON.parse(localStorage.getItem('staff_admin'));
-        console.log(staff_admin);
         if(staff_admin?.token){
           setAuthorizationToken(staff_admin.token);
         }else{
@@ -24,8 +23,6 @@ const TransferOutsCompleteSameDay=()=>{
 
     },[0]);
     const getPickupDetail=(id)=>{
-       console.log(id);
-       console.log('id pickup Detail');
         history.push({
               pathname: '/staff/admin/pickup_detail',
            state: {imageDetail: id }
@@ -36,14 +33,10 @@ const TransferOutsCompleteSameDay=()=>{
     const getTransferOutsCompleteSameDayFunction=()=>{
         axios.get('admin/pickup/sameday/transfer/outs/complete')
             .then((res) => {
-                console.log(res.data);
                 dispatch(getTransferOutsCompleteSameDay(res.data));
-                // dispatch(TransferOutsCount(res.data.length));
-                console.log('transfer Out data');
             })
             .catch((err) => {
                 console.log(err.response);
-                // console.log('error transfer ins')
             })
     }
     const columns = [
@@ -56,7 +49,21 @@ const TransferOutsCompleteSameDay=()=>{
              customBodyRender: (value, tableMeta, updateValue) => (
               <>
                   {/*{console.log(tableMeta)}*/}
-                  <div style={{cursor:'pointer'}} onDoubleClick={(event)=> getPickupDetail(tableMeta.rowData[8])}>{value}</div>
+                  <div style={{cursor:'pointer'}} onDoubleClick={(event)=> getPickupDetail(transferOutsCompleteSameDay[tableMeta.rowIndex].id)}>{value}</div>
+              </>
+          )
+         }
+        },
+        {
+         name: "transferred_branch",
+         label: "Transferred Branch",
+         options: {
+          filter: true,
+          sort: true,
+              customBodyRender: (value, tableMeta, updateValue) => (
+              <>
+                  {/*{console.log(tableMeta)}*/}
+                  <div style={{cursor:'pointer'}} onDoubleClick={(event)=> getPickupDetail(transferOutsCompleteSameDay[tableMeta.rowIndex].id)}>{value}</div>
               </>
           )
          }
@@ -70,7 +77,7 @@ const TransferOutsCompleteSameDay=()=>{
              customBodyRender: (value, tableMeta, updateValue) => (
               <>
                   {/*{console.log(tableMeta)}*/}
-                  <div style={{cursor:'pointer'}} onDoubleClick={(event)=> getPickupDetail(tableMeta.rowData[8])}>{value}</div>
+                  <div style={{cursor:'pointer'}} onDoubleClick={(event)=> getPickupDetail(transferOutsCompleteSameDay[tableMeta.rowIndex].id)}>{value}</div>
               </>
           )
          }
@@ -84,7 +91,7 @@ const TransferOutsCompleteSameDay=()=>{
              customBodyRender: (value, tableMeta, updateValue) => (
               <>
                   {/*{console.log(tableMeta)}*/}
-                  <div style={{cursor:'pointer'}} onDoubleClick={(event)=> getPickupDetail(tableMeta.rowData[8])}>{value}</div>
+                  <div style={{cursor:'pointer'}} onDoubleClick={(event)=> getPickupDetail(transferOutsCompleteSameDay[tableMeta.rowIndex].id)}>{value}</div>
               </>
           )
          }
@@ -98,7 +105,7 @@ const TransferOutsCompleteSameDay=()=>{
              customBodyRender: (value, tableMeta, updateValue) => (
               <>
                   {/*{console.log(tableMeta)}*/}
-                  <div style={{cursor:'pointer'}} onDoubleClick={(event)=> getPickupDetail(tableMeta.rowData[8])}>{value}</div>
+                  <div style={{cursor:'pointer'}} onDoubleClick={(event)=> getPickupDetail(transferOutsCompleteSameDay[tableMeta.rowIndex].id)}>{value}</div>
               </>
           )
          }
@@ -112,7 +119,7 @@ const TransferOutsCompleteSameDay=()=>{
              customBodyRender: (value, tableMeta, updateValue) => (
               <>
                   {/*{console.log(tableMeta)}*/}
-                  <div style={{cursor:'pointer'}} onDoubleClick={(event)=> getPickupDetail(tableMeta.rowData[8])}>{value}</div>
+                  <div style={{cursor:'pointer'}} onDoubleClick={(event)=> getPickupDetail(transferOutsCompleteSameDay[tableMeta.rowIndex].id)}>{value}</div>
               </>
           )
          }
@@ -126,7 +133,7 @@ const TransferOutsCompleteSameDay=()=>{
              customBodyRender: (value, tableMeta, updateValue) => (
               <>
                   {/*{console.log(tableMeta)}*/}
-                  <div style={{cursor:'pointer'}} onDoubleClick={(event)=> getPickupDetail(tableMeta.rowData[8])}>{value}</div>
+                  <div style={{cursor:'pointer'}} onDoubleClick={(event)=> getPickupDetail(transferOutsCompleteSameDay[tableMeta.rowIndex].id)}>Rs. {value}</div>
               </>
           )
          }
@@ -140,7 +147,7 @@ const TransferOutsCompleteSameDay=()=>{
              customBodyRender: (value, tableMeta, updateValue) => (
               <>
                   {/*{console.log(tableMeta)}*/}
-                  <div style={{cursor:'pointer'}} onDoubleClick={(event)=> getPickupDetail(tableMeta.rowData[8])}>{value}</div>
+                  <div style={{cursor:'pointer'}} onDoubleClick={(event)=> getPickupDetail(transferOutsCompleteSameDay[tableMeta.rowIndex].id)}>Rs. {value}</div>
               </>
           )
          }
@@ -154,27 +161,11 @@ const TransferOutsCompleteSameDay=()=>{
              customBodyRender: (value, tableMeta, updateValue) => (
               <>
                   {/*{console.log(tableMeta)}*/}
-                  <div style={{cursor:'pointer'}} onDoubleClick={(event)=> getPickupDetail(tableMeta.rowData[8])}>{value}</div>
+                  <div style={{cursor:'pointer'}} onDoubleClick={(event)=> getPickupDetail(transferOutsCompleteSameDay[tableMeta.rowIndex].id)}>{value}</div>
               </>
           )
          }
         },
-        {
-            name: 'id',
-            label: 'Action',
-            options: {
-              filter: false,
-              sort: false,
-              customBodyRender: (value, tableMeta, updateValue) => (
-                  <>
-                      <div style={{width:'100%',display:'flex'}}>
-
-                      </div>
-                  </>
-              )
-            }
-        }
-
        ];
 const options = {
         searchOpen:false,

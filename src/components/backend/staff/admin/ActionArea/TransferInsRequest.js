@@ -15,7 +15,6 @@ const TransferInsRequest=()=>{
      const transferInsList = transferInsSelect.NewTransferInsList;
      useEffect(()=>{
         let staff_admin = JSON.parse(localStorage.getItem('staff_admin'));
-        console.log(staff_admin);
         if(staff_admin){
           setAuthorizationToken(staff_admin.token);
         }
@@ -25,22 +24,17 @@ const TransferInsRequest=()=>{
      const getAllTransferIns=()=>{
          axios.get('admin/pickup/transfer/ins')
             .then((res) => {
-                console.log(res.data);
                 dispatch(TransferIns(res.data));
                 dispatch(TransferInsCount(res.data.length));
-                console.log('transfer ins data');
             })
             .catch((err) => {
                 console.log(err.response.data);
-                // console.log('error transfer ins')
             })
      }
      const Movetowarehouse = async (id) => {
        console.log(id);
          await axios.get(`/admin/pickup/set/on/warehouse/${id}`)
             .then((res) => {
-                console.log(res.data);
-                console.log('res data pickup');
                 if(res.data.status === false){
                      showNotification('danger', res.data.message);
                 }else{
@@ -54,8 +48,6 @@ const TransferInsRequest=()=>{
             })
    }
     const getPickupDetail=(id)=>{
-       console.log(id);
-       console.log('id pickup Detail');
         history.push({
               pathname: '/staff/admin/pickup_detail',
            state: {imageDetail: id }
@@ -73,7 +65,21 @@ const TransferInsRequest=()=>{
              customBodyRender: (value, tableMeta, updateValue) => (
               <>
                   {/*{console.log(tableMeta)}*/}
-                  <div style={{cursor:'pointer'}} onDoubleClick={(event)=> getPickupDetail(tableMeta.rowData[8])}>{value}</div>
+                  <div style={{cursor:'pointer'}} onDoubleClick={(event)=> getPickupDetail(transferInsList[tableMeta.rowIndex].id)}>{value}</div>
+              </>
+          )
+         }
+        },
+        {
+         name: "transferred_from",
+         label: "Transferred From",
+         options: {
+          filter: true,
+          sort: true,
+              customBodyRender: (value, tableMeta, updateValue) => (
+              <>
+                  {/*{console.log(tableMeta)}*/}
+                  <div style={{cursor:'pointer'}} onDoubleClick={(event)=> getPickupDetail(transferInsList[tableMeta.rowIndex].id)}>{value}</div>
               </>
           )
          }
@@ -87,7 +93,7 @@ const TransferInsRequest=()=>{
              customBodyRender: (value, tableMeta, updateValue) => (
               <>
                   {/*{console.log(tableMeta)}*/}
-                  <div style={{cursor:'pointer'}} onDoubleClick={(event)=> getPickupDetail(tableMeta.rowData[8])}>{value}</div>
+                  <div style={{cursor:'pointer'}} onDoubleClick={(event)=> getPickupDetail(transferInsList[tableMeta.rowIndex].id)}>{value}</div>
               </>
           )
          }
@@ -101,7 +107,7 @@ const TransferInsRequest=()=>{
              customBodyRender: (value, tableMeta, updateValue) => (
               <>
                   {/*{console.log(tableMeta)}*/}
-                  <div style={{cursor:'pointer'}} onDoubleClick={(event)=> getPickupDetail(tableMeta.rowData[8])}>{value}</div>
+                  <div style={{cursor:'pointer'}} onDoubleClick={(event)=> getPickupDetail(transferInsList[tableMeta.rowIndex].id)}>{value}</div>
               </>
           )
          }
@@ -115,7 +121,7 @@ const TransferInsRequest=()=>{
              customBodyRender: (value, tableMeta, updateValue) => (
               <>
                   {/*{console.log(tableMeta)}*/}
-                  <div style={{cursor:'pointer'}} onDoubleClick={(event)=> getPickupDetail(tableMeta.rowData[8])}>{value}</div>
+                  <div style={{cursor:'pointer'}} onDoubleClick={(event)=> getPickupDetail(transferInsList[tableMeta.rowIndex].id)}>{value}</div>
               </>
           )
          }
@@ -129,7 +135,7 @@ const TransferInsRequest=()=>{
              customBodyRender: (value, tableMeta, updateValue) => (
               <>
                   {/*{console.log(tableMeta)}*/}
-                  <div style={{cursor:'pointer'}} onDoubleClick={(event)=> getPickupDetail(tableMeta.rowData[8])}>{value}</div>
+                  <div style={{cursor:'pointer'}} onDoubleClick={(event)=> getPickupDetail(transferInsList[tableMeta.rowIndex].id)}>{value}</div>
               </>
           )
          }
@@ -143,7 +149,7 @@ const TransferInsRequest=()=>{
              customBodyRender: (value, tableMeta, updateValue) => (
               <>
                   {/*{console.log(tableMeta)}*/}
-                  <div style={{cursor:'pointer'}} onDoubleClick={(event)=> getPickupDetail(tableMeta.rowData[8])}>{value}</div>
+                  <div style={{cursor:'pointer'}} onDoubleClick={(event)=> getPickupDetail(transferInsList[tableMeta.rowIndex].id)}>Rs. {value}</div>
               </>
           )
          }
@@ -157,7 +163,7 @@ const TransferInsRequest=()=>{
              customBodyRender: (value, tableMeta, updateValue) => (
               <>
                   {/*{console.log(tableMeta)}*/}
-                  <div style={{cursor:'pointer'}} onDoubleClick={(event)=> getPickupDetail(tableMeta.rowData[8])}>{value}</div>
+                  <div style={{cursor:'pointer'}} onDoubleClick={(event)=> getPickupDetail(transferInsList[tableMeta.rowIndex].id)}>Rs. {value}</div>
               </>
           )
          }
@@ -170,8 +176,7 @@ const TransferInsRequest=()=>{
           sort: true,
              customBodyRender: (value, tableMeta, updateValue) => (
               <>
-                  {/*{console.log(tableMeta)}*/}
-                  <div style={{cursor:'pointer'}} onDoubleClick={(event)=> getPickupDetail(tableMeta.rowData[8])}>{value}</div>
+                  <div style={{cursor:'pointer'}} onDoubleClick={(event)=> getPickupDetail(transferInsList[tableMeta.rowIndex].id)}>{value}</div>
               </>
           )
          }
@@ -185,21 +190,9 @@ const TransferInsRequest=()=>{
               customBodyRender: (value, tableMeta, updateValue) => (
                   <>
                       <div style={{width:'100%',display:'flex'}}>
-                          {/*<div style={{width:'25%',}}>*/}
-                          {/*      <button style={{width:'70px',borderRadius:'5px',border:'none',backgroundColor:'#ffc107',padding:'5px 10px'}} > Assign </button>*/}
-                          {/*</div>*/}
                            <div style={{width:'100%',}}>
                                 <button style={{width:'90px',borderRadius:'5px',border:'none',backgroundColor:'#ffc107',padding:'5px 10px'}} onClick={(event)=> Movetowarehouse(value)} > Move to WareHouse</button>
                           </div>
-                          {/* <div style={{width:'25%',}}>*/}
-                          {/*      <button style={{width:'90px',borderRadius:'5px',border:'none',backgroundColor:'#ffc107',padding:'5px 10px'}} > Move to Cancel <ImBoxRemove/></button>*/}
-                          {/*</div>*/}
-                          {/* <div style={{width:'25%',}}>*/}
-                          {/*      <button style={{width:'90px',borderRadius:'5px',border:'none',backgroundColor:'#ffc107',padding:'5px 10px'}} > Transfer <ImBoxRemove/></button>*/}
-                          {/*</div>*/}
-                          {/*<div style={{width:'50%',}}>*/}
-                          {/*      <button className="editBtn" ><BiEdit /></button>*/}
-                          {/*</div>*/}
                       </div>
                   </>
               )

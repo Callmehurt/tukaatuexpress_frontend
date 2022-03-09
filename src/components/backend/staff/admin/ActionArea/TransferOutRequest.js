@@ -14,7 +14,6 @@ const TransferOutRequest=()=>{
     const transferOutList = transferOutSelect.NewTransferOutList;
     useEffect(()=>{
         let staff_admin = JSON.parse(localStorage.getItem('staff_admin'));
-        console.log(staff_admin);
         if(staff_admin){
           setAuthorizationToken(staff_admin.token);
         }
@@ -28,14 +27,13 @@ const TransferOutRequest=()=>{
                 console.log(err.response);
                 // console.log('error transfer ins')
             })
-    },[0]);
+    },[]);
 
      const getPickupDetail=(id)=>{
         history.push({
               pathname: '/staff/admin/pickup_detail',
            state: {imageDetail: id }
         });
-
 
    }
     const columns = [
@@ -48,7 +46,21 @@ const TransferOutRequest=()=>{
               customBodyRender: (value, tableMeta, updateValue) => (
               <>
                   {/*{console.log(tableMeta)}*/}
-                  <div style={{cursor:'pointer'}} onDoubleClick={(event)=> getPickupDetail(tableMeta.rowData[8])}>{value}</div>
+                  <div style={{cursor:'pointer'}} onDoubleClick={(event)=> getPickupDetail(transferOutList[tableMeta.rowIndex].id)}>{value}</div>
+              </>
+          )
+         }
+        },
+        {
+         name: "transferred_branch",
+         label: "Transferred Branch",
+         options: {
+          filter: true,
+          sort: true,
+              customBodyRender: (value, tableMeta, updateValue) => (
+              <>
+                  {/*{console.log(tableMeta)}*/}
+                  <div style={{cursor:'pointer'}} onDoubleClick={(event)=> getPickupDetail(transferOutList[tableMeta.rowIndex].id)}>{value}</div>
               </>
           )
          }
@@ -62,7 +74,7 @@ const TransferOutRequest=()=>{
               customBodyRender: (value, tableMeta, updateValue) => (
               <>
                   {/*{console.log(tableMeta)}*/}
-                  <div style={{cursor:'pointer'}} onDoubleClick={(event)=> getPickupDetail(tableMeta.rowData[8])}>{value}</div>
+                  <div style={{cursor:'pointer'}} onDoubleClick={(event)=> getPickupDetail(transferOutList[tableMeta.rowIndex].id)}>{value}</div>
               </>
           )
          }
@@ -76,21 +88,21 @@ const TransferOutRequest=()=>{
               customBodyRender: (value, tableMeta, updateValue) => (
               <>
                   {/*{console.log(tableMeta)}*/}
-                  <div style={{cursor:'pointer'}} onDoubleClick={(event)=> getPickupDetail(tableMeta.rowData[8])}>{value}</div>
+                  <div style={{cursor:'pointer'}} onDoubleClick={(event)=> getPickupDetail(transferOutList[tableMeta.rowIndex].id)}>{value}</div>
               </>
           )
          }
         },
         {
          name: "customer_name",
-         label: "Reciever Name",
+         label: "Receiver Name",
          options: {
           filter: true,
           sort: true,
               customBodyRender: (value, tableMeta, updateValue) => (
               <>
                   {/*{console.log(tableMeta)}*/}
-                  <div style={{cursor:'pointer'}} onDoubleClick={(event)=> getPickupDetail(tableMeta.rowData[8])}>{value}</div>
+                  <div style={{cursor:'pointer'}} onDoubleClick={(event)=> getPickupDetail(transferOutList[tableMeta.rowIndex].id)}>{value}</div>
               </>
           )
          }
@@ -104,7 +116,7 @@ const TransferOutRequest=()=>{
               customBodyRender: (value, tableMeta, updateValue) => (
               <>
                   {/*{console.log(tableMeta)}*/}
-                  <div style={{cursor:'pointer'}} onDoubleClick={(event)=> getPickupDetail(tableMeta.rowData[8])}>{value}</div>
+                  <div style={{cursor:'pointer'}} onDoubleClick={(event)=> getPickupDetail(transferOutList[tableMeta.rowIndex].id)}>{value}</div>
               </>
           )
          }
@@ -118,7 +130,7 @@ const TransferOutRequest=()=>{
               customBodyRender: (value, tableMeta, updateValue) => (
               <>
                   {/*{console.log(tableMeta)}*/}
-                  <div style={{cursor:'pointer'}} onDoubleClick={(event)=> getPickupDetail(tableMeta.rowData[8])}>{value}</div>
+                  <div style={{cursor:'pointer'}} onDoubleClick={(event)=> getPickupDetail(transferOutList[tableMeta.rowIndex].id)}>Rs. {value}</div>
               </>
           )
          }
@@ -132,7 +144,7 @@ const TransferOutRequest=()=>{
               customBodyRender: (value, tableMeta, updateValue) => (
               <>
                   {/*{console.log(tableMeta)}*/}
-                  <div style={{cursor:'pointer'}} onDoubleClick={(event)=> getPickupDetail(tableMeta.rowData[8])}>{value}</div>
+                  <div style={{cursor:'pointer'}} onDoubleClick={(event)=> getPickupDetail(transferOutList[tableMeta.rowIndex].id)}>Rs. {value}</div>
               </>
           )
          }
@@ -146,27 +158,11 @@ const TransferOutRequest=()=>{
               customBodyRender: (value, tableMeta, updateValue) => (
               <>
                   {/*{console.log(tableMeta)}*/}
-                  <div style={{cursor:'pointer'}} onDoubleClick={(event)=> getPickupDetail(tableMeta.rowData[8])}>{value}</div>
+                  <div style={{cursor:'pointer'}} onDoubleClick={(event)=> getPickupDetail(transferOutList[tableMeta.rowIndex].id)}>{value}</div>
               </>
           )
          }
         },
-        {
-            name: 'id',
-            label: 'Action',
-            options: {
-              filter: false,
-              sort: false,
-              customBodyRender: (value, tableMeta, updateValue) => (
-                  <>
-                      <div style={{width:'100%',display:'flex'}}>
-
-                      </div>
-                  </>
-              )
-            }
-        }
-
        ];
     const options = {
         searchOpen:false,

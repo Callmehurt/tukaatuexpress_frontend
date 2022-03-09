@@ -14,7 +14,6 @@ const TransferOutsComplete=()=>{
        const transferOutsComplete = branchOperation.transferOutsComplete;
     useEffect(()=>{
         let staff_admin = JSON.parse(localStorage.getItem('staff_admin'));
-        console.log(staff_admin);
         if(staff_admin){
           setAuthorizationToken(staff_admin.token);
         }
@@ -22,8 +21,6 @@ const TransferOutsComplete=()=>{
 
     },[0]);
     const getPickupDetail=(id)=>{
-       console.log(id);
-       console.log('id pickup Detail');
         history.push({
               pathname: '/staff/admin/pickup_detail',
            state: {imageDetail: id }
@@ -34,10 +31,7 @@ const TransferOutsComplete=()=>{
     const getTransferOutsCompleteFunction=()=>{
         axios.get('admin/pickup/transfer/outs/complete')
             .then((res) => {
-                console.log(res.data);
                 dispatch(getTransferOutsComplete(res.data));
-
-                console.log('transfer Out data');
             })
             .catch((err) => {
                 console.log(err.response);
@@ -54,7 +48,21 @@ const TransferOutsComplete=()=>{
               customBodyRender: (value, tableMeta, updateValue) => (
               <>
                   {/*{console.log(tableMeta)}*/}
-                  <div style={{cursor:'pointer'}} onDoubleClick={(event)=> getPickupDetail(tableMeta.rowData[8])}>{value}</div>
+                  <div style={{cursor:'pointer'}} onDoubleClick={(event)=> getPickupDetail(transferOutsComplete[tableMeta.rowIndex].id)}>{value}</div>
+              </>
+          )
+         }
+        },
+        {
+         name: "transferred_branch",
+         label: "Transferred Branch",
+         options: {
+          filter: true,
+          sort: true,
+              customBodyRender: (value, tableMeta, updateValue) => (
+              <>
+                  {/*{console.log(tableMeta)}*/}
+                  <div style={{cursor:'pointer'}} onDoubleClick={(event)=> getPickupDetail(transferOutsComplete[tableMeta.rowIndex].id)}>{value}</div>
               </>
           )
          }
@@ -68,7 +76,7 @@ const TransferOutsComplete=()=>{
               customBodyRender: (value, tableMeta, updateValue) => (
               <>
                   {/*{console.log(tableMeta)}*/}
-                  <div style={{cursor:'pointer'}} onDoubleClick={(event)=> getPickupDetail(tableMeta.rowData[8])}>{value}</div>
+                  <div style={{cursor:'pointer'}} onDoubleClick={(event)=> getPickupDetail(transferOutsComplete[tableMeta.rowIndex].id)}>{value}</div>
               </>
           )
          }
@@ -82,21 +90,21 @@ const TransferOutsComplete=()=>{
               customBodyRender: (value, tableMeta, updateValue) => (
               <>
                   {/*{console.log(tableMeta)}*/}
-                  <div style={{cursor:'pointer'}} onDoubleClick={(event)=> getPickupDetail(tableMeta.rowData[8])}>{value}</div>
+                  <div style={{cursor:'pointer'}} onDoubleClick={(event)=> getPickupDetail(transferOutsComplete[tableMeta.rowIndex].id)}>{value}</div>
               </>
           )
          }
         },
         {
          name: "customer_name",
-         label: "Reciever Name",
+         label: "Receiver Name",
          options: {
           filter: true,
           sort: true,
               customBodyRender: (value, tableMeta, updateValue) => (
               <>
                   {/*{console.log(tableMeta)}*/}
-                  <div style={{cursor:'pointer'}} onDoubleClick={(event)=> getPickupDetail(tableMeta.rowData[8])}>{value}</div>
+                  <div style={{cursor:'pointer'}} onDoubleClick={(event)=> getPickupDetail(transferOutsComplete[tableMeta.rowIndex].id)}>{value}</div>
               </>
           )
          }
@@ -110,7 +118,7 @@ const TransferOutsComplete=()=>{
               customBodyRender: (value, tableMeta, updateValue) => (
               <>
                   {/*{console.log(tableMeta)}*/}
-                  <div style={{cursor:'pointer'}} onDoubleClick={(event)=> getPickupDetail(tableMeta.rowData[8])}>{value}</div>
+                  <div style={{cursor:'pointer'}} onDoubleClick={(event)=> getPickupDetail(transferOutsComplete[tableMeta.rowIndex].id)}>{value}</div>
               </>
           )
          }
@@ -124,7 +132,7 @@ const TransferOutsComplete=()=>{
               customBodyRender: (value, tableMeta, updateValue) => (
               <>
                   {/*{console.log(tableMeta)}*/}
-                  <div style={{cursor:'pointer'}} onDoubleClick={(event)=> getPickupDetail(tableMeta.rowData[8])}>{value}</div>
+                  <div style={{cursor:'pointer'}} onDoubleClick={(event)=> getPickupDetail(transferOutsComplete[tableMeta.rowIndex].id)}>Rs. {value}</div>
               </>
           )
          }
@@ -138,7 +146,7 @@ const TransferOutsComplete=()=>{
               customBodyRender: (value, tableMeta, updateValue) => (
               <>
                   {/*{console.log(tableMeta)}*/}
-                  <div style={{cursor:'pointer'}} onDoubleClick={(event)=> getPickupDetail(tableMeta.rowData[8])}>{value}</div>
+                  <div style={{cursor:'pointer'}} onDoubleClick={(event)=> getPickupDetail(transferOutsComplete[tableMeta.rowIndex].id)}>Rs. {value}</div>
               </>
           )
          }
@@ -152,27 +160,11 @@ const TransferOutsComplete=()=>{
               customBodyRender: (value, tableMeta, updateValue) => (
               <>
                   {/*{console.log(tableMeta)}*/}
-                  <div style={{cursor:'pointer'}} onDoubleClick={(event)=> getPickupDetail(tableMeta.rowData[8])}>{value}</div>
+                  <div style={{cursor:'pointer'}} onDoubleClick={(event)=> getPickupDetail(transferOutsComplete[tableMeta.rowIndex].id)}>{value}</div>
               </>
           )
          }
         },
-        {
-            name: 'id',
-            label: 'Action',
-            options: {
-              filter: false,
-              sort: false,
-              customBodyRender: (value, tableMeta, updateValue) => (
-                  <>
-                      <div style={{width:'100%',display:'flex'}}>
-
-                      </div>
-                  </>
-              )
-            }
-        }
-
        ];
 const options = {
         searchOpen:false,

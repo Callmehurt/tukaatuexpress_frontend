@@ -24,17 +24,16 @@ const HoldToCancelModal=(props)=>{
          pickup_id:'',
          remarks:''
      });
+
      useEffect( ()=>{
-        console.log('props assign modal');
         let staffAdmin = JSON.parse(localStorage.getItem('staff_admin'));
          if(staffAdmin){
           setAuthorizationToken(staffAdmin.token);
          }
-        console.log(props);
          getHoldToCancelPacketId(props.packetId);
-         console.log(holdToCancelPickupId);
 
     },[props.packetId]);
+
       const getHoldToCancelPacketId=(data)=>{
         setHoldToCancelPickupId(data);
     }
@@ -72,12 +71,9 @@ const HoldToCancelModal=(props)=>{
     }
 
      const onSubmit = async (event) => {
-         console.log('event submit');
-         console.log(holdToCancelPickupId);
-          console.log(holdToCancelData);
-         axios.post('/admin/pickup/move/to/cancel' ,holdToCancelData)
+         axios.post('/admin/pickup/move/to/cancel',holdToCancelData)
              .then((res) => {
-                 console.log(res);
+                 console.log(res)
                  if(res.data.status === false){
                      showNotification('danger', res.data.message);
                  }else{

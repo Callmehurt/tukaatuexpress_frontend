@@ -23,7 +23,6 @@ const OnProcessPickups=()=>{
 
     },[0]);
      const viewPickups=(id)=>{
-         console.log(id);
          history.push({
            pathname: '/staff/admin/proceeded_request_detail',
            state: {requestID: id,completeDetail:false }
@@ -40,7 +39,7 @@ const OnProcessPickups=()=>{
              customBodyRender: (value, tableMeta, updateValue) => (
               <>
                   {/*{console.log(tableMeta)}*/}
-                  <div style={{cursor:'pointer'}} onDoubleClick={(event)=> viewPickups(tableMeta.rowData[4])}>{value}</div>
+                  <div style={{cursor:'pointer'}} onDoubleClick={(event)=> viewPickups(allProcessRequests[tableMeta.rowIndex].id)}>{value}</div>
               </>
           )
          }
@@ -54,7 +53,7 @@ const OnProcessPickups=()=>{
              customBodyRender: (value, tableMeta, updateValue) => (
               <>
                   {/*{console.log(tableMeta)}*/}
-                  <div style={{cursor:'pointer'}} onDoubleClick={(event)=> viewPickups(tableMeta.rowData[4])}>{value}</div>
+                  <div style={{cursor:'pointer'}} onDoubleClick={(event)=> viewPickups(allProcessRequests[tableMeta.rowIndex].id)}>{value}</div>
               </>
           )
          }
@@ -68,7 +67,34 @@ const OnProcessPickups=()=>{
              customBodyRender: (value, tableMeta, updateValue) => (
               <>
                   {/*{console.log(tableMeta)}*/}
-                  <div style={{cursor:'pointer'}} onDoubleClick={(event)=> viewPickups(tableMeta.rowData[4])}>{value}</div>
+                  <div style={{cursor:'pointer'}} onDoubleClick={(event)=> viewPickups(allProcessRequests[tableMeta.rowIndex].id)}>{value}</div>
+              </>
+          )
+         }
+        },
+         {
+         name: "vendor_phone",
+         label: "Partner Phone",
+         options: {
+          filter: true,
+          sort: true,
+             customBodyRender: (value, tableMeta, updateValue) => (
+              <>
+                  {/*{console.log(tableMeta)}*/}
+                  <div style={{cursor:'pointer'}} onDoubleClick={(event)=> viewPickups(allProcessRequests[tableMeta.rowIndex].id)}>{value}</div>
+              </>
+          )
+         }
+        },
+        {
+         name: "address",
+         label: "Partner Address",
+         options: {
+          filter: true,
+          sort: true,
+             customBodyRender: (value, tableMeta, updateValue) => (
+              <>
+                  <div style={{cursor:'pointer'}} onDoubleClick={(event)=> viewPickups(allProcessRequests[tableMeta.rowIndex].id)}>{value}</div>
               </>
           )
          }
@@ -82,39 +108,24 @@ const OnProcessPickups=()=>{
              customBodyRender: (value, tableMeta, updateValue) => (
               <>
                   {/*{console.log(tableMeta)}*/}
-                  <div style={{cursor:'pointer'}} onDoubleClick={(event)=> viewPickups(tableMeta.rowData[4])}>{value}</div>
+                  <div style={{cursor:'pointer'}} onDoubleClick={(event)=> viewPickups(allProcessRequests[tableMeta.rowIndex].id)}>{value}</div>
               </>
           )
          }
         },
          {
-            name: 'id',
-            label:' ',
-            options: {
-              filter: false,
-              sort: false,
-              customBodyRender: (value, tableMeta, updateValue) => (
-                  <>
-                      <div style={{width:'100%',display:'flex'}}>
-                          {/*<div style={{width:'25%',}}>*/}
-                          {/*      <button style={{width:'70px',borderRadius:'5px',border:'none',backgroundColor:'#ffc107',padding:'5px 10px'}} onClick={() => AssignToDelivery(value)}> Assign </button>*/}
-                          {/*</div>*/}
-                           <div style={{width:'25%',}}>
-                                {/*<button style={{width:'90px',borderRadius:'5px',border:'none',backgroundColor:'#ffc107',padding:'5px 10px'}} onClick={() => AssignRequest(value)}>Assign Request</button>*/}
-                          </div>
-                          {/* <div style={{width:'25%',}}>*/}
-                          {/*      <button style={{width:'90px',borderRadius:'5px',border:'none',backgroundColor:'#ffc107',padding:'5px 10px'}} onClick={() => MoveToCancel(value)}> Move to Cancel <ImBoxRemove/></button>*/}
-                          {/*</div>*/}
-                          {/* <div style={{width:'25%',}}>*/}
-                          {/*      <button style={{width:'90px',borderRadius:'5px',border:'none',backgroundColor:'#ffc107',padding:'5px 10px'}} onClick={() => TransferAction(value)}> Transfer <ImBoxRemove/></button>*/}
-                          {/*</div>*/}
-                          {/*<div style={{width:'50%',}}>*/}
-                          {/*      <button className="editBtn" ><BiEdit /></button>*/}
-                          {/*</div>*/}
-                      </div>
-                  </>
-              )
-            }
+         name: "request_count",
+         label: "Packet Count",
+         options: {
+          filter: true,
+          sort: true,
+             customBodyRender: (value, tableMeta, updateValue) => (
+              <>
+                  {/*{console.log(tableMeta)}*/}
+                  <div style={{cursor:'pointer'}} onDoubleClick={(event)=> viewPickups(allProcessRequests[tableMeta.rowIndex].id)}>{value}</div>
+              </>
+          )
+         }
         },
 
        ];

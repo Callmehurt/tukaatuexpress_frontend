@@ -33,7 +33,6 @@ const PickupSameDayDatatables = ()=> {
 
     useEffect(()=>{
         let staff_admin = JSON.parse(localStorage.getItem('staff_admin'));
-        console.log(staff_admin);
         if(staff_admin?.token){
           setAuthorizationToken(staff_admin.token);
         }else{
@@ -293,7 +292,7 @@ const PickupSameDayDatatables = ()=> {
    const newpickupssamedaydata = () => {
          axios.get('/admin/pickup/sameday/list')
             .then((res) => {
-                console.log(res);
+                console.log('Same day', res);
                 // console.log('res data pickup')
                 dispatch(newPickupSameDay(res.data));
                 // dispatch(NewPickupListCount(res.data.length));

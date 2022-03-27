@@ -100,6 +100,7 @@ export const ComponentToPrint= React.forwardRef((props, ref)=>{
                                                           <tr>
                                                               <td rowSpan="4">
                                                                   <div style={{paddingTop:'17px'}}>
+                                                                      {items.normal_delivery === 0 ? 'Same Day Delivery' : ''}
                                                                     <Barcode value={items.tex_code} renderer={"img"} format="code128" height="30" width="1"  font="Roboto" fontSize="14" />
                                                                   </div>
                                                               </td>
@@ -125,13 +126,13 @@ export const ComponentToPrint= React.forwardRef((props, ref)=>{
                                                               <td className="font_size_td">Address</td>
                                                               <td className="font_size_td">
                                                                   <span >
-                                                                  { items.address.length>10?
+                                                                  { items.customer_address.length>10?
                                                                       <div>
-                                                                          <span>{items.address.substring(0,10)}...</span>
+                                                                          <span>{items.customer_address.substring(0,10)}...</span>
                                                                       </div>
                                                                       :
                                                                       <div>
-                                                                          <span>{items.address}</span>
+                                                                          <span>{items.customer_address}</span>
                                                                       </div>
                                                                   }
                                                               </span>

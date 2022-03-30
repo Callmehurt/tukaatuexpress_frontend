@@ -22,7 +22,6 @@ const AssignedSameDayDatatables=()=>{
 
     },[0]);
        const getPickupDetail=(id)=>{
-       console.log(id);
         history.push({
               pathname: '/staff/admin/pickup_detail',
            state: {imageDetail: id }
@@ -33,8 +32,6 @@ const AssignedSameDayDatatables=()=>{
         const getAssignedSameDayDelivery=()=>{
             axios.get('/admin/pickup/sameday/assigned/list')
              .then((res) => {
-                 console.log(res);
-                 console.log(res.data);
                  dispatch(assignedListSameDay(res.data));
              })
              .catch((err) => {
@@ -51,7 +48,7 @@ const AssignedSameDayDatatables=()=>{
              customBodyRender: (value, tableMeta, updateValue) => (
               <>
                   {/*{console.log(tableMeta)}*/}
-                  <div style={{cursor:'pointer'}} onDoubleClick={(event)=> getPickupDetail(tableMeta.rowData[8])}>{value}</div>
+                  <div style={{cursor:'pointer'}} onDoubleClick={(event)=> getPickupDetail(assignedDeliverySameDayList[tableMeta.rowIndex].id)}>{value}</div>
               </>
           )
          }
@@ -65,7 +62,7 @@ const AssignedSameDayDatatables=()=>{
              customBodyRender: (value, tableMeta, updateValue) => (
               <>
                   {/*{console.log(tableMeta)}*/}
-                  <div style={{cursor:'pointer'}} onDoubleClick={(event)=> getPickupDetail(tableMeta.rowData[8])}>{value}</div>
+                  <div style={{cursor:'pointer'}} onDoubleClick={(event)=> getPickupDetail(assignedDeliverySameDayList[tableMeta.rowIndex].id)}>{value}</div>
               </>
           )
          }
@@ -79,7 +76,7 @@ const AssignedSameDayDatatables=()=>{
              customBodyRender: (value, tableMeta, updateValue) => (
               <>
                   {/*{console.log(tableMeta)}*/}
-                  <div style={{cursor:'pointer'}} onDoubleClick={(event)=> getPickupDetail(tableMeta.rowData[8])}>{value}</div>
+                  <div style={{cursor:'pointer'}} onDoubleClick={(event)=> getPickupDetail(assignedDeliverySameDayList[tableMeta.rowIndex].id)}>{value}</div>
               </>
           )
          }
@@ -93,7 +90,7 @@ const AssignedSameDayDatatables=()=>{
              customBodyRender: (value, tableMeta, updateValue) => (
               <>
                   {/*{console.log(tableMeta)}*/}
-                  <div style={{cursor:'pointer'}} onDoubleClick={(event)=> getPickupDetail(tableMeta.rowData[8])}>{value}</div>
+                  <div style={{cursor:'pointer'}} onDoubleClick={(event)=> getPickupDetail(assignedDeliverySameDayList[tableMeta.rowIndex].id)}>{value}</div>
               </>
           )
          }
@@ -107,7 +104,7 @@ const AssignedSameDayDatatables=()=>{
              customBodyRender: (value, tableMeta, updateValue) => (
               <>
                   {/*{console.log(tableMeta)}*/}
-                  <div style={{cursor:'pointer'}} onDoubleClick={(event)=> getPickupDetail(tableMeta.rowData[8])}>{value}</div>
+                  <div style={{cursor:'pointer'}} onDoubleClick={(event)=> getPickupDetail(assignedDeliverySameDayList[tableMeta.rowIndex].id)}>{value}</div>
               </>
           )
          }
@@ -121,7 +118,7 @@ const AssignedSameDayDatatables=()=>{
              customBodyRender: (value, tableMeta, updateValue) => (
               <>
                   {/*{console.log(tableMeta)}*/}
-                  <div style={{cursor:'pointer'}} onDoubleClick={(event)=> getPickupDetail(tableMeta.rowData[8])}>{value}</div>
+                  <div style={{cursor:'pointer'}} onDoubleClick={(event)=> getPickupDetail(assignedDeliverySameDayList[tableMeta.rowIndex].id)}>Rs. {value}</div>
               </>
           )
          }
@@ -135,7 +132,7 @@ const AssignedSameDayDatatables=()=>{
              customBodyRender: (value, tableMeta, updateValue) => (
               <>
                   {/*{console.log(tableMeta)}*/}
-                  <div style={{cursor:'pointer'}} onDoubleClick={(event)=> getPickupDetail(tableMeta.rowData[8])}>{value}</div>
+                  <div style={{cursor:'pointer'}} onDoubleClick={(event)=> getPickupDetail(assignedDeliverySameDayList[tableMeta.rowIndex].id)}>Rs. {value}</div>
               </>
           )
          }
@@ -149,42 +146,26 @@ const AssignedSameDayDatatables=()=>{
              customBodyRender: (value, tableMeta, updateValue) => (
               <>
                   {/*{console.log(tableMeta)}*/}
-                  <div style={{cursor:'pointer'}} onDoubleClick={(event)=> getPickupDetail(tableMeta.rowData[8])}>{value}</div>
+                  <div style={{cursor:'pointer'}} onDoubleClick={(event)=> getPickupDetail(assignedDeliverySameDayList[tableMeta.rowIndex].id)}>{value}</div>
+              </>
+          )
+         }
+        },
+            {
+         name: "vendor_name",
+         label: "Partner",
+         options: {
+          filter: true,
+          sort: true,
+              customBodyRender: (value, tableMeta, updateValue) => (
+              <>
+                  {/*{console.log(tableMeta)}*/}
+                  <div style={{cursor:'pointer'}} onDoubleClick={(event)=> getPickupDetail(assignedDeliverySameDayList[tableMeta.rowIndex].id)}>{value}</div>
               </>
           )
          }
         },
         {
-            name: 'id',
-            label: 'Action',
-            options: {
-              filter: false,
-              sort: false,
-             display:false,
-              customBodyRender: (value, tableMeta, updateValue) => (
-                  <>
-                      <div style={{width:'100%',display:'flex'}}>
-                          {/*<div style={{width:'25%',}}>*/}
-                          {/*      <button style={{width:'70px',borderRadius:'5px',border:'none',backgroundColor:'#ffc107',padding:'5px 10px'}} onClick={() => AssignToDelivery(value)}> Assign </button>*/}
-                          {/*</div>*/}
-                          {/* <div style={{width:'25%',}}>*/}
-                          {/*      <button style={{width:'90px',borderRadius:'5px',border:'none',backgroundColor:'#ffc107',padding:'5px 10px'}} onClick={() => MoveToHold(value)}> Move to Hold<ImBoxRemove/></button>*/}
-                          {/*</div>*/}
-                          {/* <div style={{width:'25%',}}>*/}
-                          {/*      <button style={{width:'90px',borderRadius:'5px',border:'none',backgroundColor:'#ffc107',padding:'5px 10px'}} onClick={() => MoveToCancel(value)}> Move to Cancel <ImBoxRemove/></button>*/}
-                          {/*</div>*/}
-                          {/* <div style={{width:'25%',}}>*/}
-                          {/*      <button style={{width:'90px',borderRadius:'5px',border:'none',backgroundColor:'#ffc107',padding:'5px 10px'}} onClick={() => TransferAction(value)}> Transfer <ImBoxRemove/></button>*/}
-                          {/*</div>*/}
-                          {/*<div style={{width:'50%',}}>*/}
-                          {/*      <button className="editBtn" ><BiEdit /></button>*/}
-                          {/*</div>*/}
-                      </div>
-                  </>
-              )
-            }
-        },
-            {
          name: "delivery_person_name",
          label: "Del. Per",
          options: {
@@ -193,7 +174,7 @@ const AssignedSameDayDatatables=()=>{
               customBodyRender: (value, tableMeta, updateValue) => (
               <>
                   {/*{console.log(tableMeta)}*/}
-                  <div style={{cursor:'pointer'}} onDoubleClick={(event)=> getPickupDetail(tableMeta.rowData[8])}>{value}</div>
+                  <div style={{cursor:'pointer'}} onDoubleClick={(event)=> getPickupDetail(assignedDeliverySameDayList[tableMeta.rowIndex].id)}>{value}</div>
               </>
           )
          }

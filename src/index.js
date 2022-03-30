@@ -23,10 +23,10 @@ import {PusherProvider, useChannel, useEvent} from "@harelpls/use-pusher";
 
 // axios.defaults.baseURL = 'http://207.180.250.139/backend/public/api';
 // axios.defaults.baseURL = 'https://texos.tukaatu.com/api';
-// axios.defaults.baseURL = 'https://tukaatuexpress.com/backend/public/api';
+axios.defaults.baseURL = 'https://tukaatuexpress.com/backend/public/api';
 
 
-axios.defaults.baseURL = 'http://127.0.0.1:8000/api';
+// axios.defaults.baseURL = 'http://127.0.0.1:8000/api';
 
 
 // axios.defaults.baseURL = 'https://test.rastriyasecondaryschool.edu.np/api';

@@ -24,8 +24,7 @@ const AssignedDatatables=()=>{
       const  getAssigned =()=>{
         axios.get('/admin/pickup/assigned/list')
              .then((res) => {
-                 console.log(res);
-                 console.log(res.data);
+                 console.log('assigned', res.data);
                  dispatch(assignedList(res.data));
              })
              .catch((err) => {
@@ -33,7 +32,6 @@ const AssignedDatatables=()=>{
              });
     }
     const getPickupDetail=(id)=>{
-       console.log(id);
         history.push({
               pathname: '/staff/admin/pickup_detail',
            state: {imageDetail: id }
@@ -52,7 +50,7 @@ const AssignedDatatables=()=>{
               customBodyRender: (value, tableMeta, updateValue) => (
               <>
                   {/*{console.log(tableMeta)}*/}
-                  <div style={{cursor:'pointer'}} onDoubleClick={(event)=> getPickupDetail(tableMeta.rowData[8])}>{value}</div>
+                  <div style={{cursor:'pointer'}} onDoubleClick={(event)=> getPickupDetail(assignedDeliveryList[tableMeta.rowIndex].id)}>{value}</div>
               </>
           )
          }
@@ -66,7 +64,7 @@ const AssignedDatatables=()=>{
               customBodyRender: (value, tableMeta, updateValue) => (
               <>
                   {/*{console.log(tableMeta)}*/}
-                  <div style={{cursor:'pointer'}} onDoubleClick={(event)=> getPickupDetail(tableMeta.rowData[8])}>{value}</div>
+                  <div style={{cursor:'pointer'}} onDoubleClick={(event)=> getPickupDetail(assignedDeliveryList[tableMeta.rowIndex].id)}>{value}</div>
               </>
           )
          }
@@ -80,7 +78,7 @@ const AssignedDatatables=()=>{
               customBodyRender: (value, tableMeta, updateValue) => (
               <>
                   {/*{console.log(tableMeta)}*/}
-                  <div style={{cursor:'pointer'}} onDoubleClick={(event)=> getPickupDetail(tableMeta.rowData[8])}>{value}</div>
+                  <div style={{cursor:'pointer'}} onDoubleClick={(event)=> getPickupDetail(assignedDeliveryList[tableMeta.rowIndex].id)}>{value}</div>
               </>
           )
          }
@@ -94,7 +92,7 @@ const AssignedDatatables=()=>{
               customBodyRender: (value, tableMeta, updateValue) => (
               <>
                   {/*{console.log(tableMeta)}*/}
-                  <div style={{cursor:'pointer'}} onDoubleClick={(event)=> getPickupDetail(tableMeta.rowData[8])}>{value}</div>
+                  <div style={{cursor:'pointer'}} onDoubleClick={(event)=> getPickupDetail(assignedDeliveryList[tableMeta.rowIndex].id)}>{value}</div>
               </>
           )
          }
@@ -108,7 +106,7 @@ const AssignedDatatables=()=>{
               customBodyRender: (value, tableMeta, updateValue) => (
               <>
                   {/*{console.log(tableMeta)}*/}
-                  <div style={{cursor:'pointer'}} onDoubleClick={(event)=> getPickupDetail(tableMeta.rowData[8])}>{value}</div>
+                  <div style={{cursor:'pointer'}} onDoubleClick={(event)=> getPickupDetail(assignedDeliveryList[tableMeta.rowIndex].id)}>{value}</div>
               </>
           )
          }
@@ -122,7 +120,7 @@ const AssignedDatatables=()=>{
               customBodyRender: (value, tableMeta, updateValue) => (
               <>
                   {/*{console.log(tableMeta)}*/}
-                  <div style={{cursor:'pointer'}} onDoubleClick={(event)=> getPickupDetail(tableMeta.rowData[8])}>{value}</div>
+                  <div style={{cursor:'pointer'}} onDoubleClick={(event)=> getPickupDetail(assignedDeliveryList[tableMeta.rowIndex].id)}>Rs. {value}</div>
               </>
           )
          }
@@ -136,7 +134,7 @@ const AssignedDatatables=()=>{
               customBodyRender: (value, tableMeta, updateValue) => (
               <>
                   {/*{console.log(tableMeta)}*/}
-                  <div style={{cursor:'pointer'}} onDoubleClick={(event)=> getPickupDetail(tableMeta.rowData[8])}>{value}</div>
+                  <div style={{cursor:'pointer'}} onDoubleClick={(event)=> getPickupDetail(assignedDeliveryList[tableMeta.rowIndex].id)}>Rs. {value}</div>
               </>
           )
          }
@@ -150,40 +148,24 @@ const AssignedDatatables=()=>{
               customBodyRender: (value, tableMeta, updateValue) => (
               <>
                   {/*{console.log(tableMeta)}*/}
-                  <div style={{cursor:'pointer'}} onDoubleClick={(event)=> getPickupDetail(tableMeta.rowData[8])}>{value}</div>
+                  <div style={{cursor:'pointer'}} onDoubleClick={(event)=> getPickupDetail(assignedDeliveryList[tableMeta.rowIndex].id)}>{value}</div>
               </>
           )
          }
         },
         {
-            name: 'id',
-            label: 'Action',
-            options: {
-              filter: false,
-              sort: false,
-                display:false,
+         name: "vendor_name",
+         label: "Partner",
+         options: {
+          filter: true,
+          sort: true,
               customBodyRender: (value, tableMeta, updateValue) => (
-                  <>
-                      <div style={{width:'100%',display:'flex'}}>
-                          {/*<div style={{width:'25%',}}>*/}
-                          {/*      <button style={{width:'70px',borderRadius:'5px',border:'none',backgroundColor:'#ffc107',padding:'5px 10px'}} onClick={() => AssignToDelivery(value)}> Assign </button>*/}
-                          {/*</div>*/}
-                          {/* <div style={{width:'25%',}}>*/}
-                          {/*      <button style={{width:'90px',borderRadius:'5px',border:'none',backgroundColor:'#ffc107',padding:'5px 10px'}} onClick={() => MoveToHold(value)}> Move to Hold<ImBoxRemove/></button>*/}
-                          {/*</div>*/}
-                          {/* <div style={{width:'25%',}}>*/}
-                          {/*      <button style={{width:'90px',borderRadius:'5px',border:'none',backgroundColor:'#ffc107',padding:'5px 10px'}} onClick={() => MoveToCancel(value)}> Move to Cancel <ImBoxRemove/></button>*/}
-                          {/*</div>*/}
-                          {/* <div style={{width:'25%',}}>*/}
-                          {/*      <button style={{width:'90px',borderRadius:'5px',border:'none',backgroundColor:'#ffc107',padding:'5px 10px'}} onClick={() => TransferAction(value)}> Transfer <ImBoxRemove/></button>*/}
-                          {/*</div>*/}
-                          {/*<div style={{width:'50%',}}>*/}
-                          {/*      <button className="editBtn" ><BiEdit /></button>*/}
-                          {/*</div>*/}
-                      </div>
-                  </>
-              )
-            }
+              <>
+                  {/*{console.log(tableMeta)}*/}
+                  <div style={{cursor:'pointer'}} onDoubleClick={(event)=> getPickupDetail(assignedDeliveryList[tableMeta.rowIndex].id)}>{value}</div>
+              </>
+          )
+         }
         },
         {
          name: "delivery_person_name",
@@ -194,12 +176,11 @@ const AssignedDatatables=()=>{
               customBodyRender: (value, tableMeta, updateValue) => (
               <>
                   {/*{console.log(tableMeta)}*/}
-                  <div style={{cursor:'pointer'}} onDoubleClick={(event)=> getPickupDetail(tableMeta.rowData[8])}>{value}</div>
+                  <div style={{cursor:'pointer'}} onDoubleClick={(event)=> getPickupDetail(assignedDeliveryList[tableMeta.rowIndex].id)}>{value}</div>
               </>
           )
          }
         },
-
        ];
 
 

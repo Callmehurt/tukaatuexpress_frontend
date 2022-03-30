@@ -17,13 +17,7 @@ import {
     getCurrentCustomerAddedOperation
 } from './../../../../../redux/actions/BranchOperation'
 import {getCurrentCustomerAdded, getProductExchangeItems} from "../../../../../redux/actions/vendor";
-// import { yupResolver } from '@hookform/resolvers';
-// import { yupResolver } from 'react-hook-form-resolvers';
-// import { yupResolver } from '@hookform/resolvers/yup';
-// import * as Yup from 'yup';
-// import CreateCustomer from "../../../branch/customer/createModal";
-// import {validationSuite} from "@hookform/resolvers/vest/src/__tests__/__fixtures__/data";
-// import Select from 'react-select';
+
 
 const AdminCreatepickups =()=>{
     const history = useHistory();
@@ -80,7 +74,6 @@ const AdminCreatepickups =()=>{
     const loadCustomer = async () => {
         await axios.get('/admin/customer/list')
             .then((res) => {
-                console.log(res);
                 let cusArr =[]
                 res.data.map((data) => {
                     cusArr.push({
@@ -109,24 +102,17 @@ const AdminCreatepickups =()=>{
                 setPartner(partnerArr);
             })
             .catch((err) => {
-                console.log(err.response.data);
                 console.log('error');
             })
     }
      setInterval(() =>{updateTime()}, 1000);
     useEffect(()=>{
-
          let staff_admin = JSON.parse(localStorage.getItem('staff_admin'));
-         // console.log(staff_admin);
-         // console.log('staff_admin');
-        console.log('hello use');
          if(staff_admin){
           setAuthorizationToken(staff_admin.token);
         }
          loadCustomer();
          loadPartner();
-         console.log(formerrors);
-         console.log(currDate);
          // setInterval(() => setDate(new Date().tolocalString()), 10000);
     },[])
     const updateTime=()=>{
@@ -134,7 +120,6 @@ const AdminCreatepickups =()=>{
         setSecond(currDate.getSeconds());
     }
     const selectChangePartner=(event)=>{
-
             const field = {...formField};
             field.partner_id = event.value;
             setFormField(field);
@@ -143,17 +128,13 @@ const AdminCreatepickups =()=>{
              [event.name]: null
             })
         let partner_id=event.value;
-        console.log(partner_id);
          setPartnerSelected(true);
          axios.get(`/admin/get/return/exchange/${partner_id}`)
             .then((res) => {
-                console.log(res)
-                console.log(res.data);
                 if (res.data) {
                             let productExchangePickups = res?.data.exchanges;
                             let productExchangePickupsList = [];
                             productExchangePickups.forEach((items,index)=>{
-                            console.log('hello list');
                             let arrayObject = {
                                 value: items.id,
                                 label: items.packet_name + '(' + items.cod + ')',
@@ -162,13 +143,6 @@ const AdminCreatepickups =()=>{
                                 customer_name:items.customer,
                                 phone:items.customer_phone,
                             };
-                            // let arrayObject_Customer = {
-                            //     value:items.items.customer_id,
-                            //     label:items.customer+'('+items.customer_phone+')',
-                            // };
-                            console.log(arrayObject);
-                            // allCustomerDataList.value=items.id;
-                            // allCustomerDataList.label=items.name+'('+items.phone+')';
                             productExchangePickupsList.push(arrayObject);
                             dispatch(getProductExchangeItemsOperation(productExchangePickupsList));
 
@@ -183,43 +157,29 @@ const AdminCreatepickups =()=>{
     }
     const getProductExchange=(partner_id)=>{
 
-        console.log('partner_id');
          axios.get(`/admin/get/return/exchange/${partner_id}`)
             .then((res) => {
-                console.log(res)
-                console.log(res.data);
                 if (res.data) {
-                            let productExchangePickups = res?.data.exchanges;
-                            let productExchangePickupsList = [];
-                            productExchangePickups.forEach((items,index)=>{
-                            console.log('hello list');
-                            let arrayObject = {
-                                value: items.id,
-                                label: items.packet_name + '(' + items.cod + ')',
-                                name:'Product_exchange',
-                                customer_id:items.customer_id,
-                                customer_name:items.customer,
-                                phone:items.customer_phone,
-                            };
-                            // let arrayObject_Customer = {
-                            //     value:items.items.customer_id,
-                            //     label:items.customer+'('+items.customer_phone+')',
-                            // };
-                            console.log(arrayObject);
-                            // allCustomerDataList.value=items.id;
-                            // allCustomerDataList.label=items.name+'('+items.phone+')';
-                            productExchangePickupsList.push(arrayObject);
-                            // dispatch(getProductExchangeItems(productExchangePickupsList));
-
-                            })
-                        }
+                    let productExchangePickups = res?.data.exchanges;
+                    let productExchangePickupsList = [];
+                    productExchangePickups.forEach((items,index)=>{
+                    let arrayObject = {
+                        value: items.id,
+                        label: items.packet_name + '(' + items.cod + ')',
+                        name:'Product_exchange',
+                        customer_id:items.customer_id,
+                        customer_name:items.customer,
+                        phone:items.customer_phone,
+                    };
+                    productExchangePickupsList.push(arrayObject);
+                    })
+                }
             })
             .catch((err) => {
                 console.log(err.response)
             })
     }
     const FindFormErrors = () =>{
-     console.log(formerrors);
      let pattern = /^(\d*)([,.]\d{0,2})?$/;
      let decimalPattern=/^(\d+(\.\d+)?)$/;
      const {packet_name,cod,customer_id,partner_id,weight,type} = formField
@@ -243,7 +203,7 @@ const AdminCreatepickups =()=>{
     }
     const onSubmit = async (event) => {
         // getDefaultDeliveryType();
-        console.log(formField.delivery_type);
+        console.log(formField);
         console.log(formField);
        // await getDefaultDeliveryType();
          // event.preventDefault();
@@ -256,7 +216,6 @@ const AdminCreatepickups =()=>{
 
          await axios.post('/admin/pickup/create', formField)
             .then((res) => {
-                console.log(res)
                 if(res.data.status === true){
                     notification('success', res.data.message);
                     console.log(formField);
@@ -279,35 +238,7 @@ const AdminCreatepickups =()=>{
               console.log(newField.delivery_type);
             setFormField(newField);
     }
-// const handleSubmit = async (event) => {
-//         event.preventDefault();
-//         console.log(formField);
-//         selectCustomerRef.select.clearValue();
-//         selectPartnerRef.select.clearValue();
-//         formRef.reset();
-//         setLoading(true);
-//         await axios.post('/admin/pickup/create', formField)
-//             .then((res) => {
-//                 console.log(res)
-//                 if(res.data.status === true){
-//
-//                     notification('success', res.data.message);
-//
-//                      // clearform();
-//                      // setTimeout(clearValue,1000);
-//                     console.log(formField);
-//                     setLoading(false);
-//                 }else {
-//                     notification('success', res.data.message);
-//                 }
-//             })
-//             .catch((err) => {
-//                 console.log(err.response)
-//             })
-//
-//     }
     const selectChange = event => {
-        console.log(event)
         let staff_admin = JSON.parse(localStorage.getItem('staff_admin'));
         if(event){
             const field = {...formField};
@@ -339,19 +270,13 @@ const AdminCreatepickups =()=>{
         { value: 'fragile', label: 'Fragile', name: 'type'},
     ]
     const clearform = () => {
-        console.log('clear form');
-        // selectCustomerRef.select.clearValue();
-        // selectPartnerRef.select.clearValue();
         formRef.reset();
      }
     const standardDelivery =(event)=> {
-        console.log('checkTest');
         let checkVariable = event.target.checked;
-        console.log(checkVariable);
         if (checkVariable) {
             const newField = {...formField}
             newField.delivery_type=1;
-              console.log(newField.delivery_type);
             setFormField(newField);
             if (!!formerrors[event.target.name]) setFormerrors({
                 ...formerrors,
@@ -361,14 +286,10 @@ const AdminCreatepickups =()=>{
         }
     }
     const urgentDelivery =(event)=>{
-     console.log('checkTest');
      let checkVariable = event.target.checked;
-
-     console.log(checkVariable);
      if(checkVariable){
           const newField = {...formField}
           newField.delivery_type=0;
-          console.log(newField.delivery_type);
           setFormField(newField);
           if ( !!formerrors[event.target.name] ) setFormerrors({
           ...formerrors,
@@ -377,28 +298,12 @@ const AdminCreatepickups =()=>{
 
 
      }
-     // else{
-     //     const newField = {...formField}
-     //    newField[event.target.name] =checkVariable;
-     //      if ( !!formerrors[event.target.name] ) setFormerrors({
-     //      ...formerrors,
-     //      [event.target.name]: null
-     //    })
-     // }
-
-
     }
-    // date.toLocaleDateString('en-GB', {
-    //              hour: 'numeric',
-    //              second:'numeric',
-    //              hour12:true,
-    //           })
+
     const getCurrentCustomerCondition=()=>{
         setCurrentCustomer('')
     }
     const CustomerDisplay=()=>{
-        // console.log(currentCustomer,'current');
-        // set
 
         return(
             <>
@@ -422,9 +327,6 @@ const AdminCreatepickups =()=>{
                           onChange={(event) => selectChange(event)}
                              isInvalid={ !!formerrors.customer_id }
                         />
-                    {/*<Form.Control.Feedback type='invalid'>*/}
-                    {/*    {formerrors.customer_id}*/}
-                    {/*</Form.Control.Feedback>*/}
                     <Form.Label style={{color:'red',paddingLeft:'3px',paddingTop:'2px',}}>
                         {formerrors.customer_id}
                     </Form.Label>
@@ -475,7 +377,6 @@ const AdminCreatepickups =()=>{
              // doubleClickCustomerCheck,setDoubleClickCustomerCheck
 }
     const initializeProductExchange=(event)=>{
-       console.log("clicked");
         if(doubleClickCheck){
             setDoubleClickCheck(false);
              setChecked(false);
@@ -978,8 +879,6 @@ const AdminCreatepickups =()=>{
                                                        </Col>
                                                        <Col lg={4}>
                                                            { date>=12?<>
-                                                                {/*<OverlayTrigger placement="bottom" overlay={<Tooltip id="button-tooltip-2">Check out this avatar</Tooltip>}*/}
-      {/*>*/}
                                                                        <Form.Check onChange={(event)=>urgentDelivery(event)}
                                                                             disabled
                                                                             type="radio"
@@ -993,7 +892,6 @@ const AdminCreatepickups =()=>{
                                                                </>:
                                                                <>
                                                                    <Form.Check onChange={(event)=>urgentDelivery(event)}
-
                                                                             type="radio"
                                                                             id="autoSizingCheckUrgentDelivery"
                                                                             name="delivery_type"
